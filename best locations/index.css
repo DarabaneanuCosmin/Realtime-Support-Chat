@@ -1,0 +1,297 @@
+
+@font-face {
+    font-family: 'Lato';
+    src: url('fonts/Lato-Light.woff2') format('woff2'),
+        url('fonts/Lato-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('fonts/Lato-Regular.woff2') format('woff2'),
+        url('fonts/Lato-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Lato Hairline';
+    src: url('fonts/Lato-Hairline.woff2') format('woff2'),
+        url('fonts/Lato-Hairline.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('fonts/Lato-Bold.woff2') format('woff2'),
+        url('fonts/Lato-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+.others:before, .others:after{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.others{
+    display: block;
+    margin: 50px 10% 0 10% ;
+}
+
+.others__imgcontainer{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.others__overlay{
+    text-align: center;
+}
+
+.others__image  {
+    float: left;
+    max-width: 31%;
+    position: relative;
+    border: 1px solid grey;
+    margin-bottom: 30px;
+}
+
+
+.others__image img {
+    width: 100%;
+    height: 100%;
+    margin-bottom: -4px;
+}
+
+
+.others__overlay {
+  transition: .3s all;
+  border-radius: 3px;
+}
+
+.others__image .others__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: #2596be66;
+    color: #fff;
+    opacity: 0;
+}
+.others__image .others__overlay h2 {
+    padding-top: 20%
+}
+.others__image:hover .others__overlay {
+    opacity: 1;
+}
+.others__image:hover img {
+    -webkit-filter: blur(2px);
+    filter: blur(2px);
+}
+
+
+.popular, .others {
+    display: block;
+    font-family: 'Lato'; 
+    font-weight: normal;
+    font-style: normal;
+}
+
+.popular__header{
+    margin: 0 10% 0 10% ;
+}
+
+
+.popular__cardcontainer{
+    position: relative;
+    max-height: 60%;
+    justify-content: flex-start;
+    margin: 0 10%;
+    display: flex;
+}
+
+.popular__image img{
+    width: 100%;
+}
+
+.popular__image{
+    width: 100%;
+    height: 300px;
+}
+
+
+.popular__imagecard{
+    width: 33%;
+    border: 1px solid grey;     
+    background-color: #40798C;
+    filter: drop-shadow(3px 1px 1px grey);
+}
+
+
+.popular__cardsubscript{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+
+.popular__description{
+    color: honeydew;
+    margin: 0;
+    display: block;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+
+.popular__price{
+    display: block;
+    position: relative;
+    color: #FFFAFB;
+    font-size: 14pt;
+    text-align: right;
+    margin-top: 0.5em;
+    margin-right: 0.5em;
+}
+.popular__cashvalue{
+    font-style: normal;
+    font-size: 16pt;
+    color: #EA9010;
+}
+
+
+@media (max-width: 1024px) and (min-width: 762px){
+
+
+    .others__image .others__overlay h2 {
+        padding-top: 0%
+    }
+
+    .popular__price{
+        display: block;
+        color: #FFFAFB;
+        margin-top: 0.3em;
+        font-size: 11pt;
+        text-align: right;
+    }
+    .popular__cashvalue{
+        font-style: normal;
+        font-size: 12pt;
+    }
+
+}
+
+@media (max-width: 761px) and (min-width: 482px){
+
+    .others__image{
+        max-width: 48%;
+        float: none;
+    } 
+
+    .others__image .others__overlay h2 {
+        padding-top: 10%;
+    }
+
+    .popular__image{
+        width: 100%;
+        height: 70%;
+    }
+
+    .popular__description{
+        color: honeydew;
+        text-overflow: ellipsis;
+        margin: 0;
+        font-size: 8pt;
+    }
+
+    .popular__price{
+        display: block;
+        color: #FFFAFB;
+        margin-top: 1em;
+        font-size: 8pt;
+        text-align: right;
+    }
+    .popular__cashvalue{
+        font-style: normal;
+        font-size: 10pt;
+    }
+
+}
+
+
+@media (max-width: 481px){
+
+
+    .others__image{
+        max-width: 90%;
+    } 
+
+    .others__image .others__overlay h2 {
+        padding-top: 5%;
+    }
+
+    .others__imgcontainer{
+        justify-content: space-evenly;
+    }
+
+
+    .popular__image{
+        width: 100%;
+        height: 55%;
+    }
+
+    .popular__description{
+        color: honeydew;
+        margin: 0;
+        font-size: 11pt;
+    }
+
+    .popular__price{
+        display: block;
+        color: #FFFAFB;
+        margin-top: 0.3em;
+        font-size: 10pt;
+        text-align: right;
+    }
+    .popular__cashvalue{
+        font-style: normal;
+        font-size: 11pt;
+    }
+
+}
+
+
+
+
+/* Generale */
+
+.slidebtn{
+    color: honeydew;
+    font-family: 'Lato'; 
+    font-weight: normal;
+    font-style: normal;
+    font-size: 32px;
+}
+
+.slidebtnleft{
+    position: absolute;
+    top: 45%;
+    left: 0.3em;
+}
+
+.slidebtnright{
+    position: absolute;
+    top: 45%;
+    right: 0.5em;
+}
