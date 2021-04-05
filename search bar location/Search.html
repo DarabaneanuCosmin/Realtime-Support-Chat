@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!--ACTIVITATI-->
+    <script id="activitatiContent" type="text/html">
+        <form id="information-section">
+            <section>
+                <label class="d-lab">Locatie</label>
+                <input type="text" name="Destinatie" class="form_field" required>
+
+            </section>
+            <section id="in-out-section">
+                <label id="data-intrare">Data intrare
+
+        <input type="date" name="open-data" class="open-data">
+
+        </label>
+                <label> Data iesire
+        <input type="date" name="exit-data" class="open-data">
+    </label>
+            </section>
+            <section id="number-pass">
+                <p> Numar pasageri</p>
+                <label>Adulti <br>
+        <select>
+            <option value="">--Please choose an option--</option>
+            <option value="">1</option>
+            <option value="">2</option>
+            <option value="">3</option>
+        </select> 
+    </label>
+                <label>
+       <br> Copii <br>
+        <select>
+            <option value="">--Please choose an option--</option>
+            <option value="">1</option>
+            <option value="">2</option>
+            <option value="">3</option>
+        </select> 
+    </label>
+            </section>
+
+            <button id="search-activities">CAUTA ACTIVITATI</button>
+</form>
+    </script>
+
+
+    <!--HOTELURI-->
+    <script id="hoteluriContent" type="text/html">
+        <form id="information-section" method="GET">
+            <section>
+                <label class="d-lab">Alege o destinatie </label>
+                <input type="text" name="Destinatie" class="form_field" id="t1">
+                <label class="d-lab">Orasul de plecare </label>
+                <input type="text" name="Oras-plecare" class="form_field" id="t2">
+            </section>
+
+            <section id="in-out-section">
+                <label id="data-intrare">Data intrare
+        
+        <input type="date" name="open-data" class="open-data">
+        
+        </label>
+                <label> Data iesire
+        <input type="date" name="exit-data" class="open-data">
+    </label>
+            </section>
+            <label>Numar de camere 
+            <select>
+                <option value="">--Please choose an option--</option>
+                <option>O camera</option>
+                <option>Doua camere</option>
+                <option>Trei camere</option>
+                <option>Patru camere</option>
+            </select> 
+        </label>
+            <button id="search-hotel" onclick="sentForm()">CAUTA HOTEL</button>
+        </form>
+
+
+    </script>
+
+
+    <!--TRANSPORT-->
+    <script id="transportContent" type="text/html">
+        <form id="information-section">
+            <section>
+                <label>Plecare 
+        <select class="destinatie-plecare">
+            <option value="">--Please choose an option--</option>
+        </select> 
+    </label>
+                <label>Locatie 
+        <select class="destinatie-plecare">
+        <option value="">--Please choose an option--</option>
+        </select> 
+    </label>
+            </section>
+
+
+            <section id="in-out-section">
+                <label id="data-intrare">Data intrare
+    
+    <input type="date" name="open-data"  class="open-data">
+    
+    </label>
+                <label> Data iesire
+    <input type="date" name="exit-data"  class="open-data">
+</label>
+            </section>
+            <section id="number-pass">
+                <p> Numar pasageri</p>
+                <label>Adulti <br>
+        <select>
+            <option value="">--Please choose an option--</option>
+            <option value="">1</option>
+            <option value="">2</option>
+            <option value="">3</option>
+        </select> 
+    </label>
+                <label>
+       <br> Copii <br>
+        <select>
+            <option value="">--Please choose an option--</option>
+            <option value="">1</option>
+            <option value="">2</option>
+            <option value="">3</option>
+        </select> 
+    </label>
+            </section>
+            <button id="search-transport">CAUTA TRANSPORT</button>
+
+</form>
+    </script>
+
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function changeContentActivitati() {
+
+            var div = document.createElement("div");
+            document.getElementById("targetElement").innerHTML = "";
+            div.setAttribute("class", "someClass");
+            div.innerHTML = document.getElementById("activitatiContent").innerHTML;
+            document.getElementById("targetElement").appendChild(div);
+
+        }
+
+        function changeContentHoteluri() {
+
+            var div = document.createElement("div");
+            document.getElementById("targetElement").innerHTML = "";
+            div.setAttribute("class", "someClass");
+            div.innerHTML = document.getElementById("hoteluriContent").innerHTML;
+            document.getElementById("targetElement").appendChild(div);
+        }
+
+        function changeContentTransport() {
+            var div = document.createElement("div");
+            document.getElementById("targetElement").innerHTML = "";
+            div.setAttribute("class", "someClass");
+            div.innerHTML = document.getElementById("transportContent").innerHTML;
+            document.getElementById("targetElement").appendChild(div);
+        }
+    </script>
+    <title>Document</title>
+</head>
+
+<body>
+
+
+
+    <section id="search-template">
+        <img class="back-search-photo" src="https://pnptc-media.s3.amazonaws.com/images/travel-startups-covid-19-featured.2e16d0ba.fill-600x400.jpg" alt="MEXICO">
+
+        <section id="search-section">
+            <section id="button-section">
+                <button onclick="changeContentHoteluri()">Hoteluri</button>
+                <button onclick="changeContentActivitati()">Activitati</button>
+                <button onclick="changeContentTransport()">Transport</button>
+            </section>
+            <div id="targetElement" class="red">
+            </div>
+
+
+        </section>
+
+    </section>
+
+</body>
+
+</html>
