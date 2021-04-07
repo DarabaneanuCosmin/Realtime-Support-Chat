@@ -7,7 +7,7 @@
     --text: #d2d3d2;
 }
 
-body {
+#bdy {
     margin: 0 0 0 0;
     font-size: 30px;
 }
@@ -28,7 +28,7 @@ body {
     border: black;
 }
 
-button {
+.btn-s {
     display: block;
     cursor: pointer;
     outline: none;
@@ -45,7 +45,7 @@ button {
     margin-bottom: 15px;
 }
 
-button:hover {
+.btn-s:hover {
     background-image: linear-gradient( 145deg, transparent 10%, var(--dark) 10% 20%, transparent 20% 30%, var(--dark) 30% 40%, transparent 40% 50%, var(--dark) 50% 60%, transparent 60% 70%, var(--dark) 70% 80%, transparent 80% 90%, var(--dark) 90% 100%);
     animation: background 3s linear infinite;
 }
@@ -124,12 +124,12 @@ button:hover {
     left: 940px;
 }
 
-select {
+#select- {
     font-size: 20px;
     height: 30px;
 }
 
-input {
+.input-class {
     font-size: 20px;
     height: 30px;
 }
@@ -148,15 +148,15 @@ input.form_field {
 }
 
 @media screen and (max-width: 2250px) {
-    select {
+    #select- {
         font-size: unset;
         height: unset;
     }
-    input {
+    .input-class {
         font-size: unset;
         height: unset;
     }
-    body {
+    #bdy {
         font-size: 15px;
     }
     #search-hotel,
@@ -194,15 +194,15 @@ input.form_field {
 }
 
 @media screen and (max-width: 1260px) {
-    select {
+    #select- {
         font-size: unset;
         height: unset;
     }
-    input {
+    .input-class {
         font-size: unset;
         height: unset;
     }
-    body {
+    #bdy {
         font-size: 15px;
     }
     #search-hotel,
@@ -305,7 +305,7 @@ input.form_field {
     }
 }
 
-@media screen and (max-width: 565px) {
+@media screen and (max-width: 602px) {
     #search-section {
         bottom: 630px;
         width: 75%;
@@ -317,7 +317,7 @@ input.form_field {
         flex-wrap: wrap;
     }
     #search-hotel {
-        top: 250px;
+        top: 290px;
         left: 25px;
         flex-wrap: wrap;
     }

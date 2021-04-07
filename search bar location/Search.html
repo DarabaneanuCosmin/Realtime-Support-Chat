@@ -8,23 +8,23 @@
         <form id="information-section">
             <section>
                 <label class="d-lab">Locatie</label>
-                <input type="text" name="Destinatie" class="form_field" required>
+                <input type="text" name="Destinatie" class="form_field input-class" required>
 
             </section>
             <section id="in-out-section">
                 <label id="data-intrare">Data intrare
 
-        <input type="date" name="open-data" class="open-data">
+        <input type="date" name="open-data" class="open-data input-class">
 
         </label>
                 <label> Data iesire
-        <input type="date" name="exit-data" class="open-data">
+        <input type="date" name="exit-data" class="open-data input-class">
     </label>
             </section>
             <section id="number-pass">
                 <p> Numar pasageri</p>
                 <label>Adulti <br>
-        <select>
+        <select id="select-">
             <option value="">--Please choose an option--</option>
             <option value="">1</option>
             <option value="">2</option>
@@ -33,7 +33,7 @@
     </label>
                 <label>
        <br> Copii <br>
-        <select>
+        <select id="select-">
             <option value="">--Please choose an option--</option>
             <option value="">1</option>
             <option value="">2</option>
@@ -42,8 +42,8 @@
     </label>
             </section>
 
-            <button id="search-activities">CAUTA ACTIVITATI</button>
-</form>
+            <button id="search-activities" class="btn-s">CAUTA ACTIVITATI</button>
+        </form>
     </script>
 
 
@@ -52,23 +52,23 @@
         <form id="information-section" method="GET">
             <section>
                 <label class="d-lab">Alege o destinatie </label>
-                <input type="text" name="Destinatie" class="form_field" id="t1">
+                <input type="text" name="Destinatie" class="form_field input-class" id="t1">
                 <label class="d-lab">Orasul de plecare </label>
-                <input type="text" name="Oras-plecare" class="form_field" id="t2">
+                <input type="text" name="Oras-plecare" class="form_field input-class" id="t2">
             </section>
 
             <section id="in-out-section">
                 <label id="data-intrare">Data intrare
         
-        <input type="date" name="open-data" class="open-data">
+        <input type="date" name="open-data" class="open-data input-class">
         
         </label>
                 <label> Data iesire
-        <input type="date" name="exit-data" class="open-data">
+        <input type="date" name="exit-data" class="open-data input-class">
     </label>
             </section>
             <label>Numar de camere 
-            <select>
+            <select id="select-">
                 <option value="">--Please choose an option--</option>
                 <option>O camera</option>
                 <option>Doua camere</option>
@@ -76,7 +76,7 @@
                 <option>Patru camere</option>
             </select> 
         </label>
-            <button id="search-hotel" onclick="sentForm()">CAUTA HOTEL</button>
+            <button class="btn-s" id="search-hotel" onclick="sentForm()">CAUTA HOTEL</button>
         </form>
 
 
@@ -103,17 +103,17 @@
             <section id="in-out-section">
                 <label id="data-intrare">Data intrare
     
-    <input type="date" name="open-data"  class="open-data">
+    <input type="date" name="open-data"  class="open-data input-class">
     
     </label>
                 <label> Data iesire
-    <input type="date" name="exit-data"  class="open-data">
+    <input type="date" name="exit-data"  class="open-data input-class">
 </label>
             </section>
             <section id="number-pass">
                 <p> Numar pasageri</p>
                 <label>Adulti <br>
-        <select>
+        <select id="select-">
             <option value="">--Please choose an option--</option>
             <option value="">1</option>
             <option value="">2</option>
@@ -122,7 +122,7 @@
     </label>
                 <label>
        <br> Copii <br>
-        <select>
+        <select id="select-">
             <option value="">--Please choose an option--</option>
             <option value="">1</option>
             <option value="">2</option>
@@ -130,9 +130,9 @@
         </select> 
     </label>
             </section>
-            <button id="search-transport">CAUTA TRANSPORT</button>
+            <button id="search-transport" class="btn-s">CAUTA TRANSPORT</button>
 
-</form>
+        </form>
     </script>
 
 
@@ -140,49 +140,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script>
-        function changeContentActivitati() {
-
-            var div = document.createElement("div");
-            document.getElementById("targetElement").innerHTML = "";
-            div.setAttribute("class", "someClass");
-            div.innerHTML = document.getElementById("activitatiContent").innerHTML;
-            document.getElementById("targetElement").appendChild(div);
-
-        }
-
-        function changeContentHoteluri() {
-
-            var div = document.createElement("div");
-            document.getElementById("targetElement").innerHTML = "";
-            div.setAttribute("class", "someClass");
-            div.innerHTML = document.getElementById("hoteluriContent").innerHTML;
-            document.getElementById("targetElement").appendChild(div);
-        }
-
-        function changeContentTransport() {
-            var div = document.createElement("div");
-            document.getElementById("targetElement").innerHTML = "";
-            div.setAttribute("class", "someClass");
-            div.innerHTML = document.getElementById("transportContent").innerHTML;
-            document.getElementById("targetElement").appendChild(div);
-        }
-    </script>
+    <script src="changeContent.js"></script>
     <title>Document</title>
 </head>
 
-<body>
-
-
-
+<body id="bdy">
     <section id="search-template">
+
         <img class="back-search-photo" src="https://pnptc-media.s3.amazonaws.com/images/travel-startups-covid-19-featured.2e16d0ba.fill-600x400.jpg" alt="MEXICO">
 
         <section id="search-section">
             <section id="button-section">
-                <button onclick="changeContentHoteluri()">Hoteluri</button>
-                <button onclick="changeContentActivitati()">Activitati</button>
-                <button onclick="changeContentTransport()">Transport</button>
+                <button class="btn-s" onclick="changeContentHoteluri()">Hoteluri</button>
+                <button class="btn-s" onclick="changeContentActivitati()">Activitati</button>
+                <button class="btn-s" onclick="changeContentTransport()">Transport</button>
             </section>
             <div id="targetElement" class="red">
             </div>
