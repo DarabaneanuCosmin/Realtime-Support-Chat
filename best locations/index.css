@@ -35,6 +35,11 @@
     font-display: swap;
 }
 
+body{
+    margin: 0 auto;
+    width: 80%;
+}
+
 
 .others:before, .others:after{
     box-sizing: border-box;
@@ -44,7 +49,6 @@
 
 .others{
     display: block;
-    margin: 50px 10% 0 10% ;
 }
 
 .others__imgcontainer{
@@ -100,7 +104,6 @@
     filter: blur(2px);
 }
 
-
 .popular, .others {
     display: block;
     font-family: 'Lato'; 
@@ -109,25 +112,28 @@
 }
 
 .popular__header{
-    margin: 0 10% 0 10% ;
+    font-size: medium;
+    color:darkcyan;
 }
 
 
 .popular__cardcontainer{
     position: relative;
+    overflow: hidden;
     max-height: 60%;
     justify-content: flex-start;
-    margin: 0 10%;
+    margin: 0 0 50px 0;
     display: flex;
 }
 
 .popular__image img{
     width: 100%;
+
 }
 
 .popular__image{
     width: 100%;
-    height: 300px;
+    height: 250px;
 }
 
 
@@ -139,10 +145,10 @@
 }
 
 
+
 .popular__cardsubscript{
     width: 100%;
-    margin: 0;
-    padding: 0;
+    display: block;
 }
 
 
@@ -150,6 +156,7 @@
     color: honeydew;
     margin: 0;
     display: block;
+    font-size: 1rem;
     text-overflow: ellipsis;
     text-align: center;
 }
@@ -159,15 +166,17 @@
     display: block;
     position: relative;
     color: #FFFAFB;
-    font-size: 14pt;
+    font-size: 1rem;
     text-align: right;
-    margin-top: 0.5em;
-    margin-right: 0.5em;
+    margin-bottom: 1rem;
 }
+
 .popular__cashvalue{
     font-style: normal;
     font-size: 16pt;
     color: #EA9010;
+    margin-bottom: 1rem;
+    margin-right: 1rem;
 }
 
 
@@ -185,6 +194,7 @@
         font-size: 11pt;
         text-align: right;
     }
+
     .popular__cashvalue{
         font-style: normal;
         font-size: 12pt;
@@ -212,19 +222,20 @@
         color: honeydew;
         text-overflow: ellipsis;
         margin: 0;
-        font-size: 8pt;
+        font-size: 12pt;
     }
 
     .popular__price{
         display: block;
         color: #FFFAFB;
-        margin-top: 1em;
-        font-size: 8pt;
+        margin-top: 0.45em;
+        font-size: 10pt;
         text-align: right;
     }
+    
     .popular__cashvalue{
         font-style: normal;
-        font-size: 10pt;
+        font-size: 12pt;
     }
 
 }
@@ -248,25 +259,25 @@
 
     .popular__image{
         width: 100%;
-        height: 55%;
+        height: 63%;
     }
 
     .popular__description{
         color: honeydew;
         margin: 0;
-        font-size: 11pt;
+        font-size: 6pt;
     }
 
     .popular__price{
         display: block;
         color: #FFFAFB;
-        margin-top: 0.3em;
-        font-size: 10pt;
+        margin-top: 0.2em;
+        font-size: 7pt;
         text-align: right;
     }
     .popular__cashvalue{
         font-style: normal;
-        font-size: 11pt;
+        font-size: 8pt;
     }
 
 }
@@ -281,17 +292,17 @@
     font-family: 'Lato'; 
     font-weight: normal;
     font-style: normal;
-    font-size: 32px;
+    font-size: 24px;
 }
 
 .slidebtnleft{
     position: absolute;
     top: 45%;
-    left: 0.3em;
+    left: 0.10em;
 }
 
 .slidebtnright{
     position: absolute;
     top: 45%;
-    right: 0.5em;
+    right: 0.25em;
 }
