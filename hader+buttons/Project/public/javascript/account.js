@@ -10,8 +10,36 @@ function hideAccountOptions(){
         x.style.display = "none";
     }
 }
+
+function displayRegisterForm(){
+    var x = document.getElementById("register_modal");
+        x.style.display = "flex";
+}
+
 function displayLoginForm(){
-    var x = document.getElementById("login_overlay");
+    var x = document.getElementById("login_modal");
+        x.style.display = "flex";
+}
+
+function closeLoginForm(){
+  var x = document.getElementById("login_modal");
+    x.style.display = "none";
+}
+function closeRegisterForm(){
+  var x = document.getElementById("register_modal");
+    x.style.display = "none";
+}
+
+function closeLoginWindow(){
+    var x = document.getElementById("login_modal");
+    window.onclick = function(event){
+        if(event.target == x){
+            x.style.display = "none";
+        }
+    }
+}
+function closeRegisterWindow(){
+    var x = document.getElementById("register_modal");
     window.onclick = function(event){
         if(event.target == x){
             x.style.display = "none";
