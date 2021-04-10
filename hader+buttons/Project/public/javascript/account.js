@@ -5,10 +5,10 @@ function displayAccountOptions(){
     }
 }
 function hideAccountOptions(){
-    var x = document.getElementsByClassName("my_account_options")[0];
-    if(x.style.display === "flex"){
+    var x = document.getElementsById("popup_login");
         x.style.display = "none";
-    }
+    var y = document.getElementsById("popup_register");
+        y.style.display = "none";
 }
 
 function displayRegisterForm(){
@@ -44,5 +44,14 @@ function closeRegisterWindow(){
         if(event.target == x){
             x.style.display = "none";
         }
+    }
+}
+
+function passwordCheck(){
+    var password = document.getElementById("password")
+    var confirm_password = document.getElementById("confirm_password");
+    var x = document.getElementById("password_confirm");
+    if(password.value != confirm_password.value) {
+        x.style.display = 'block';
     }
 }

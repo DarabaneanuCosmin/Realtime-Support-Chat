@@ -1,19 +1,24 @@
-.index_header{
+.index_header,.index_sub_header{
     display: flex;
     flex-direction: row;
+}
+
+.index_header{
     justify-content: space-between;
     padding-left: 10%;
     padding-right: 10%;
 }
+
 .index_header_logo{
     display: flex;
     align-content: flex-start;
     height: 8em;
     width: 8em;
 }
-.social_infos{
-    padding: 0em 1em;
+.social_info_buttons{
+    margin: 1em 0;
     display: flex;
+    justify-content: flex-end;
 }
 .discord_join_button{
     background: url(../img/discord.jpg);
@@ -32,38 +37,44 @@
     background-size: 3.7em 3.5em;
     height: 4em;
     width: 4em;
+    margin-left: 0.2em;
 }
-
+.account_options{
+    margin-top: 2em;
+    margin-left: 1em;
+}
+.open_login_form, .open_register_form, #form_r_button, #form_l_button{
+    background-color: darkblue;
+    border-radius: 1em;
+    font-family: "Open Sans", Arial, sans-serif;
+    font-size: 1em;
+    font-weight: 700;
+    color: white;
+    padding: 14px 20px;
+    margin-top: -1em;
+    border: none;
+    cursor: pointer;
+}
 .form_container{
     max-width: 300px;
     padding: 10px;
     background-color: white;
   }
-
-#form_button{
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
+#form_r_button, #form_l_button{
+    margin-top: 1em;
     width: 100%;
 }
 .principal_buttons{
     background-color: darkblue;
     border:solid brown 1px;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
     padding-left: 10%;
     padding-right: 10%;
     shape-outside: margin-box;
 }
-.principal_buttons{
-    display: flex;
-    flex-wrap: wrap;
-}
-
 .principal_buttons button{
     color: white;
     background-color: darkblue;
@@ -75,9 +86,6 @@
 button:hover {
     opacity: 0.8;
 }
-form{
-    border: 3px solid #f1f1f1;
-}
 input[type=text], input[type=password] {
     width: 100%;
     padding: 12px 20px;
@@ -85,9 +93,8 @@ input[type=text], input[type=password] {
     display: inline-block;
     border: 1px solid #ccc;
     box-sizing: border-box;
-  }
-  
-  .close_login {
+}
+.close_login, .close_register {
   color: #aaaaaa;
   float: right;
   margin-top: -10.5em;
@@ -96,14 +103,9 @@ input[type=text], input[type=password] {
   font-weight: bold;
 }
 .close_register {
-  color: #aaaaaa;
-  float: right;
   margin-top: -12.5em;
-  margin-right: 0.5em;
-  font-size: 28px;
-  font-weight: bold;
 }
-.modal{
+.popup_form{
   background-color: rgba(0,0,0,0.2);
   position: absolute;
   top: 0;
@@ -112,4 +114,31 @@ input[type=text], input[type=password] {
   display: none;
   justify-content: center;
   align-items: center;
+}
+
+@media (max-width: 700px) and (min-width: 451px) {
+    .index_sub_header{
+        flex-direction: column;
+    }
+    .account_options{
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        margin-left: 1em;
+    }
+}
+@media (max-width: 450px) and (min-width: 260px){
+    .index_header{
+        flex-direction: column;
+        align-items: center;
+    }
+    .index_sub_header{
+        flex-direction: column;
+    }
+    .social_info_buttons{
+        justify-content: center;
+    }
+    .account_options{
+        margin: 0.5em 0;
+        justify-content: center;
+    }
 }
