@@ -1,0 +1,40 @@
+h1 {
+    display: flex;
+    justify-content: center;
+}
+
+.main_div {
+    display: flex;
+    flex-direction: column;
+    font-family: "Open Sans", Arial, sans-serif;
+    font-size: 1em;
+}
+
+.main_raport,
+.authors {
+    padding-left: 15%;
+    padding-right: 15%;
+}
+
+.documentation__images {
+    display: flex;
+    width: 33%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.documentation__containe-images {
+    display: flex;
+}
+
+.documentation__search {
+    display: flex;
+    width: 300px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+ol li {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
