@@ -36,21 +36,21 @@ createAdminTable();
 createUserIdSequence();
 createMessageIdSequence();
 
-const server = http.createServer(async (req, res) => {
+const server = http.createServer(async(req, res) => {
 
     const corsHeaders = {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "OPTIONS, POST, GET",
         "Access-Control-Max-Age": 2592000, // 30 days
         "Access-Control-Allow-Headers": "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
-      };
+    };
 
 
     if (req.url === '/api/admins' && req.method === 'GET') {
         //-url:/api/admins si metoda:GET- luam lista adminilor si verificam statusul lor
         getAdminList(req, res);
-    } else if (req.url.match(/\/api\/messages\/([a-z A-Z 0-9]+)\/([a-z A-Z 0-9]+)/) 
-    && req.method === 'GET') {
+    } else if (req.url.match(/\/api\/messages\/([a-z A-Z 0-9]+)\/([a-z A-Z 0-9]+)/) &&
+        req.method === 'GET') {
         let idRoom = req.url.split('/')[4];
         let idUser = req.url.split('/')[3];
 
@@ -60,7 +60,7 @@ const server = http.createServer(async (req, res) => {
         const body = await getPostData(req);
         var parseMessage = JSON.parse(body);
         createSession(req, res, parseMessage.session_id,
-         parseMessage.create_date);
+            parseMessage.create_date);
 
     } else if (req.url.match(/\/api\/session\/([a-z A-Z 0-9]+)/) && req.method === 'GET') {
         //luam sesiunea ce are session_id = ...
@@ -74,16 +74,16 @@ const server = http.createServer(async (req, res) => {
 
         createRoom(req, res, parseMessage.sessionId);
 
-    } else if (req.url.match(/\/api\/messages\/showRooms\/([a-z A-Z 0-9]+)/)
-        && req.method === 'GET') {
+    } else if (req.url.match(/\/api\/messages\/showRooms\/([a-z A-Z 0-9]+)/) &&
+        req.method === 'GET') {
         // /api/messages/showRooms/:idUser si metoda GET - luam room-ul in care este userul idUser
 
         const idUser = req.url.split('/')[4];
         console.log(idUser);
         getRoomByUserId(req, res, idUser);
 
-    }  else if (req.url.match(/\/api\/messages\/([a-z A-Z 0-9]+)\/([a-z A-Z 0-9]+)/)
-        && req.method === 'GET') {
+    } else if (req.url.match(/\/api\/messages\/([a-z A-Z 0-9]+)\/([a-z A-Z 0-9]+)/) &&
+        req.method === 'GET') {
         // :/api/messages/:idRoom/:idClient1 si metoda:GET - 
         //luam toate datele conversatiei din Room-ul indicat pentru userul cu id-ul idClient1
 
@@ -106,8 +106,8 @@ const server = http.createServer(async (req, res) => {
         console.log(idRoom);
         deleteRoom(req, res, idRoom);
 
-    } else if (req.url.match(/\/api\/messages\/([a-z A-Z 0-9]+)\/([a-z A-Z 0-9]+)/)
-        && req.method === 'POST') {
+    } else if (req.url.match(/\/api\/messages\/([a-z A-Z 0-9]+)\/([a-z A-Z 0-9]+)/) &&
+        req.method === 'POST') {
         //url:/api/messages/:idRoom/:idClient1 si metoda:POST - 
         //adaugam in Room-ul idRoom mesajele noi trimise de catre idClient
 
@@ -120,8 +120,8 @@ const server = http.createServer(async (req, res) => {
 
         addNewMessages(req, res, idRoom, parseMessage.clientMessage, sessionId);
 
-    } else if(req.method === 'OPTIONS'){
-        res.writeHead(204, 
+    } else if (req.method === 'OPTIONS') {
+        res.writeHead(204,
             corsHeaders);
         res.end();
         return;
