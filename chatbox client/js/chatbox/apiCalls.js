@@ -14,7 +14,7 @@ export async function createRoomForUser(sId) {
   await postData(urlEndpoint, request).then((data) => {
     console.log(data);
     idRoom = data.idRoom;
-  });
+  }).catch(err => createRoomForUser(sId));
 
   console.log(idRoom + ' hello');
 

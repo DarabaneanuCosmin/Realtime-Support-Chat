@@ -76,6 +76,19 @@ body{
     right: 0;
 }
 
+/* Adauga overlay-ul cu popup pe display none */
+.chatBoxStatic__popup{
+    position: absolute;
+    overflow-y: auto;
+    background-color: #E1E1E0;
+    height: 100%;
+    z-index: 1340;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
 .chatBoxStatic__recentConversationHeader{
     display: flex;
     background-color: #060128;
@@ -192,7 +205,8 @@ body{
     padding: 0;
 }
 
-.chatBoxStatic__minimizeButton{
+.chatBoxStatic__minimizeButton, 
+.chatBoxStaticPopup__minimizeButton{
     width: 40px;
     box-sizing: content-box;
     border: 1px solid white;

@@ -2,20 +2,22 @@
 
 import {validateMessage} from './messageValidator.js'
 import {getSessionId} from '../cookies/sessionidReader.js'
-import {createRoomForUser, addSentMessage, aquireMessageList} from './apiCalls.js'
 import {Message} from './message.js'
+import {createRoomForUser, addSentMessage, aquireMessageList} from './apiCalls.js'
 
 
 //adauga event listener pentru enter, daca
-// e chat-ul pornit trimite mesaj
+//e chat-ul pornit trimite mesaj
 
 addEvents();
 
 let messageList = [];
 let chatVisible = false;
 let convListVisible = false;
+let consentFormVisible = false;
 let latestIntervalId = -1;
 let idRoom = -1;
+let userName = undefined;
 
 
 function addEvents(){
@@ -25,6 +27,8 @@ function addEvents(){
     const minimizeButton = document.querySelector(".chatBoxStatic__minimizeButton");
     const messagesButton = document.querySelector(".chatBoxStatic__btnmessages");
     const sendMessageButton = document.querySelector(".chatBoxStatic__sendMessageButton")
+    const consentButton = document.querySelector(".chatBoxStatic__consentSubmitButton");
+    const popupMinimizeButton = document.querySelector(".chatBoxStaticPopup__minimizeButton")
 
     sendMessageButton.addEventListener("click", (e)=>{
         addTypedMessage();
@@ -49,22 +53,41 @@ function addEvents(){
         if(chatVisible == true){
             hideChat();
         } else {
+
             showChat();
             hideConvList();
-
-            idRoom = await createRoomForUser("555");
-            messageList = await aquireMessageList(idRoom, "555");
         }
         chatVisible = !chatVisible;
          });
 
     showConvListButton.addEventListener("click", (e) => {
         if(convListVisible == true){
-            showChat();
+            if(userName != undefined){
+                showChat();
+            } else {
+                showConsentForm();
+            }
             hideConvList();
         }
         convListVisible = !convListVisible;
     });
+
+
+    consentButton.addEventListener("click", (e) =>{
+        const consentTextBox = document.querySelector(".chatBoxStatic__userNameConsentBox");
+
+        if(validateMessage(consentTextBox.value)){
+            userName = consentTextBox.value;
+            hideConsentForm();
+            showChat();
+        }
+    });
+
+    popupMinimizeButton.addEventListener("click", (e) =>{
+        hideConsentForm();
+        hideChat();
+    })
+    
 }
 
 
@@ -135,7 +158,7 @@ function addTypedMessage(){
     //fa rost de mesaj din input box
     const message =  messageInput.value;
 
-    if(!validateMessage(message)){
+    if(!validateMessage(message) || userName == undefined){
         return;
     }
     
@@ -144,7 +167,6 @@ function addTypedMessage(){
 
     let newSpeechBubble = document.createElement("div");
     newSpeechBubble.innerHTML = " <div class=\"chatBoxStatic__messageMask\">\r\n                  <div class=\"chatBoxStatic__messageSent speech-bubble\">\r\n                     <p class=\"chatBoxStatic__messageText\">" + message + "<\/p>\r\n                  <\/div>\r\n               <\/div>"  
-
 
     addSentMessage(idRoom, "555", message);
 
@@ -160,15 +182,27 @@ function addTypedMessage(){
 
 async function showChat(){
 
+
+
     const chatElement = document.querySelector(".chatBoxStatic");
     const showButton = document.querySelector(".chatBoxStatic__showButton");
 
     chatElement.style.display = "block";
     showButton.style.display = "none";
 
-    latestIntervalId = await startUpdatingChatMessages();
+    if(userName == undefined){
+        showConsentForm();
+        return;
+    }
 
     adjustProperWidth();
+
+    idRoom = await createRoomForUser("555");
+
+    console.log(idRoom);
+
+    latestIntervalId = await startUpdatingChatMessages();
+
 }
 
 function hideChat(){
@@ -183,6 +217,22 @@ function hideChat(){
     //opreste update-ul polled
     chatVisible = false;
     clearInterval(latestIntervalId);
+}
+
+function showConsentForm(){
+    const chatListElement = document.querySelector(".chatBoxStatic__popup");
+
+    chatListElement.style.display="block";
+
+    consentFormVisible = true;
+}
+
+function hideConsentForm(){
+    const chatListElement = document.querySelector(".chatBoxStatic__popup");
+    
+    chatListElement.style.display="none";
+    
+    consentFormVisible = true;
 }
 
 function showConvList(){

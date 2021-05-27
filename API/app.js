@@ -24,6 +24,8 @@ const {
     createSession,
     getSession,
     fetchMessages,
+    updateSessionUserName,
+    getUserBasicData
 } = require('./service/service.js');
 
 const { getPostData } = require('./utils/utils.js');
@@ -59,10 +61,20 @@ const server = http.createServer(async(req, res) => {
         //adaugam o sesiune noua
         const body = await getPostData(req);
         var parseMessage = JSON.parse(body);
-        createSession(req, res, parseMessage.session_id,
-            parseMessage.create_date);
+        createSession(req, res, parseMessage.session_id);
+    } else if(req.url === '/api/updateSession' && req.method === 'PUT'){
+        const body = await getPostData(req);
+        var parsedMessage = JSON.parse(body);
 
-    } else if (req.url.match(/\/api\/session\/([a-z A-Z 0-9]+)/) && req.method === 'GET') {
+        updateSessionUserName(req, res, parsedMessage.session_id,
+             parsedMessage.username);
+    } else if (req.url.match(/\/api\/userData\/([a-z A-Z 0-9]+)/) && req.method === 'GET') {
+
+        let session_id = req.url.split('/')[3];
+
+        getUserBasicData(req, res, session_id);
+    }
+    else if (req.url.match(/\/api\/session\/([a-z A-Z 0-9]+)/) && req.method === 'GET') {
         //luam sesiunea ce are session_id = ...
         const session_id = req.url.split('/')[3];
         getSession(req, res, session_id);

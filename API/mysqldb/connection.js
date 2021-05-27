@@ -11,11 +11,12 @@ var pool = mysql.createPool({
 function insertIntoTable(sql, values, tableName) {
     pool.query(sql, values, (err, result) => {
 
-        if (err) { throw err; return; }
+        if (err) { throw err; }
         console.log(`Insert into ${tableName}`);
 
     });
 }
+
 //select * from join WHERE idUser = idUser
 //daca exista, returnam mesaj ca ii deja intr-un room
 //altfel, se creeaza un nou lobby si il adaugam si in join
@@ -58,7 +59,7 @@ function createJoinTable() {
 }
 
 function createSessionTable() {
-    var sql = "CREATE TABLE IF NOT EXISTS  session (sessionId VARCHAR(255),idUser BIGINT(200), create_date VARCHAR(255),UNIQUE(sessionId))";
+    var sql = "CREATE TABLE IF NOT EXISTS  session (sessionId VARCHAR(255),idUser BIGINT(200), create_date VARCHAR(255),UNIQUE(sessionId), username VARCHAR(255))";
     pool.query(sql, (err, result) => {
 
         if (err) { throw err; return; }
