@@ -28,7 +28,7 @@ function insertIntoTable(sql, values, tableName) {
 
 
 function createUserTable() {
-    var sql = "CREATE TABLE IF NOT EXISTS  user (id BIGINT(200) NOT NULL, email_address VARCHAR(255), password VARCHAR(255), rol VARCHAR(255), UNIQUE (id))";
+    var sql = "CREATE TABLE IF NOT EXISTS  user (id BIGINT(200) NOT NULL, username VARCHAR(255), password VARCHAR(255), rol VARCHAR(255), UNIQUE (id))";
     pool.query(sql, (err, result) => {
 
         if (err) { throw err; return; }
@@ -79,7 +79,7 @@ function createMessagesTable() {
 }
 
 function createAdminTable() {
-    var sql = "CREATE TABLE IF NOT EXISTS  admin (idAdmin BIGINT(200), status BOOLEAN, numberOfRooms INT,UNIQUE(idAdmin) )";
+    var sql = "CREATE TABLE IF NOT EXISTS  admin (idAdmin BIGINT(200), username VARCHAR(255), status BOOLEAN, numberOfRooms INT,UNIQUE(idAdmin) )";
     pool.query(sql, (err, result) => {
 
         if (err) { throw err; return; }
@@ -88,7 +88,7 @@ function createAdminTable() {
     });
 }
 
-function createUserIdSequence(){
+function createUserIdSequence() {
     var sql = "CREATE SEQUENCE IF NOT EXISTS  userIdSeq START WITH 1 INCREMENT BY 1 MINVALUE=1 MAXVALUE=1000000;";
     pool.query(sql, (err, result) => {
 
@@ -98,7 +98,7 @@ function createUserIdSequence(){
     });
 }
 
-function createMessageIdSequence(){
+function createMessageIdSequence() {
     var sql = "CREATE SEQUENCE IF NOT EXISTS  messageIdSeq START WITH 1 INCREMENT BY 1 MINVALUE=1 MAXVALUE=1000000;";
     pool.query(sql, (err, result) => {
 
