@@ -79,7 +79,7 @@ function createMessagesTable() {
 }
 
 function createAdminTable() {
-    var sql = "CREATE TABLE IF NOT EXISTS  admin (idAdmin BIGINT(200), status BOOLEAN, numberOfRooms INT,UNIQUE(idAdmin) )";
+    var sql = "CREATE TABLE IF NOT EXISTS  admin (idAdmin BIGINT(200), username VARCHAR(255), status BOOLEAN, numberOfRooms INT,UNIQUE(idAdmin) )";
     pool.query(sql, (err, result) => {
 
         if (err) { throw err; return; }

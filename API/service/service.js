@@ -86,8 +86,11 @@ async function fetchMessages(req, res, idRoom, idSession) {
 
             idUser = rows[0].idUser;
 
-            return await selectFrom("SELECT* FROM messages WHERE idRoom = ?", [rows[0].idRoom])
+            return await selectFrom("SELECT* FROM ((SELECT* FROM MESSAGES m WHERE idRoom = ? ) m " +
+            "JOIN ((SELECT idUser as id, username FROM session) UNION (SELECT idAdmin as id, " +
+            "username FROM admin) UNION (SELECT id, username FROM user))u ON m.idUser = u.id)", [rows[0].idRoom])
         }).then((nextRows) => {
+            
             nextRows.forEach((element) => {
                 newElement = {...element,
                     sentByMe: (idUser == element.idUser) ? true : false
@@ -314,10 +317,12 @@ async function updateSessionUserName(req, res, session_id, name){
             db.insertIntoTable("UPDATE SESSION SET username = ? WHERE sessionId = ?", 
             [name, session_id], "session");
             const mesajReturn = { message: `Sesiune updatata cu success (sesId ${session_id}, username ${name})`, username: name}
-            res.writeHead(201, { 'Content-Type': 'application/json' });
+            res.writeHead(201, { 'Content-Type': 'application/json',
+            "Access-Control-Allow-Origin": "*"});
             res.end(JSON.stringify(mesajReturn));
         } else {
-            res.writeHead(400, { 'Content-Type': 'application/json' });
+            res.writeHead(400, { 'Content-Type': 'application/json',
+              "Access-Control-Allow-Origin": "*"});
             res.end(JSON.stringify({ message: "Sesiunea nu exista!", error: 1 }));
         }
 }
@@ -405,13 +410,19 @@ async function getUserBasicData(req, res, session_id){
 
 }
 
-async function generateSession(req, res){
+async function generateSessionCookie(req, res){
 
-    generatedSessionId = uuid.v4();
+    let generatedSessionId = uuid.v4();
 
-    //TODO:
+    db.insertIntoTable("INSERT INTO session (sessionId, idUser, create_date) VALUES (?, nextval(userIdSeq), SYSDATE())", 
+    [generatedSessionId], "session");
 
+    const mesajReturn = { message: `Sesiune inserata cu success (sesId ${generatedSessionId})`,
+session_id: generatedSessionId}
 
+    res.writeHead(201, { 'Content-Type': 'application/json',
+    "Access-Control-Allow-Origin": "*"});
+    res.end(JSON.stringify(mesajReturn));
 }
 
 async function getSession(req, res, session_id) {
@@ -436,5 +447,6 @@ module.exports = {
     fetchMessages,
     getSession,
     updateSessionUserName,
-    getUserBasicData
+    getUserBasicData,
+    generateSessionCookie
 }
