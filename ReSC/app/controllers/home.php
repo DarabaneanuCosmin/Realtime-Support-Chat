@@ -3,7 +3,9 @@
 class Home extends Controller
 {
     public function index(){
+        session_start();
         $this->view('home/index', []);
+        $user = $this->model('User',[session_id()]);
     }
 
     public function register(){
