@@ -1,3 +1,14 @@
+<?php
+session_start();
+/*
+if(isset($_SESSION['id'])){
+
+}else{
+  $_SESSION['id']=123321312;
+  $_SESSION['time']=date('H:i:s');
+}
+*/
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -30,29 +41,66 @@
             ><button class="social_button_instagram"></button
           ></a>
         </div>
+        
         <div class="account_options">
-          <button
-            onclick="displayLoginForm()"
-            class="open_login_form"
-            id="popup_login"
-          >
-            Login
-          </button>
-          <button
-            onclick="displayRegisterForm()"
-            class="open_register_form"
-            id="popup_register"
-          >
-            Register
-          </button>
-        </div>
+        <?php
+     // echo session_id();
+       //  echo var_dump($_SESSION);
+     
+      if(isset($_SESSION["id"])){
+          
+        }else{
+          echo " <a href="."/public/home/login_form/".">".
+         " <button
+             
+              class="."open_login_form"."
+              id="."popup_login"."
+            >
+              Login
+            </button>
+           </a>";
+        }
+        ?>
+         <?php 
+       
+          if(isset($_SESSION["id"])){
+            echo " <a href="."/public/home/logout/".">".
+            " <button
+                
+                 class="."open_login_form"."
+                 id="."popup_login"."
+               >
+                 Log out
+               </button>
+              </a>";
+          }else{
+            echo " <a href="."/public/home/register_form/".">".
+            " <button
+                
+                 class="."open_register_form"."
+                 id="."popup_register"."
+               >
+                 Register
+               </button>
+              </a>";
+          }
+         ?>
+      </div>
       </div>
     </header>
     <div class="principal_buttons">
       <button>Home</button>
       <a href="/public/home/about/"><button>About</button></a>
-      <a href="/public/home/adminpanel/"><button >Admin Panel</button></a>
-    </div>
+      <?php 
+      if(isset($_SESSION["id"])){
+        if(isset($_SESSION["rol"]) ){
+          if($_SESSION["rol"] == "Admin"){
+        echo "<a href="."/public/home/adminpanel/"."><button >Admin Panel</button></a>";
+      }
+      }
+    } 
+      ?>
+      </div>
     <main>
       <section class="searchContent">
         <div class="search-template">
