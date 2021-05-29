@@ -286,7 +286,7 @@ async function addNewMessages(req, res, idRoom, clientMessage, sessionId) {
 
 //primeste la input session id si creeaza un rand in tabela pentru
 //apeluri din php eventual
-async function createSession(req, res, session_id) {
+async function createSession(req, res, session_id, userId) {
 
     var selectFrom = util.promisify(db.pool.query).bind(db.pool);
 
@@ -297,7 +297,7 @@ async function createSession(req, res, session_id) {
                 throw "Sesiunea are asignata un user deja";
             }
 
-            db.insertIntoTable("INSERT INTO session (sessionId, idUser, create_date) VALUES (?, nextval(userIdSeq), SYSDATE())", [session_id], "session");
+            db.insertIntoTable("INSERT INTO session (sessionId, idUser, create_date) VALUES (?, ?, SYSDATE())", [session_id, userId], "session");
             const mesajReturn = { message: `Sesiune inserata cu success (sesId ${session_id})` }
             res.writeHead(201, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify(mesajReturn));

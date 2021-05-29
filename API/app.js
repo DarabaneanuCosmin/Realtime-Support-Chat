@@ -70,7 +70,7 @@ const server = http.createServer(async(req, res) => {
         //adaugam o sesiune noua
         const body = await getPostData(req);
         var parseMessage = JSON.parse(body);
-        createSession(req, res, parseMessage.session_id);
+        createSession(req, res, parseMessage.session_id, parseMessage.idUser);
     } else if (req.url === '/api/updateSession' && req.method === 'PUT') {
         const body = await getPostData(req);
         var parsedMessage = JSON.parse(body);
@@ -155,7 +155,8 @@ const server = http.createServer(async(req, res) => {
     } else if (req.url === '/api/generateSession' && req.method === 'POST') {
 
         generateSessionCookie(req, res);
-    } else if (req.method === 'OPTIONS') {
+    } 
+     else if (req.method === 'OPTIONS') {
         res.writeHead(204,
             corsHeaders);
         res.end();

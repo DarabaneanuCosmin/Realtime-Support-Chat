@@ -49,7 +49,7 @@ function createRoomTable() {
 
 
 function createJoinTable() {
-    var sql = "CREATE TABLE IF NOT EXISTS  joinmessages (idRoom BIGINT(200), idUser BIGINT(200))";
+    var sql = "CREATE TABLE IF NOT EXISTS  joinmessages (idRoom VARCHAR(256), idUser VARCHAR(256))";
     pool.query(sql, (err, result) => {
 
         if (err) { throw err; return; }
@@ -69,7 +69,7 @@ function createSessionTable() {
 }
 
 function createMessagesTable() {
-    var sql = "CREATE TABLE IF NOT EXISTS  messages (idMesaj BIGINT(20), idRoom BIGINT(20),idUser BIGINT(20), clientMessage VARCHAR(2550), sent_message_date TIME)";
+    var sql = "CREATE TABLE IF NOT EXISTS  messages (idMesaj BIGINT(20), idRoom BIGINT(20),idUser VARCHAR(256), clientMessage VARCHAR(2550), sent_message_date TIME)";
     pool.query(sql, (err, result) => {
 
         if (err) { throw err; return; }

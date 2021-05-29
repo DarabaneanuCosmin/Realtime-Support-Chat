@@ -103,6 +103,12 @@ function addEvents() {
 
        let sessionIdValue = getSessionId('PHPSESSID');
 
+       //incepe prin a citi PHPSESSID, daca site-ul pe care integram chatboxul nu il are
+       // continua sa citeste session_id, un cookie care este generat de API
+       //CAND nu exista cookie generat de PHP = PHPSESSID pentru a trackui useru
+       //in continuare si foloseste-l peste tot in toate requesturile pentru 
+       //tracking si autorizare actiuni
+
        if (sessionIdValue === "") {
            sessionIdValue = getSessionId('session_id');
        }
@@ -112,6 +118,7 @@ function addEvents() {
 
            sessionIdValue = sessionData.session_id;
 
+           //salveaza cookie-ul in browser ( nu s-a gasit PHPSESSION ID SI SE FACE alt cookie)
            setCookie('session_id', sessionIdValue, 60);
        }
 

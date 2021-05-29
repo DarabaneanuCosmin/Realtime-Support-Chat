@@ -101,14 +101,13 @@ function addEvents() {
 
     document.addEventListener("DOMContentLoaded", async function () {
 
-        let sessionIdValue = "";
-       //let sessionIdValue = getSessionId('PHPSESSID');
+       let sessionIdValue = getSessionId('PHPSESSID');
 
-       //if (sessionIdValue === "") {
-       //    sessionIdValue = getSessionId('session_id');
-       //}
+       if (sessionIdValue == "") {
+           sessionIdValue = getSessionId('session_id');
+       }
 
-       if (sessionIdValue === "") {
+       if (sessionIdValue == "") {
            let sessionData = await generateSessionCookie();
 
            sessionIdValue = sessionData.session_id;
