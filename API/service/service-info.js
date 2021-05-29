@@ -64,7 +64,7 @@ async function addAdminToRoom(req, res, idRoom, sessionId) {
                             });
                         } else {
                             let message = { message: `Adminul a fost adaugat deja in acest room!` };
-                            res.writeHead(401, {
+                            res.writeHead(200, {
                                 'Content-Type': 'application/json',
                                 "Access-Control-Allow-Origin": "*"
                             });

@@ -41,7 +41,7 @@
         <div class="panel__readMessages">
             <div id="messagesCenter">
             </div>
-            <div id="adminSendMessage">
+            <div id="adminSendMessage" style="display:none">
             <textarea placeholder="Scrie ceva.." class="panel__input" rows="1" id="adminMessage"></textarea>
             <button class="panel_sent-button" onclick="getTextFromAdmin()"></button>
             </div>

@@ -17,8 +17,9 @@ async function getConverastions(){
     for(user in users){
         if(users[user].error == false){
             let userName = await getUserNames(users[user].idUser);
-            roomID = users[user].idRoom;
-            userID = users[user].idUser;
+            console.log(userName);
+            let localroomID = users[user].idRoom;
+            let localuserID = users[user].idUser;
             var div = document.createElement('a');
             
             div.innerHTML = `<div class = "panel_conversation">
@@ -31,7 +32,7 @@ async function getConverastions(){
                         <div class="panel__status-dot"> 
                             <span class="circle"> </span> 
                         </div> 
-                        <button onclick="openChat(`+ userID +`,` + roomID +`)"> Chat </button>
+                        <button onclick="setChatParams(`+ localuserID +`,` + localroomID +`)"> Chat </button>
                 </div>`
             document.getElementById('conversations').appendChild(div);
         }
@@ -39,16 +40,29 @@ async function getConverastions(){
     setTimeout(getConverastions,10000);
 }; getConverastions();
 
+async function setChatParams(uid,rid){
+    roomID = rid;
+    userID = uid;
+    openChat();
+}
+
 async function openChat(){
     var ssid = getCookie('PHPSESSID');
 
     if(document.getElementById('messagesCenter')!=null){
 
+        document.getElementById('adminSendMessage').style['display']='flex';
+
         document.getElementById('messagesCenter').innerHTML=".";
 
         let adminAdded = await addAdminToRoom(roomID,ssid);
         
+        console.log(roomID,ssid);
+        
+
         let messages = await getMessages(ssid,roomID);
+
+        console.log(messages);
 
         for(message in messages){
             if(messages[message].idUser==userID){
@@ -73,14 +87,21 @@ async function openChat(){
                 document.getElementById('messagesCenter').appendChild(div);
             }
         }
+        /*if(document.getElementById('confirmMessage')!=null){
+            document.getElementById('confirmMessage').innerHTML="";
+        }*/
     }
-    setTimeout(openChat,10500);
+    setTimeout(openChat,5500);
 }
 
 async function getTextFromAdmin(){
     var message = document.getElementById('adminMessage').value;
     var response = await sendMessageToDB(message);
     document.getElementById('adminMessage').value="";
+    /*var confirm = document.createElement('p');
+    confirm.setAttribute('id','confirmMessage');
+    confirm.innerHTML= response.message;
+    document.getElementById('adminSendMessage').appendChild(confirm);*/
 }
 
 async function sendMessageToDB(text){
