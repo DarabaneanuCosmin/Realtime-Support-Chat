@@ -7,8 +7,8 @@ const {
     getContentForUser,
     getNumberOfMessages,
     deleteRoom,
-    getAdminList
-
+    getAdminList,
+    addAdminToRoom
 } = require('./service/service-info.js');
 const {
     createUserTable,
@@ -131,7 +131,7 @@ const server = http.createServer(async(req, res) => {
         //url:/api/messages/:idRoom/:idClient1 si metoda:POST - 
         //adaugam in Room-ul idRoom mesajele noi trimise de catre idClient
 
-        const idRoom = req.url.split('/')[3];
+        const idRoom = req.url.split('/')[3]; //
         const sessionId = req.url.split('/')[4];
 
         var body = await getPostData(req);
@@ -148,15 +148,15 @@ const server = http.createServer(async(req, res) => {
         const idUser = req.url.split('/')[4];
 
         getUsernameFromSessionTableById(req, res, idUser)
-    } else if (req.url.match(/\/api\/user\/username\/([a-z A-Z 0-9 -]+)/) && req.method === 'GET') {
-        const idUser = req.url.split('/')[4];
+    } else if (req.url.match(/\/api\/admin\/([a-z A-Z 0-9 -]+)\/([a-z A-Z 0-9 -]+)/) && req.method === 'POST') {
+        const idRoom = req.url.split('/')[3];
+        const sessionId = req.url.split('/')[4];
 
-        getUsernameFromUserTableById(req, res, idUser);
+        addAdminToRoom(req, res, idRoom, sessionId);
     } else if (req.url === '/api/generateSession' && req.method === 'POST') {
 
         generateSessionCookie(req, res);
-    } 
-     else if (req.method === 'OPTIONS') {
+    } else if (req.method === 'OPTIONS') {
         res.writeHead(204,
             corsHeaders);
         res.end();

@@ -4,11 +4,11 @@ const util = require("util");
 const uuid = require('uuid');
 
 async function getUsernameFromSessionTableById(req, res, idUser) {
-    const resultQuery = await db.pool.query("SELECT username from session WHERE idUser = ?", [idUser], function(error, result) {
+    const resultQuery = await db.pool.query("SELECT username from session WHERE idUser = ?", [idUser], async function(error, result) {
         if (error) {
             throw error;
         } else {
-            console.log(result);
+
             if (result[0] != undefined && result[0].username != undefined) {
 
                 var message = { "username": result[0].username };
@@ -29,6 +29,53 @@ async function getUsernameFromSessionTableById(req, res, idUser) {
         }
     });
 
+}
+async function addAdminToRoom(req, res, idRoom, sessionId) {
+    try {
+        const getSessionId = await db.pool.query("SELECT idUser from session WHERE sessionId = ?", [sessionId], async function(error, resultQuery) {
+            if (error) {
+                throw error;
+            } else {
+                console.log(resultQuery[0]);
+                if (resultQuery[0] != undefined) {
+                    const idUser = resultQuery[0].idUser;
+                    console.log(idUser);
+                    console.log(idRoom);
+                    const resultQuery1 = await db.pool.query("update room set idAssignedAdmin = ? WHERE idRoom = ?", [idUser, idRoom], async function(error, result) {
+                        if (error) {
+                            throw error;
+                        } else {
+                            const ress = await db.pool.query("INSERT INTO JOINMESSAGES VALUES(?,?)", [idRoom, idUser], function(error, resultInsert) {
+                                if (error) {
+                                    throw error;
+                                } else {
+
+                                    var message = { "message": 'Succesfully!' };
+                                    res.writeHead(200, {
+                                        'Content-Type': 'application/json',
+                                        "Access-Control-Allow-Origin": "*"
+                                    });
+                                    res.end(JSON.stringify(message));
+                                }
+                            });
+
+                        }
+                    });
+
+                } else {
+                    let message = { message: `SessionId : ${sessionId} does not exist in db!` };
+                    res.writeHead(404, {
+                        'Content-Type': 'application/json',
+                        "Access-Control-Allow-Origin": "*"
+                    });
+                    res.end(JSON.stringify(message));
+                }
+            }
+        });
+
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 async function getRoomByUserId(req, res, idUser) {
@@ -97,5 +144,6 @@ module.exports = {
     getContentForUser,
     getNumberOfMessages,
     deleteRoom,
-    getAdminList
+    getAdminList,
+    addAdminToRoom
 }

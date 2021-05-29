@@ -201,61 +201,60 @@ async function addUserInRoom(req, res, idRoom, idUser) {
 // @route POST /api/messages/{:idRoom}/{:sessionId} with body : {"clientMessage" : ":clientMessage"}
 async function addNewMessages(req, res, idRoom, clientMessage, sessionId) {
     try {
-        const getSessionId = await db.pool.query("SELECT idUser from session WHERE sessionId = ?", [sessionId], async function(error, resultQuery) {
-            if (error) {
-                throw error;
-            } else {
-                console.log(resultQuery[0]);
-                if (resultQuery[0] != undefined) {
-                    const idUser = resultQuery[0].idUser;
-
-                    const resultQuery1 = await db.pool.query("SELECT idRoom, idUser from JOINMESSAGES  WHERE idUser = ?", [idUser], function(error, result) {
-                        if (error) {
-                            throw error;
-                        } else {
-
-                            if (result.length > 0) {
-                                if (result[0].idRoom == idRoom && result[0].idUser == idUser) {
-                                    const now = new Date();
-
-                                    db.insertIntoTable("INSERT INTO messages VALUES (nextval(messageIdSeq), ?,?,?,?)", [idRoom, idUser, clientMessage, now.toLocaleTimeString()], "messages");
-                                    const todos = { message: "Mesajul a fost adaugat cu succes!" };
-                                    res.writeHead(200, {
-                                        'Content-Type': 'application/json',
-                                        "Access-Control-Allow-Origin": "*"
-                                    });
-                                    res.end(JSON.stringify(todos));
-                                } else {
-                                    const todos = { message: "The user doesn't have access here or the room doesn't exist !" };
-                                    res.writeHead(400, {
-                                        'Content-Type': 'application/json',
-                                        "Access-Control-Allow-Origin": "*"
-                                    });
-                                    res.end(JSON.stringify(todos));
-                                }
-
-
-                            } else {
-                                const todos = { message: "The received roomID/ iUser should match with the informations from  database" };
-                                res.writeHead(404, {
-                                    'Content-Type': 'application/json',
-                                    "Access-Control-Allow-Origin": "*"
-                                });
-                                res.end(JSON.stringify(todos));
-                            }
-                        }
-                    });
-
+        const getSessionId = await db.pool.query("SELECT idUser from session WHERE sessionId = ?", [sessionId],
+            async function(error, resultQuery) {
+                if (error) {
+                    throw error;
                 } else {
-                    let message = { message: `SessionId : ${sessionId} does not exist in db!` };
-                    res.writeHead(404, {
-                        'Content-Type': 'application/json',
-                        "Access-Control-Allow-Origin": "*"
-                    });
-                    res.end(JSON.stringify(message));
+                    console.log(resultQuery[0]);
+                    if (resultQuery[0] != undefined) {
+                        const idUser = resultQuery[0].idUser;
+
+                        const resultQuery1 = await db.pool.query("SELECT idRoom, idUser from JOINMESSAGES  WHERE idUser = ?", [idUser],
+                            function(error, result) {
+                                if (error) {
+                                    throw error;
+                                } else {
+
+                                    if (result.length > 0) {
+                                        console.log(result[0].idRoom, result[0].idUser);
+                                        for (var iterator = 0; iterator < result.length; iterator++) {
+                                            if (result[iterator].idRoom == idRoom && result[iterator].idUser == idUser) {
+                                                const now = new Date();
+
+                                                db.insertIntoTable("INSERT INTO messages VALUES (nextval(messageIdSeq), ?,?,?,?)", [idRoom, idUser, clientMessage, now.toLocaleTimeString()], "messages");
+                                                const todos = { message: "Mesajul a fost adaugat cu succes!" };
+                                                res.writeHead(200, {
+                                                    'Content-Type': 'application/json',
+                                                    "Access-Control-Allow-Origin": "*"
+                                                });
+                                                res.end(JSON.stringify(todos));
+                                                break;
+                                            }
+
+                                        }
+
+                                    } else {
+                                        const todos = { message: "The received roomID/ iUser should match with the informations from  database" };
+                                        res.writeHead(404, {
+                                            'Content-Type': 'application/json',
+                                            "Access-Control-Allow-Origin": "*"
+                                        });
+                                        res.end(JSON.stringify(todos));
+                                    }
+                                }
+                            });
+
+                    } else {
+                        let message = { message: `SessionId : ${sessionId} does not exist in db!` };
+                        res.writeHead(404, {
+                            'Content-Type': 'application/json',
+                            "Access-Control-Allow-Origin": "*"
+                        });
+                        res.end(JSON.stringify(message));
+                    }
                 }
-            }
-        });
+            });
 
     } catch (error) {
         console.log(error);
