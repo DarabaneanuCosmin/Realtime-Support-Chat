@@ -4,9 +4,16 @@ require_once "../app/models/User.php";
 
 class Home extends Controller
 {
-     
     public function index(){
         $this->view('home/index', []);
+        $user = new User();
+        $sessionData = [
+            'sessionId'=> session_id(),
+            'idUser'=> $user -> guidv4(),
+            'create_date' => date('H:i:s'),
+            'username'=> $_SESSION['NULL']
+        ];
+        $user->insertIntoSession($sessionData);
     }
     public function register_form(){
       
@@ -27,10 +34,7 @@ class Home extends Controller
                     }else{
                   
                         
-                $data['number'] =  rand(1,99999);
-                while($user->existsId("SELECT id FROM USER WHERE id = ?",$data['number']) == true){
-                    $data['number'] =  rand(1,99999);
-                }
+                $data['number'] =  $user -> guidv4();
                 $user->register($data);        
                 header("location: ../register_form?error=none");
                 exit(); 

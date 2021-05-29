@@ -43,8 +43,8 @@ if(isset($_SESSION['id'])){
         
         <div class="account_options">
         <?php
-     // echo session_id();
-       //  echo var_dump($_SESSION);
+      echo session_id();
+        echo var_dump($_SESSION);
      
       if(isset($_SESSION["id"])){
           

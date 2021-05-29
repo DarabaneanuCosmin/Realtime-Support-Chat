@@ -51,17 +51,21 @@ public function insertIntoSession($data){
      $sth->execute();
 }
 
-  public function existUserName($username){
-       $query = "SELECT username FROM USER WHERE username = '".$username."'";
-       
-        $this->executeQuery($query);
+public function updateIntoSession($data){
+    $query = "UPDATE session SET sessionId=? WHERE idUser=?";
+    $sth = $this->connection->prepare($query);
+    $sth->bind_param('sd',$data['sessionId'], $data['idUser']);
+     $sth->execute();
+}
 
-        if($this->isEmpty($this->lastResult)){
-            return false;
-        }
-        return true;
-    
-    }
+public function existUserName($username){
+    $query = "SELECT username FROM USER WHERE username = '".$username."'";  
+    $this->executeQuery($query);
+    if($this->isEmpty($this->lastResult)){
+        return false;
+    }  
+    return true;
+}
   
 
 

@@ -39,7 +39,7 @@ class Database{
     public function query($query,$data){
     $sth = $this->connection->prepare($query);
     $role = 'User';
-    $sth->bind_param('dsss',$data['number'], $data['username'],$data['password'],$role);
+    $sth->bind_param('ssss',$data['number'], $data['username'],$data['password'],$role);
      $sth->execute();
    
 }
@@ -47,7 +47,15 @@ class Database{
 public function insertIntoSession($data){
     $query = "INSERT INTO session VALUES(?,?,?,?)";
     $sth = $this->connection->prepare($query);
-    $sth->bind_param('sdss',$data['sessionId'], $data['idUser'],$data['create_date'],$data['username']);
+    $sth->bind_param('ssss',$data['sessionId'], $data['idUser'],$data['create_date'],$data['username']);
+     $sth->execute();
+}
+
+
+public function updateIntoSession($data){
+    $query = "UPDATE session SET sessionId=? WHERE idUser=?";
+    $sth = $this->connection->prepare($query);
+    $sth->bind_param('ss',$data['sessionId'], $data['idUser']);
      $sth->execute();
 }
 

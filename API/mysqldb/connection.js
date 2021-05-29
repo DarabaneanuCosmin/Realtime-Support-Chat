@@ -28,7 +28,7 @@ function insertIntoTable(sql, values, tableName) {
 
 
 function createUserTable() {
-    var sql = "CREATE TABLE IF NOT EXISTS  user (id BIGINT(200) NOT NULL, username VARCHAR(255), password VARCHAR(255), rol VARCHAR(255), UNIQUE (id))";
+    var sql = "CREATE TABLE IF NOT EXISTS  user (id VARCHAR(255) NOT NULL, username VARCHAR(255), password VARCHAR(255), rol VARCHAR(255), UNIQUE (id))";
     pool.query(sql, (err, result) => {
 
         if (err) { throw err; return; }
@@ -59,7 +59,7 @@ function createJoinTable() {
 }
 
 function createSessionTable() {
-    var sql = "CREATE TABLE IF NOT EXISTS  session (sessionId VARCHAR(255),idUser BIGINT(200), create_date VARCHAR(255),UNIQUE(sessionId), username VARCHAR(255))";
+    var sql = "CREATE TABLE IF NOT EXISTS  session (sessionId VARCHAR(255),idUser VARCHAR(255), create_date VARCHAR(255),UNIQUE(sessionId), username VARCHAR(255))";
     pool.query(sql, (err, result) => {
 
         if (err) { throw err; return; }
