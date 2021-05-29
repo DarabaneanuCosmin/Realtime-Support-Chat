@@ -6,24 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../css/adminPanel.css" />
-    <script src="/public/javascript/adminPanel.js"></script>
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script>
-        $(document).ready(function(){
-            function refresh()
-            {
-                var div = $('#conversations'),
-                    divHtml = div.php();
-
-                div.php(divHtml);
-            }
-
-            setInterval(function()
-            {
-                refresh()
-            }, 1000);
-        })
-    </script>
     <title>Document</title>
 </head>
 <!--
@@ -50,174 +32,14 @@
 
                 </div>
             </div>
-            <?php
-                //add call to api to update conversation.json
-                $encodedData = file_get_contents('conversation.json');
-                $data = json_decode($encodedData,true);
-                foreach($data as $user){
-
-                    echo "<a href="."#".">".
-                    "<div class="."panel_conversation".">".
-                        "<img class="."panel__image"." src="."https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80".">".
-                        "<div class="."panel__details".">".
-                            "<span>".
-                                $user['username']
-                            ."</span>
-                        </div>
-                        <div class="."panel__status-dot"."><span class="."circle"."></span></div>
-    
-                    </div>
-                </a>";
-                }
-            ?>
+            <script src="/public/javascript/adminPanel.js"></script>
         </section>
 
 
 
 
-        <div class="panel__readMessages">
-            <div class="panel__incomingMessages">
-                <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="" class="panel__img">
-                <div class="panel_details">
-                    <p class="p__d">
-                        Buna ziua! Ma numesc .. si as avea nevoie de ajutor in legatura cu... </p>
-                </div>
-            </div>
-            <div class="panel__output">
-                <div class="panel_details">
-                    <p class="p__details">Buna ziua!Sigur, te ascult</p>
-                </div>
-            </div>
-
-
-            <div class="panel__output">
-                <div class="panel_details">
-                    <p class="p__details">Sper ca te pot ajuta</p>
-                </div>
-            </div>
-            <div class="panel__incomingMessages">
-                <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="" class="panel__img">
-                <div class="panel_details">
-                    <p class="p__d">
-                        As avea nevoie de bilet catre Italia pe data de 23 Iunie 2021. As dori sa stiu cum as putea achita si daca ....
-                </div>
-            </div>
-            <div class="panel__output">
-                <div class="panel_details">
-                    <p class="p__details">
-                        Desigur, sfatul meu este sa va uitati putin pe acest site si sa ..
-                    </p>
-
-                </div>
-            </div>
-            <div class="panel__incomingMessages">
-                <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="" class="panel__img">
-                <div class="panel_details">
-                    <p class="p__d">
-                        Cooperare... Nu trebuie să vă certați cu clientul, trebuie să-i demonstrați că are într-adevăr nevoie de produsul dvs. și scopul apelului dvs. este ajutorul. Pentru a face acest lucru, trebuie să puneți unui potențial client astfel de întrebări, răspunsurile
-                        la care știți în avans. De exemplu, manager: „Folosești multă hârtie pe lună?”, Client: „da”, manager: „cumperi un pachet nou de hârtie în fiecare săptămână”, client: „da”, manager: „ți-ar plăcea compania noastră v-ați livrat hârtie
-                        la birou în fiecare săptămână la o oră convenabilă pentru dvs.? "
-                    </p>
-                </div>
-            </div>
-            <div class="panel__output">
-                <div class="panel_details">
-                    <p class="p__details">
-
-                        Cooperare... Nu trebuie să vă certați cu clientul, trebuie să-i demonstrați că are într-adevăr nevoie de produsul dvs. și scopul apelului dvs. este ajutorul. Pentru a face acest lucru, trebuie să puneți unui potențial client astfel de întrebări, răspunsurile
-                        la care știți în avans. De exemplu, manager: „Folosești multă hârtie pe lună?”, Client: „da”, manager: „cumperi un pachet nou de hârtie în fiecare săptămână”, client: „da”, manager: „ți-ar plăcea compania noastră v-ați livrat hârtie
-                        la birou în fiecare săptămână la o oră convenabilă pentru dvs.? "
-                    </p>
-                </div>
-            </div>
-            <div class="panel__incomingMessages">
-                <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="" class="panel__img">
-                <div class="panel_details">
-                    <p class="p__d">
-                        Cooperare... Nu trebuie să vă certați cu clientul, trebuie să-i demonstrați că are într-adevăr nevoie de produsul dvs. și scopul apelului dvs. este ajutorul. Pentru a face acest lucru, trebuie să puneți unui potențial client astfel de întrebări, răspunsurile
-                        la care știți în avans. De exemplu, manager: „Folosești multă hârtie pe lună?”, Client: „da”, manager: „cumperi un pachet nou de hârtie în fiecare săptămână”, client: „da”, manager: „ți-ar plăcea compania noastră v-ați livrat hârtie
-                        la birou în fiecare săptămână la o oră convenabilă pentru dvs.? "
-                    </p>
-                </div>
-            </div>
-            <div class="panel__output">
-                <div class="panel_details">
-                    <p class="p__details">
-                        Cooperare... Nu trebuie să vă certați cu clientul, trebuie să-i demonstrați că are într-adevăr nevoie de produsul dvs. și scopul apelului dvs. este ajutorul. Pentru a face acest lucru, trebuie să puneți unui potențial client astfel de întrebări, răspunsurile
-                        la care știți în avans. De exemplu, manager: „Folosești multă hârtie pe lună?”, Client: „da”, manager: „cumperi un pachet nou de hârtie în fiecare săptămână”, client: „da”, manager: „ți-ar plăcea compania noastră v-ați livrat hârtie
-                        la birou în fiecare săptămână la o oră convenabilă pentru dvs.? "
-                    </p>
-                </div>
-            </div>
-            <div class="panel__incomingMessages">
-                <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="" class="panel__img">
-                <div class="panel_details">
-                    <p class="p__d">
-                        Cooperare... Nu trebuie să vă certați cu clientul, trebuie să-i demonstrați că are într-adevăr nevoie de produsul dvs. și scopul apelului dvs. este ajutorul. Pentru a face acest lucru, trebuie să puneți unui potențial client astfel de întrebări, răspunsurile
-                        la care știți în avans. De exemplu, manager: „Folosești multă hârtie pe lună?”, Client: „da”, manager: „cumperi un pachet nou de hârtie în fiecare săptămână”, client: „da”, manager: „ți-ar plăcea compania noastră v-ați livrat hârtie
-                        la birou în fiecare săptămână la o oră convenabilă pentru dvs.? " </p>
-                </div>
-            </div>
-            <div class="panel__output">
-                <div class="panel_details">
-                    <p class="p__details">
-                        Cooperare... Nu trebuie să vă certați cu clientul, trebuie să-i demonstrați că are într-adevăr nevoie de produsul dvs. și scopul apelului dvs. este ajutorul. Pentru a face acest lucru, trebuie să puneți unui potențial client astfel de întrebări, răspunsurile
-                        la care știți în avans. De exemplu, manager: „Folosești multă hârtie pe lună?”, Client: „da”, manager: „cumperi un pachet nou de hârtie în fiecare săptămână”, client: „da”, manager: „ți-ar plăcea compania noastră v-ați livrat hârtie
-                        la birou în fiecare săptămână la o oră convenabilă pentru dvs.? "
-                    </p>
-                </div>
-            </div>
-            <div class="panel__incomingMessages">
-                <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="" class="panel__img">
-                <div class="panel_details">
-                    <p class="p__d">
-                        Cooperare... Nu trebuie să vă certați cu clientul, trebuie să-i demonstrați că are într-adevăr nevoie de produsul dvs. și scopul apelului dvs. este ajutorul. Pentru a face acest lucru, trebuie să puneți unui potențial client astfel de întrebări, răspunsurile
-                        la care știți în avans. De exemplu, manager: „Folosești multă hârtie pe lună?”, Client: „da”, manager: „cumperi un pachet nou de hârtie în fiecare săptămână”, client: „da”, manager: „ți-ar plăcea compania noastră v-ați livrat hârtie
-                        la birou în fiecare săptămână la o oră convenabilă pentru dvs.? "
-
-                    </p>
-                </div>
-            </div>
-            <div class="panel__output">
-                <div class="panel_details">
-                    <p class="p__details">Cooperare... Nu trebuie să vă certați cu clientul, trebuie să-i demonstrați că are într-adevăr nevoie de produsul dvs. și scopul apelului dvs. este ajutorul. Pentru a face acest lucru, trebuie să puneți unui potențial client astfel
-                        de întrebări, răspunsurile la care știți în avans. De exemplu, manager: „Folosești multă hârtie pe lună?”, Client: „da”, manager: „cumperi un pachet nou de hârtie în fiecare săptămână”, client: „da”, manager: „ți-ar plăcea compania
-                        noastră v-ați livrat hârtie la birou în fiecare săptămână la o oră convenabilă pentru dvs.? "</p>
-                </div>
-            </div>
-            <div class="panel__incomingMessages">
-                <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="" class="panel__img">
-                <div class="panel_details">
-                    <p class="p__d">
-                        Cooperare... Nu trebuie să vă certați cu clientul, trebuie să-i demonstrați că are într-adevăr nevoie de produsul dvs. și scopul apelului dvs. este ajutorul. Pentru a face acest lucru, trebuie să puneți unui potențial client astfel de întrebări, răspunsurile
-                        la care știți în avans. De exemplu, manager: „Folosești multă hârtie pe lună?”, Client: „da”, manager: „cumperi un pachet nou de hârtie în fiecare săptămână”, client: „da”, manager: „ți-ar plăcea compania noastră v-ați livrat hârtie
-                        la birou în fiecare săptămână la o oră convenabilă pentru dvs.? "
-                    </p>
-                </div>
-            </div>
-            <div class="panel__output">
-                <div class="panel_details">
-                    <p class="p__details">
-                        Cooperare... Nu trebuie să vă certați cu clientul, trebuie să-i demonstrați că are într-adevăr nevoie de produsul dvs. și scopul apelului dvs. este ajutorul. Pentru a face acest lucru, trebuie să puneți unui potențial client astfel de întrebări, răspunsurile
-                        la care știți în avans. De exemplu, manager: „Folosești multă hârtie pe lună?”, Client: „da”, manager: „cumperi un pachet nou de hârtie în fiecare săptămână”, client: „da”, manager: „ți-ar plăcea compania noastră v-ați livrat hârtie
-                        la birou în fiecare săptămână la o oră convenabilă pentru dvs.? "
-                    </p>
-                </div>
-            </div>
-            <div class="panel__incomingMessages">
-                <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="" class="panel__img">
-                <div class="panel_details">
-                    <p class="p__d">
-                        Cooperare... Nu trebuie să vă certați cu clientul, trebuie să-i demonstrați că are într-adevăr nevoie de produsul dvs. și scopul apelului dvs. este ajutorul. Pentru a face acest lucru, trebuie să puneți unui potențial client astfel de întrebări, răspunsurile
-                        la care știți în avans. De exemplu, manager: „Folosești multă hârtie pe lună?”, Client: „da”, manager: „cumperi un pachet nou de hârtie în fiecare săptămână”, client: „da”, manager: „ți-ar plăcea compania noastră v-ați livrat hârtie
-                        la birou în fiecare săptămână la o oră convenabilă pentru dvs.? "
-                    </p>
-                </div>
-            </div>
-            <form action="#" class="panel_typing-area">
-                <input type="text" placeholder="Type a message here." class="panel__input">
-                <button class="panel_sent-button"><i></i></button>
-            </form>
+        <div class="panel__readMessages" id="messagesCenter">
+           
         </div>
 
         <section class="panel__settings">
