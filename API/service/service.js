@@ -95,7 +95,7 @@ async function getAllRooms(req, res) {
 
                         }
                         if (ok == 0) {
-                            msg.push({ "idRoom": messages[id].idRoom, "idUser": messages[id].idUser });
+                            msg.push({ "error": false, "idRoom": messages[id].idRoom, "idUser": messages[id].idUser });
                         }
                     }
 
@@ -105,7 +105,7 @@ async function getAllRooms(req, res) {
                     });
                     res.end(JSON.stringify(msg));
                 } else {
-                    let message = { message: 'No new rooms!' };
+                    let message = { "error": true, message: 'No new rooms!' };
 
                     res.writeHead(201, {
                         'Content-Type': 'application/json',
