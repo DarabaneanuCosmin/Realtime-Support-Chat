@@ -36,28 +36,39 @@ async function addAdminToRoom(req, res, idRoom, sessionId) {
             if (error) {
                 throw error;
             } else {
-                console.log(resultQuery[0]);
                 if (resultQuery[0] != undefined) {
                     const idUser = resultQuery[0].idUser;
-                    console.log(idUser);
-                    console.log(idRoom);
-                    const resultQuery1 = await db.pool.query("update room set idAssignedAdmin = ? WHERE idRoom = ?", [idUser, idRoom], async function(error, result) {
-                        if (error) {
-                            throw error;
-                        } else {
-                            const ress = await db.pool.query("INSERT INTO JOINMESSAGES VALUES(?,?)", [idRoom, idUser], function(error, resultInsert) {
+
+                    const verifyJoinMessages = await db.pool.query("SELECT idAssignedAdmin from room WHERE idRoom = ?", [idRoom], async function(error, queryResult) {
+
+                        if (queryResult[0].idAssignedAdmin != idUser) {
+                            const resultQuery1 = await db.pool.query("update room set idAssignedAdmin = ? WHERE idRoom = ?", [idUser, idRoom], async function(error, result) {
                                 if (error) {
                                     throw error;
                                 } else {
+                                    const ress = await db.pool.query("INSERT INTO JOINMESSAGES VALUES(?,?)", [idRoom, idUser], function(error, resultInsert) {
+                                        if (error) {
+                                            throw error;
+                                        } else {
 
-                                    var message = { "message": 'Succesfully!' };
-                                    res.writeHead(200, {
-                                        'Content-Type': 'application/json',
-                                        "Access-Control-Allow-Origin": "*"
+                                            var message = { "message": 'Succesfully!' };
+                                            res.writeHead(200, {
+                                                'Content-Type': 'application/json',
+                                                "Access-Control-Allow-Origin": "*"
+                                            });
+                                            res.end(JSON.stringify(message));
+                                        }
                                     });
-                                    res.end(JSON.stringify(message));
+
                                 }
                             });
+                        } else {
+                            let message = { message: `Adminul a fost adaugat deja in acest room!` };
+                            res.writeHead(401, {
+                                'Content-Type': 'application/json',
+                                "Access-Control-Allow-Origin": "*"
+                            });
+                            res.end(JSON.stringify(message));
 
                         }
                     });
