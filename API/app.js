@@ -1,5 +1,16 @@
 const http = require('http');
 const {
+    getUsernameFromSessionTableById,
+
+    getRoomByUserId,
+    getAllFromRoom,
+    getContentForUser,
+    getNumberOfMessages,
+    deleteRoom,
+    getAdminList
+
+} = require('./service/service-info.js');
+const {
     createUserTable,
     createRoomTable,
     createMessagesTable,
@@ -14,19 +25,16 @@ const Message = require('./utils/messages.js');
 
 const {
     createRoom,
-    getRoomByUserId,
-    getAllFromRoom,
-    getContentForUser,
-    getNumberOfMessages,
-    deleteRoom,
+
     addNewMessages,
-    getAdminList,
+    getUserBasicData,
     createSession,
-    getSession,
-    generateSessionCookie,
     fetchMessages,
+    getSession,
     updateSessionUserName,
-    getUserBasicData
+
+    generateSessionCookie,
+    getAllRooms
 } = require('./service/service.js');
 
 const { getPostData } = require('./utils/utils.js');
@@ -63,19 +71,18 @@ const server = http.createServer(async(req, res) => {
         const body = await getPostData(req);
         var parseMessage = JSON.parse(body);
         createSession(req, res, parseMessage.session_id);
-    } else if(req.url === '/api/updateSession' && req.method === 'PUT'){
+    } else if (req.url === '/api/updateSession' && req.method === 'PUT') {
         const body = await getPostData(req);
         var parsedMessage = JSON.parse(body);
 
         updateSessionUserName(req, res, parsedMessage.session_id,
-             parsedMessage.username);
+            parsedMessage.username);
     } else if (req.url.match(/\/api\/userData\/([a-z A-Z 0-9 -]+)/) && req.method === 'GET') {
 
         let session_id = req.url.split('/')[3];
 
         getUserBasicData(req, res, session_id);
-    }
-    else if (req.url.match(/\/api\/session\/([a-z A-Z 0-9 -]+)/) && req.method === 'GET') {
+    } else if (req.url.match(/\/api\/session\/([a-z A-Z 0-9 -]+)/) && req.method === 'GET') {
         //luam sesiunea ce are session_id = ...
         const session_id = req.url.split('/')[3];
         getSession(req, res, session_id);
@@ -133,7 +140,19 @@ const server = http.createServer(async(req, res) => {
 
         addNewMessages(req, res, idRoom, parseMessage.clientMessage, sessionId);
 
-    } else if (req.url === '/api/generateSession' && req.method === 'POST'){
+    } else if (req.url == '/api/rooms' &&
+        req.method === 'GET') {
+        getAllRooms(req, res);
+
+    } else if (req.url.match(/\/api\/username\/session\/([a-z A-Z 0-9 -]+)/) && req.method === 'GET') {
+        const idUser = req.url.split('/')[4];
+
+        getUsernameFromSessionTableById(req, res, idUser)
+    } else if (req.url.match(/\/api\/user\/username\/([a-z A-Z 0-9 -]+)/) && req.method === 'GET') {
+        const idUser = req.url.split('/')[4];
+
+        getUsernameFromUserTableById(req, res, idUser);
+    } else if (req.url === '/api/generateSession' && req.method === 'POST') {
 
         generateSessionCookie(req, res);
     } else if (req.method === 'OPTIONS') {
