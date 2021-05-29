@@ -1,0 +1,10 @@
+[
+    {
+        "message":"text",
+        "rol": "admin"
+    },
+    {
+        "message":"text",
+        "rol": "user"
+    }
+]

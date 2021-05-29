@@ -31,6 +31,7 @@ async function createRoom(req, res, sessionId) {
         console.log(error);
     }
 }
+
 async function getIdRoomByIdUser(req, res, idUser) {
     try {
 

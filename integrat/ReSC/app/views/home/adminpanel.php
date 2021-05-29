@@ -7,6 +7,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../css/adminPanel.css" />
     <script src="/public/javascript/adminPanel.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            function refresh()
+            {
+                var div = $('#conversations'),
+                    divHtml = div.php();
+
+                div.php(divHtml);
+            }
+
+            setInterval(function()
+            {
+                refresh()
+            }, 1000);
+        })
+    </script>
     <title>Document</title>
 </head>
 <!--
@@ -21,150 +38,38 @@
 
     <div class="panel">
 
-        <section class="panel__sendMessages">
+        <section class="panel__sendMessages" id="conversations">
             <p class="message">Conversations</p>
             <div class="search">
 
                 <span class="text">Select an user to start chat</span>
                 <div class="panel__srcIntro">
                     <input type="text" placeholder="Enter name to search...">
-                    <button class="panel__searchButton" onCli>
-                           
+                    <button class="panel__searchButton" onclick = "getUserRoomByName()">
                     </button>
 
                 </div>
             </div>
-            <a href="#">
-                <div class="panel_conversation">
-                    <img class="panel__image" src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="">
-                    <div class="panel__details">
-                        <span>Dărăbăneanu Cosmin</span>
-                        <p class="panel__p_class">This is a test message</p>
-                    </div>
-                    <div class="panel__status-dot"><span class="circle"></span></div>
+            <?php
+                //add call to api to update conversation.json
+                $encodedData = file_get_contents('conversation.json');
+                $data = json_decode($encodedData,true);
+                foreach($data as $user){
 
-                </div>
-            </a>
-            <a href="#">
-                <div class="panel_conversation">
-                    <img class="panel__image" src="https://images.pexels.com/photos/2860897/pexels-photo-2860897.jpeg?cs=srgb&dl=pexels-ayaka-kato-2860897.jpg&fm=jpg" alt="">
-                    <div class="panel__details">
-                        <span>Popescu Mihail</span>
-                        <p class="panel__p_class">This is a test message</p>
+                    echo "<a href="."#".">".
+                    "<div class="."panel_conversation".">".
+                        "<img class="."panel__image"." src="."https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80".">".
+                        "<div class="."panel__details".">".
+                            "<span>".
+                                $user['username']
+                            ."</span>
+                        </div>
+                        <div class="."panel__status-dot"."><span class="."circle"."></span></div>
+    
                     </div>
-                    <div class="panel__status-dot"><span class="circle"></span></div>
-                </div>
-            </a>
-            <a href="#">
-                <div class="panel_conversation">
-                    <img class="panel__image" src="https://images.pexels.com/photos/2874440/pexels-photo-2874440.jpeg?cs=srgb&dl=pexels-allan-franca-carmo-2874440.jpg&fm=jpg" alt="">
-                    <div class="panel__details">
-                        <span>Sotropa Ionel</span>
-                        <p class="panel__p_class">This is a test message</p>
-                    </div>
-                    <div class="panel__status-dot"><span class="circle"></span></div>
-                </div>
-            </a>
-            <a href="#">
-                <div class="panel_conversation">
-                    <img class="panel__image" src="https://images.pexels.com/photos/7214928/pexels-photo-7214928.jpeg?cs=srgb&dl=pexels-anna-nekrashevich-7214928.jpg&fm=jpg" alt="">
-                    <div class="panel__details">
-                        <span>Ihnea Gheorghe</span>
-                        <p class="panel__p_class">This is a test message</p>
-                    </div>
-                    <div class="panel__status-dot"><span class="circle"></span></div>
-                </div>
-            </a>
-            <a href="#">
-                <div class="panel_conversation">
-                    <img class="panel__image" src="https://images.pexels.com/photos/2629233/pexels-photo-2629233.jpeg?cs=srgb&dl=pexels-josh-hild-2629233.jpg&fm=jpg" alt="">
-                    <div class="panel__details">
-                        <span>Morosan Andrei</span>
-                        <p class="panel__p_class">This is a test message</p>
-                    </div>
-                    <div class="panel__status-dot"><span class="circle"></span></div>
-                </div>
-            </a>
-            <a href="#">
-                <div class="panel_conversation">
-                    <img class="panel__image" src="https://images.pexels.com/photos/3738673/pexels-photo-3738673.jpeg?cs=srgb&dl=pexels-erik-karits-3738673.jpg&fm=jpg" alt="">
-                    <div class="panel__details">
-                        <span>Prelipcean Alexandra</span>
-                        <p class="panel__p_class">This is a test message</p>
-                    </div>
-                    <div class="panel__status-dot"><span class="circle"></span></div>
-                </div>
-            </a>
-            <a href="#">
-                <div class="panel_conversation">
-                    <img class="panel__image" src="https://images.pexels.com/photos/3614316/pexels-photo-3614316.jpeg?cs=srgb&dl=pexels-agung-pandit-wiguna-3614316.jpg&fm=jpg" alt="">
-                    <div class="panel__details">
-                        <span>Ana Maria Ionescu</span>
-                        <p class="panel__p_class">This is a test message</p>
-                    </div>
-                    <div class="panel__status-dot"><span class="circle"></span></div>
-                </div>
-            </a>
-            <a href="#">
-                <div class="panel_conversation">
-                    <img class="panel__image" src="https://images.pexels.com/photos/3597423/pexels-photo-3597423.jpeg?cs=srgb&dl=pexels-verschoren-maurits-3597423.jpg&fm=jpg" alt="">
-                    <div class="panel__details">
-                        <span>Maftean Vasile</span>
-                        <p class="panel__p_class">This is a test message</p>
-                    </div>
-                    <div class="panel__status-dot"><span class="circle"></span></div>
-                </div>
-            </a>
-            <a href="#">
-                <div class="panel_conversation">
-                    <img class="panel__image" src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="">
-                    <div class="panel__details">
-                        <span>Ionel </span>
-                        <p class="panel__p_class">This is a test message</p>
-                    </div>
-                    <div class="panel__status-dot"><span class="circle"></span></div>
-                </div>
-            </a>
-            <a href="#">
-                <div class="panel_conversation">
-                    <img class="panel__image" src="https://images.pexels.com/photos/3621344/pexels-photo-3621344.jpeg?cs=srgb&dl=pexels-sem-steenbergen-3621344.jpg&fm=jpg" alt="">
-                    <div class="panel__details">
-                        <span>Sandu</span>
-                        <p class="panel__p_class">This is a test message</p>
-                    </div>
-                    <div class="panel__status-dot"><span class="circle"></span></div>
-                </div>
-            </a>
-            <a href="#">
-                <div class="panel_conversation">
-                    <img class="panel__image" src="https://images.pexels.com/photos/3610649/pexels-photo-3610649.jpeg?cs=srgb&dl=pexels-zachary-debottis-3610649.jpg&fm=jpg" alt="">
-                    <div class="panel__details">
-                        <span>mihai123@gmail.com</span>
-                        <p class="panel__p_class">This is a test message</p>
-                    </div>
-                    <div class="panel__status-dot"><span class="circle"></span></div>
-                </div>
-            </a>
-            <a href="#">
-                <div class="panel_conversation">
-                    <img class="panel__image" src="https://images.pexels.com/photos/3693787/pexels-photo-3693787.jpeg?cs=srgb&dl=pexels-tom-balabaud-3693787.jpg&fm=jpg" alt="">
-                    <div class="panel__details">
-                        <span>Popescu Eusebiu</span>
-                        <p class="panel__p_class">This is a test message</p>
-                    </div>
-                    <div class="panel__status-dot"><span class="circle"></span></div>
-                </div>
-            </a>
-            <a href="#">
-                <div class="panel_conversation">
-                    <img class="panel__image" src="https://images.pexels.com/photos/3645606/pexels-photo-3645606.jpeg?cs=srgb&dl=pexels-luis-quintero-3645606.jpg&fm=jpg" alt="">
-                    <div class="panel__details">
-                        <span>Modoranu Cosmin</span>
-                        <p class="panel__p_class">This is a test message</p>
-                    </div>
-                    <div class="panel__status-dot"><span class="circle"></span></div>
-                </div>
-            </a>
+                </a>";
+                }
+            ?>
         </section>
 
 
