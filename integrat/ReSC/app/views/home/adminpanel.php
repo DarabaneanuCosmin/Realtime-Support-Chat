@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../css/adminPanel.css" />
-
+    <script src="/public/javascript/adminPanel.js"></script>
     <title>Document</title>
 </head>
 <!--
@@ -28,7 +28,9 @@
                 <span class="text">Select an user to start chat</span>
                 <div class="panel__srcIntro">
                     <input type="text" placeholder="Enter name to search...">
-                    <button class="panel__searchButton"> </button>
+                    <button class="panel__searchButton" onCli>
+                           
+                    </button>
 
                 </div>
             </div>
