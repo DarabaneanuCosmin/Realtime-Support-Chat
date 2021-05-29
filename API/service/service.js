@@ -221,7 +221,7 @@ async function addNewMessages(req, res, idRoom, clientMessage, sessionId) {
                                         for (var iterator = 0; iterator < result.length; iterator++) {
                                             if (result[iterator].idRoom == idRoom && result[iterator].idUser == idUser) {
                                                 const now = new Date();
-
+                                                console.log(now.toLocaleTimeString());
                                                 db.insertIntoTable("INSERT INTO messages VALUES (nextval(messageIdSeq), ?,?,?,?)", [idRoom, idUser, clientMessage, now.toLocaleTimeString()], "messages");
                                                 const todos = { message: "Mesajul a fost adaugat cu succes!" };
                                                 res.writeHead(200, {

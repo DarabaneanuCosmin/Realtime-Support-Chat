@@ -7,9 +7,14 @@ class Home extends Controller
     public function index(){
         $this->view('home/index', []);
         $user = new User();
+        $number =  rand(1,99999);
+        while($user->existsId("SELECT id FROM USER WHERE id = ?",$number) == true){
+            $number =  rand(1,99999);
+        }
+        echo $number;
         $sessionData = [
             'sessionId'=> session_id(),
-            'idUser'=> $user -> guidv4(),
+            'idUser'=> $number,
             'create_date' => date('H:i:s'),
             'username'=> $_SESSION['NULL']
         ];
@@ -34,7 +39,10 @@ class Home extends Controller
                     }else{
                   
                         
-                $data['number'] =  $user -> guidv4();
+                $data['number'] =  rand(1,99999);
+                while($user->existsId("SELECT id FROM USER WHERE id = ?",$data['number']) == true){
+                    $data['number'] =  rand(1,99999);
+                }
                 $user->register($data);        
                 header("location: ../register_form?error=none");
                 exit(); 
@@ -43,8 +51,6 @@ class Home extends Controller
             $this->view('home/register_form',[]);
          }
         
-        
-
     }
     public function login_form(){
         if(isset($_POST['login'])){
