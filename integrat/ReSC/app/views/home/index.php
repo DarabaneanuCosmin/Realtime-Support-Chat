@@ -482,7 +482,6 @@ if(isset($_SESSION['id'])){
 
       <script type="module" src="/public/chatbox_all/js/chatbox/loadChatbox.js"></script>
 
-
       <div id="register_modal"class="popup_form" onclick="closeRegisterWindow()">
         <div id="form_modal_register">
           <form

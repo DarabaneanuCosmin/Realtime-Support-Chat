@@ -429,4 +429,49 @@
     color: #DFDFDF;
 }
 
+.chatBoxStatic__gdprnotice, .chatBoxStatic__gdprnoticeHeader{
+    text-align: center;
+    font-size: 1rem;
+    font-family: 'Lato';
+}
 
+
+.chatBoxStatic__gdprNoticeAll{
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.chatBoxStatic__provideUsernameForm{
+    margin: 0px auto;
+    width: 50%;
+}
+
+.chatBoxStatic__consentSubmitButton{
+    border: 1px solid #1F5F6F;
+    color: #1F5F6F;
+    background: none;
+    font-size: medium;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    cursor: pointer;
+    margin: 5px auto 0 auto;
+    padding: 4px;
+    width: 93%;
+}
+
+.chatBoxStatic__userNameConsentBox{
+    font-size: 14pt;
+    font-family: 'Lato';
+    width: 90%;
+    margin: 0 auto;
+    border: 1px solid #1F5F6F;
+}
+
+.chatBoxStatic__userNameConsentBox:focus{
+    border: 1px solid #EFEFEF;
+    outline-color: #EFEFEF;
+}

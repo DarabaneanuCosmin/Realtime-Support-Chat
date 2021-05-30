@@ -7,7 +7,8 @@ import { Message } from './message.js'
 import {
     createRoomForUser, addSentMessage,
     aquireMessageList, updateConsentAnswer,
-    getUserPublicData, generateSessionCookie
+    getUserPublicData, generateSessionCookie,
+    fetchRoomsList
 } from './apiCalls.js'
 
 
@@ -17,14 +18,17 @@ import {
 addEvents();
 
 let messageList = [];
+let roomList = [];
 let chatVisible = false;
 let convListVisible = false;
 let consentFormVisible = false;
+let currentRoomData = {};
 let latestIntervalId = -1;
 let sessionId = '';
 let idRoom = -1;
 let userName = undefined;
 
+const globalRoomConst = -999;
 const shortPollTime = 1000;
 
 
@@ -37,97 +41,97 @@ function addEvents() {
     const sendMessageButton = document.querySelector(".chatBoxStatic__sendMessageButton")
     const consentButton = document.querySelector(".chatBoxStatic__consentSubmitButton");
     const popupMinimizeButton = document.querySelector(".chatBoxStaticPopup__minimizeButton")
-    
+
     sendMessageButton.addEventListener("click", (e) => {
-       addTypedMessage();
+        addTypedMessage();
     });
 
     messageInput.addEventListener("keyup", function (event) {
-       if (event.keyCode == 13) {
-           addTypedMessage();
-       }
+        if (event.keyCode == 13) {
+            addTypedMessage();
+        }
     });
 
     messagesButton.addEventListener("click", (e) => {
-       showConvList();
-       clearInterval(latestIntervalId);
+        showConvList();
+        clearInterval(latestIntervalId);
     });
 
     minimizeButton.addEventListener("click", (e) => {
-       hideChat();
+        hideChat();
     });
 
     showChatBoxButton.addEventListener("click", async (e) => {
-       if (chatVisible == true) {
-           hideChat();
-       } else {
+        if (chatVisible == true) {
+            hideChat();
+        } else {
 
-           showChat();
-           hideConvList();
-       }
-       chatVisible = !chatVisible;
+            showChat();
+            hideConvList();
+        }
+        chatVisible = !chatVisible;
     });
 
     showConvListButton.addEventListener("click", (e) => {
-       if (convListVisible == true) {
-           if (userName != undefined) {
-               showChat();
-           } else {
-               showConsentForm();
-           }
-           hideConvList();
-       }
-       convListVisible = !convListVisible;
+        if (convListVisible == true) {
+            if (userName != undefined) {
+                showChat();
+            } else {
+                showConsentForm();
+            }
+            hideConvList();
+        }
+        convListVisible = !convListVisible;
     });
 
 
     consentButton.addEventListener("click", (e) => {
-       const consentTextBox = document.querySelector(".chatBoxStatic__userNameConsentBox");
-       const message = consentTextBox.value.trim();
+        const consentTextBox = document.querySelector(".chatBoxStatic__userNameConsentBox");
+        const message = consentTextBox.value.trim();
 
-       if (validateMessage(message)) {
-           userName = message;
-           updateConsentAnswer(sessionId, message);
+        if (validateMessage(message)) {
+            userName = message;
+            updateConsentAnswer(sessionId, message);
 
-           hideConsentForm();
-           showChat();
-       }
+            hideConsentForm();
+            showChat();
+        }
     });
 
     popupMinimizeButton.addEventListener("click", (e) => {
-       hideConsentForm();
-       hideChat();
+        hideConsentForm();
+        hideChat();
     });
 
     document.addEventListener("DOMContentLoaded", async function () {
 
-       let sessionIdValue = getSessionId('PHPSESSID');
+        let sessionIdValue = getSessionId('PHPSESSID');
 
-       //incepe prin a citi PHPSESSID, daca site-ul pe care integram chatboxul nu il are
-       // continua sa citeste session_id, un cookie care este generat de API
-       //CAND nu exista cookie generat de PHP = PHPSESSID pentru a trackui useru
-       //in continuare si foloseste-l peste tot in toate requesturile pentru 
-       //tracking si autorizare actiuni
+        //incepe prin a citi PHPSESSID, daca site-ul pe care integram chatboxul nu il are
+        // continua sa citeste session_id, un cookie care este generat de API
+        //CAND nu exista cookie generat de PHP = PHPSESSID pentru a trackui useru
+        //in continuare si foloseste-l peste tot in toate requesturile pentru 
+        //tracking si autorizare actiuni
 
-       if (sessionIdValue === "") {
-           sessionIdValue = getSessionId('session_id');
-       }
+        if (sessionIdValue === "") {
+            sessionIdValue = getSessionId('session_id');
+        }
 
-       if (sessionIdValue === "") {
-           let sessionData = await generateSessionCookie();
+        if (sessionIdValue === "") {
+            let sessionData = await generateSessionCookie();
 
-           sessionIdValue = sessionData.session_id;
+            sessionIdValue = sessionData.session_id;
 
-           //salveaza cookie-ul in browser ( nu s-a gasit PHPSESSION ID SI SE FACE alt cookie)
-           setCookie('session_id', sessionIdValue, 60);
-       }
+            //salveaza cookie-ul in browser ( nu s-a gasit PHPSESSION ID SI SE FACE alt cookie)
+            setCookie('session_id', sessionIdValue, 60);
+        }
 
-       let userData = await getUserPublicData(sessionIdValue);
+        let userData = await getUserPublicData(sessionIdValue);
 
-       sessionId = sessionIdValue;
-       userName = userData.username;
+        sessionId = sessionIdValue;
+        userName = userData.username;
 
-       console.log(userData);
+        console.log(userData);
     });
 
 }
@@ -139,11 +143,25 @@ async function startUpdatingChatMessages() {
     let idInterval = setInterval(async () => {
         latestIntervalId = idInterval;
         messageList = await aquireMessageList(idRoom, sessionId)
-            .then(data => updateMessageBubbles(data))
+            .then(data =>
+                {
+                    data.sort((a, b) => {
+                        if(a.idMessage < b.idMessage){
+                            return -1;
+                        }
+
+                        if(a.idMessage > b.idMessage){
+                            return 1;
+                        }
+
+                        return a.idMessage === b.idMessage;
+                    })
+                    updateMessageBubbles(data)
+                } )
             .catch(err => console.log(err));
     }, shortPollTime);
 
-   // latestIntervalId = idInterval;
+    // latestIntervalId = idInterval;
 }
 
 function updateMessageBubbles(messages) {
@@ -158,13 +176,90 @@ function updateMessageBubbles(messages) {
         if (element.sentByMe == true) {
             newSpeechBubble.innerHTML = " <div class=\"chatBoxStatic__messageMask\">\r\n                  <div class=\"chatBoxStatic__messageSent speech-bubble\">\r\n                     <p class=\"chatBoxStatic__messageText\">" + element.messageText + "<\/p>\r\n                  <\/div>\r\n               <\/div>"
         } else {
-            newSpeechBubble.innerHTML = "<div class=\"chatBoxStatic__messageMask\">\r\n                  <p class=\"chatBoxStatic__senderLabel\">"+ element.senderName + "<\/p>\r\n                  <div class=\"chatBoxStatic__messageReceived speech-bubble\">\r\n                     <p class=\"chatBoxStatic__messageText\">" + element.messageText + "<\/p>\r\n                  <\/div>\r\n               <\/div>"
+            newSpeechBubble.innerHTML = "<div class=\"chatBoxStatic__messageMask\">\r\n                  <p class=\"chatBoxStatic__senderLabel\">" + element.senderName + "<\/p>\r\n                  <div class=\"chatBoxStatic__messageReceived speech-bubble\">\r\n                     <p class=\"chatBoxStatic__messageText\">" + element.messageText + "<\/p>\r\n                  <\/div>\r\n               <\/div>"
         }
 
         messageContainer.appendChild(newSpeechBubble);
     }
     )
 
+}
+
+function setRoomsAsConversationListEntries(rooms) {
+    const convListContainer = document.querySelector(".chatBoxStatic__conversationList");
+
+    
+    convListContainer.innerHTML = "";
+
+    roomList = rooms;
+
+    rooms.forEach((r) => {
+        let newListViewItem = document.createElement("div");
+
+        if (r.idRoom == globalRoomConst) {
+
+            newListViewItem.innerHTML =
+                `<div class="chatBoxStatic__conversation">
+            <div class="chatBoxStatic__recentConversationAvatar">
+               <img src="nd-initials.jpg" alt="Initials">
+            </div>
+
+            <div class="chatBoxStatic__recentContactInfo">
+               <p class="chatBoxStatic__conversationName"> ` + r.roomName +`</p>
+               <p class="chatBoxStatic__recentLastMessage"> `+ r.lastMessage + `</p>
+            </div>
+            </div>`
+        } else {
+            if(r.adminName != ""){
+                newListViewItem.innerHTML =
+                `<div class="chatBoxStatic__conversation">
+            <div class="chatBoxStatic__recentConversationAvatar">
+               <img src="nd-initials.jpg" alt="Initials">
+            </div>
+
+            <div class="chatBoxStatic__recentContactInfo">
+               <p class="chatBoxStatic__conversationName"> ` + r.adminName +`</p>
+               <p class="chatBoxStatic__recentLastMessage"> `+ r.lastMessage + `</p>
+            </div>
+            </div>`
+            } else {
+                newListViewItem.innerHTML =
+                `<div class="chatBoxStatic__conversation">
+            <div class="chatBoxStatic__recentConversationAvatar">
+               <img src="nd-initials.jpg" alt="Initials">
+            </div>
+
+            <div class="chatBoxStatic__recentContactInfo">
+               <p class="chatBoxStatic__conversationName"> Private support chat </p>
+               <p class="chatBoxStatic__recentLastMessage"> `+ r.lastMessage + `</p>
+            </div>
+            </div>`
+            }
+        }
+
+        newListViewItem.addEventListener("click", 
+        () => {
+            proceedFromConversationListToRoom(r);
+        });
+
+        convListContainer.appendChild(newListViewItem);
+
+    });
+}
+
+
+function proceedFromConversationListToRoom(newRoom){
+    idRoom = newRoom.idRoom;
+    currentRoomData = newRoom;
+
+    if (convListVisible == true) {
+        if (userName != undefined) {
+            showChat();
+        } else {
+            showConsentForm();
+        }
+        hideConvList();
+    }
 }
 
 //Adjusteaza marimea listei de avatare
@@ -226,6 +321,9 @@ async function showChat() {
 
     const chatElement = document.querySelector(".chatBoxStatic");
     const showButton = document.querySelector(".chatBoxStatic__showButton");
+    const container = document.querySelector(".chatBoxStatic__messageContainer");
+
+    container.innerHTML = "";
 
     chatElement.style.display = "block";
     showButton.style.display = "none";
@@ -237,13 +335,45 @@ async function showChat() {
 
     adjustProperWidth();
 
-    idRoom = await createRoomForUser(sessionId);
+    if (idRoom == -1) {
+        idRoom = await createRoomForUser(sessionId);
+    }
+
+    updateHeaderInformation(currentRoomData);
 
     console.log(idRoom);
 
+    clearInterval(latestIntervalId);
+
     latestIntervalId = startUpdatingChatMessages();
+}
+
+function updateHeaderInformation(roomData){
+    if(roomData === {}){
+        return;
+    }
+
+    //chatBoxStatic__destinatar
+    //chatBoxStatic__username
+    //chatBoxStatic__helperRank
+    const avatarList = document.querySelector(".chatBoxStatic__avatarList");
+    const destinatar = document.querySelector(".chatBoxStatic__destinatar");
+    const subscript = document.querySelector(".chatBoxStatic__helperRank");
+
+    if(roomData.adminName != '' && roomData.adminName != undefined){
+        destinatar.innerHTML = `Chatting with
+        <span class="chatBoxStatic__username">` + roomData.adminName;
+
+        subscript.innerHTML = `Support team senior`;
+    } else {
+        destinatar.innerHTML = roomData.roomName || 'Ask us any question' ;
+        subscript.innerHTML = `Support chat`;
+    }
+
+    avatarList.innerHTML = "";
 
 }
+
 
 function hideChat() {
 
@@ -275,10 +405,12 @@ function hideConsentForm() {
     consentFormVisible = true;
 }
 
-function showConvList() {
+async function showConvList() {
     const chatListElement = document.querySelector(".chatBoxStatic__recentConversationsList");
 
     chatListElement.style.display = "block";
+
+    setRoomsAsConversationListEntries(await fetchRoomsList(sessionId));
 
     convListVisible = true;
 }

@@ -1,10 +1,11 @@
 import { serverHost, serverPort } from './apiData.js'
 import {Message} from './message.js'
+import {Room} from './room.js'
 
 export async function createRoomForUser(sId) {
   let request = { sessionId: sId }
 
-  let urlEndpoint = serverHost + ':' + serverPort + '/api/messages/createRoom';
+  let urlEndpoint = serverHost + ':' + serverPort + '/api/messages/createRoomEnhanced';
 
   let idRoom = -1;
 
@@ -99,6 +100,23 @@ export async function getUserPublicData(sId) {
   console.log(urlEndpoint);
 
   return await getData(urlEndpoint);
+}
+
+export async function fetchRoomsList(sId){
+  let request = {};
+  let rooms = [];
+  let urlEndpoint = serverHost + ':' + serverPort + '/api/listRooms/' + sId;
+
+  console.log(urlEndpoint);
+  await getData(urlEndpoint, request).then(data => {
+    console.log(data);
+    data.forEach( (e) => {
+      rooms.push(new Room(e.adminName, e.idAssignedAdmin, e.idRoom, e.lastMessage, e.roomName, e.roomParticipantsCount));
+    });
+  });
+
+  console.log(rooms);
+  return rooms;
 }
 
 export async function postData(url = '', data = {}) {

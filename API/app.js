@@ -1,7 +1,6 @@
 const http = require('http');
 const {
     getUsernameFromSessionTableById,
-
     getRoomByUserId,
     getAllFromRoom,
     getContentForUser,
@@ -10,6 +9,12 @@ const {
     getAdminList,
     addAdminToRoom
 } = require('./service/service-info.js');
+
+
+const {
+    createPrivateRoomAndAddToGlobal,
+    listRooms
+} = require('./service/RoomsService.js');
 const {
     createUserTable,
     createRoomTable,
@@ -19,22 +24,21 @@ const {
     createAdminTable,
     createUserIdSequence,
     createMessageIdSequence,
+    insertGlobalMessagesRoom
 } = require('./mysqldb/connection');
 
 const Message = require('./utils/messages.js');
 
 const {
     createRoom,
-
     addNewMessages,
     getUserBasicData,
     createSession,
     fetchMessages,
     getSession,
     updateSessionUserName,
-
     generateSessionCookie,
-    getAllRooms
+    getAllRooms,
 } = require('./service/service.js');
 
 const { getPostData } = require('./utils/utils.js');
@@ -46,6 +50,7 @@ createJoinTable();
 createAdminTable();
 createUserIdSequence();
 createMessageIdSequence();
+insertGlobalMessagesRoom();
 
 const server = http.createServer(async(req, res) => {
 
@@ -156,6 +161,15 @@ const server = http.createServer(async(req, res) => {
     } else if (req.url === '/api/generateSession' && req.method === 'POST') {
 
         generateSessionCookie(req, res);
+    } else if(req.url === '/api/messages/createRoomEnhanced' && req.method ==='POST'){
+        const body = await getPostData(req);
+        var parseMessage = JSON.parse(body);
+
+        createPrivateRoomAndAddToGlobal(req, res, parseMessage.sessionId);
+    } else if (req.url.match(/\/api\/listRooms\/([a-z A-Z 0-9]+)/) && req.method === 'GET'){
+        const idUser = req.url.split('/')[3];
+
+        listRooms(req, res, idUser);
     } else if (req.method === 'OPTIONS') {
         res.writeHead(204,
             corsHeaders);
