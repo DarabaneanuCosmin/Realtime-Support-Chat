@@ -107,7 +107,7 @@ const server = http.createServer(async(req, res) => {
         console.log(idUser);
         getRoomByUserId(req, res, idUser);
 
-    } else if (req.url.match(/\/api\/messages\/([a-z A-Z 0-9]+)\/([a-z A-Z 0-9 -]+)/) &&
+    } else if (req.url.match(/\/api\/messages\/([a-z A-Z 0-9 -]+)\/([a-z A-Z 0-9 -]+)/) &&
         req.method === 'GET') {
         // :/api/messages/:idRoom/:idClient1 si metoda:GET - 
         //luam toate datele conversatiei din Room-ul indicat pentru userul cu id-ul idClient1
@@ -117,21 +117,21 @@ const server = http.createServer(async(req, res) => {
         console.log(idRoom, idClient);
         getContentForUser(req, res, idRoom, idClient);
 
-    } else if (req.url.match(/\/api\/messages\/([a-z A-Z 0-9]+)/) && req.method === 'GET') {
+    } else if (req.url.match(/\/api\/messages\/([a-z A-Z 0-9 -]+)/) && req.method === 'GET') {
         // /api/messages/:idRoom and method:GET - luam toate datele din db pentru Room-ul indicat
 
         const idRoom = req.url.split('/')[3];
         console.log(idRoom);
         getAllFromRoom(req, res, idRoom);
 
-    } else if (req.url.match(/\/api\/messages\/([a-z A-Z 0-9]+)/) && req.method === 'DELETE') {
+    } else if (req.url.match(/\/api\/messages\/([a-z A-Z 0-9 -]+)/) && req.method === 'DELETE') {
         // url:/api/messages/:idRoom and method:DELETE - stergem conversatia
 
         const idRoom = req.url.split('/')[3];
         console.log(idRoom);
         deleteRoom(req, res, idRoom);
 
-    } else if (req.url.match(/\/api\/messages\/([a-z A-Z 0-9]+)\/([a-z A-Z 0-9 -]+)/) &&
+    } else if (req.url.match(/\/api\/messages\/([a-z A-Z 0-9 -]+)\/([a-z A-Z 0-9 -]+)/) &&
         req.method === 'POST') {
         //url:/api/messages/:idRoom/:idClient1 si metoda:POST - 
         //adaugam in Room-ul idRoom mesajele noi trimise de catre idClient
@@ -166,7 +166,7 @@ const server = http.createServer(async(req, res) => {
         var parseMessage = JSON.parse(body);
 
         createPrivateRoomAndAddToGlobal(req, res, parseMessage.sessionId);
-    } else if (req.url.match(/\/api\/listRooms\/([a-z A-Z 0-9]+)/) && req.method === 'GET'){
+    } else if (req.url.match(/\/api\/listRooms\/([a-z A-Z 0-9 -]+)/) && req.method === 'GET'){
         const idUser = req.url.split('/')[3];
 
         listRooms(req, res, idUser);
