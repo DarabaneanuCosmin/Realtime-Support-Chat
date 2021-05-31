@@ -1,0 +1,12 @@
+pass : admin1 =>e00cf25ad42683b3df678c61f42c6bda
+insert into user values(1001,'admin1','e00cf25ad42683b3df678c61f42c6bda','Admin');
+insert into admin values(1001,1,0);
+
+pass: admin2 =>c84258e9c39059a89ab77d846ddab909
+insert into user values(1002,'admin2','c84258e9c39059a89ab77d846ddab909','Admin');
+insert into admin values(1002,1,0);
+
+
+pass: admin3 =>32cacb2f994f6b42183a1300d9a3e8d6
+insert into user values(1003,'admin3','32cacb2f994f6b42183a1300d9a3e8d6','Admin');
+insert into admin values(1003,1,0);
