@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="index.css">
+   <link rel="stylesheet" href="fontsAwesome/awesome.css">
+   <title>Chatbox</title>
+</head>
+
+<body>
+   <main class="chatBox">
+      <div class="chatBoxStatic">
+         <header class="chatBoxStatic__headerInfo">
+            <div class="chatBoxStatic__avatarList">
+               <div class="chatBoxStatic__avatarInitials">
+                  <img src="https://image.shutterstock.com/image-vector/nd-dn-initial-letter-logo-260nw-1673509756.jpg"
+                     alt="ND">
+               </div>
+               <div class="chatBoxStatic__avatarInitials">
+                  <img src="https://image.shutterstock.com/image-vector/nd-dn-initial-letter-logo-260nw-1673509756.jpg"
+                     alt="ND">
+               </div>
+               <div class="chatBoxStatic__avatarInitials">
+                  <img src="https://image.shutterstock.com/image-vector/nd-dn-initial-letter-logo-260nw-1673509756.jpg"
+                     alt="ND">
+               </div>
+            </div> 
+            <div class="chatBoxStatic__contactShortInfo">
+               <h2 class="chatBoxStatic__destinatar"> Chatting with
+                  <span class="chatBoxStatic__username">Nicu</span>
+               </h2>
+               <p class="chatBoxStatic__helperRank"> Support team senior </p>
+            </div>
+            <button type="button" class="chatBoxStatic__minimizeButton"> <i class="fa fa-close"></i> </button>
+         </header>
+         <div class="chatBoxStatic__messageContainer">
+
+         </div>
+         <div class="chatBoxStatic__controale">
+            <div class="chatBoxStatic__sendMessage">
+               <textarea placeholder="Scrie ceva.." class="chatBoxStatic__inputText" rows="1"></textarea>
+               <button type="button" class="chatBoxStatic__sendMessageButton">Send</button>
+            </div>
+            <div class="chatBoxStatic__butoaneList">
+
+               <button class="chatBoxStatic__btn chatBoxStatic__btnemoticons"><i class="fa fa-smile-o"></i></button>
+               <button class="chatBoxStatic__btn chatBoxStatic__btnmessages"><i class="fa fa-sign-in"></i></button>
+            </div>
+         </div>
+      </div>
+
+      <div class="chatBoxStatic__recentConversationsList">
+         <header class="chatBoxStatic__recentConversationHeader">
+            <h1 class="chatBoxStatic__recentConversationHeaderText"> Your conversations</h1>
+            <div>
+               <button type="button" class="chatBoxStatic__backButton">
+                  <i class="fa fa-angle-left"></i>
+               </button>
+            </div>
+         </header>
+
+         <div class="chatBoxStatic__conversationList">
+            <div class="chatBoxStatic__conversation">
+               <div class="chatBoxStatic__recentConversationAvatar">
+                  <img src="nd-initials.jpg" alt="Initials">
+               </div>
+   
+               <div class="chatBoxStatic__recentContactInfo">
+                  <p class="chatBoxStatic__conversationName"> 1 on 1 support</p>
+                  <p class="chatBoxStatic__recentLastMessage"> That's a big 10-4, good buddy!</p>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="chatBoxStatic__popup">
+         <header class="chatBoxStatic__headerInfo">
+            <div class="chatBoxStatic__contactShortInfo">
+               <h2 class="chatBoxStatic__destinatar">
+                  Consent form
+               </h2>
+               <p class="chatBoxStatic__helperRank"> Provide username </p>
+            </div>
+            <button type="button" class="chatBoxStaticPopup__minimizeButton"> <i class="fa fa-close"></i> </button>
+         </header>
+
+
+         <div class="chatBoxStatic__gdprNoticeAll">
+            <p class="chatBoxStatic__gdprnoticeHeader">Enter your username below. </p>
+
+            <form class="chatBoxStatic__provideUsernameForm">
+               <input type="text" class="chatBoxStatic__userNameConsentBox">
+               <button type="button" class="chatBoxStatic__consentSubmitButton">Submit</button>
+            </form>
+   
+            <p class="chatBoxStatic__gdprnotice"> By hitting submit, you give your consent to receiving cookies froms us.
+            </p>
+         </div>
+         
+      </div>
+
+      <button type="button" class="chatBoxStatic__showButton">
+         <i class="fa fa-comment"></i>
+      </button>
+
+   </main>
+</body>
+<script type="module" src="./js/chatbox/chatbox.js"></script>
+
+</html>
