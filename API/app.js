@@ -19,6 +19,7 @@ const {
     createAdminTable,
     createUserIdSequence,
     createMessageIdSequence,
+    insertGlobalMessagesRoom
 } = require('./mysqldb/connection');
 
 const Message = require('./utils/messages.js');
