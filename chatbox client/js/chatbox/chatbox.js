@@ -8,7 +8,7 @@ import {
     createRoomForUser, addSentMessage,
     aquireMessageList, updateConsentAnswer,
     getUserPublicData, generateSessionCookie,
-    fetchRoomsList
+    fetchRoomsList, fetchRoomData
 } from './apiCalls.js'
 
 
@@ -23,10 +23,13 @@ let chatVisible = false;
 let convListVisible = false;
 let consentFormVisible = false;
 let currentRoomData = {};
-let latestIntervalId = -1;
 let sessionId = '';
 let idRoom = -1;
 let userName = undefined;
+let firstTimeToUpdate = true;
+
+let latestIntervalId = -1;
+
 
 const globalRoomConst = -999;
 const shortPollTime = 1000;
@@ -118,51 +121,67 @@ function addEvents() {
         }
 
         if (sessionIdValue === "") {
-            let sessionData = await generateSessionCookie();
-
-            sessionIdValue = sessionData.session_id;
-
-            //salveaza cookie-ul in browser ( nu s-a gasit PHPSESSION ID SI SE FACE alt cookie)
-            setCookie('session_id', sessionIdValue, 60);
+            generateSessionCookie()
+                .then((sessionIdData) => {
+                    //salveaza cookie-ul in browser ( nu s-a gasit
+                    // PHPSESSION ID SI SE cere alt cookie)
+                    sessionIdValue = sessionIdData.session_id;
+                    setCookie('session_id', sessionIdValue, 60);
+                });
         }
 
-        let userData = await getUserPublicData(sessionIdValue);
-
-        sessionId = sessionIdValue;
-        userName = userData.username;
-
-        console.log(userData);
+        await getUserPublicData(sessionIdValue)
+            .then(userData => {
+                sessionId = sessionIdValue;
+                userName = userData.username;
+                console.log(userData);
+            }).catch(async (err) => {
+                console.log(" Connection to api dropped : Couldn't aquire userData!");
+            });
     });
-
 }
 
 
-async function startUpdatingChatMessages() {
+function startUpdatingChat() {
 
 
-    let idInterval = setInterval(async () => {
-        latestIntervalId = idInterval;
-        messageList = await aquireMessageList(idRoom, sessionId)
-            .then(data =>
-                {
-                    data.sort((a, b) => {
-                        if(a.idMessage < b.idMessage){
-                            return -1;
-                        }
+    firstTimeToUpdate = true;
+    
+    aquireMessagesAndUpdateChatData();
 
-                        if(a.idMessage > b.idMessage){
-                            return 1;
-                        }
-
-                        return a.idMessage === b.idMessage;
-                    })
-                    updateMessageBubbles(data)
-                } )
-            .catch(err => console.log(err));
+    let idInterval = setInterval(() => {
+        aquireMessagesAndUpdateChatData(idInterval, shortPollTime);
     }, shortPollTime);
 
-    // latestIntervalId = idInterval;
+    return idInterval;
 }
+
+async function aquireMessagesAndUpdateChatData(idInterval){
+
+        aquireMessageList(idRoom, sessionId)
+            .then(data => {
+                data.sort((a, b) => {
+                    if (a.idMessage < b.idMessage) {
+                        return -1;
+                    }
+
+                    if (a.idMessage > b.idMessage) {
+                        return 1;
+                    }
+
+                    return a.idMessage === b.idMessage;
+                });
+
+                messageList = data;
+
+                updateMessageBubbles(data)
+            }).catch(err => console.log(err));
+        fetchRoomData(idRoom).then((data) =>{
+            updateHeaderInformation(data);
+        });
+    return latestIntervalId;
+}
+
 
 function updateMessageBubbles(messages) {
 
@@ -183,12 +202,21 @@ function updateMessageBubbles(messages) {
     }
     )
 
+    if(firstTimeToUpdate == true){
+        //scroleaza pana jos
+        const messageContainer = document.querySelector('.chatBoxStatic__messageContainer');
+
+        messageContainer.scrollTop = messageContainer.scrollHeight;
+    }
+
+    firstTimeToUpdate = false;
+
 }
 
 function setRoomsAsConversationListEntries(rooms) {
     const convListContainer = document.querySelector(".chatBoxStatic__conversationList");
 
-    
+
     convListContainer.innerHTML = "";
 
     roomList = rooms;
@@ -205,26 +233,26 @@ function setRoomsAsConversationListEntries(rooms) {
             </div>
 
             <div class="chatBoxStatic__recentContactInfo">
-               <p class="chatBoxStatic__conversationName"> ` + r.roomName +`</p>
+               <p class="chatBoxStatic__conversationName"> ` + r.roomName + `</p>
                <p class="chatBoxStatic__recentLastMessage"> `+ r.lastMessage + `</p>
             </div>
             </div>`
         } else {
-            if(r.adminName != ""){
+            if (r.adminName != "") {
                 newListViewItem.innerHTML =
-                `<div class="chatBoxStatic__conversation">
+                    `<div class="chatBoxStatic__conversation">
             <div class="chatBoxStatic__recentConversationAvatar">
                <img src="nd-initials.jpg" alt="Initials">
             </div>
 
             <div class="chatBoxStatic__recentContactInfo">
-               <p class="chatBoxStatic__conversationName"> ` + r.adminName +`</p>
+               <p class="chatBoxStatic__conversationName"> ` + r.adminName + `</p>
                <p class="chatBoxStatic__recentLastMessage"> `+ r.lastMessage + `</p>
             </div>
             </div>`
             } else {
                 newListViewItem.innerHTML =
-                `<div class="chatBoxStatic__conversation">
+                    `<div class="chatBoxStatic__conversation">
             <div class="chatBoxStatic__recentConversationAvatar">
                <img src="nd-initials.jpg" alt="Initials">
             </div>
@@ -237,10 +265,10 @@ function setRoomsAsConversationListEntries(rooms) {
             }
         }
 
-        newListViewItem.addEventListener("click", 
-        () => {
-            proceedFromConversationListToRoom(r);
-        });
+        newListViewItem.addEventListener("click",
+            () => {
+                proceedFromConversationListToRoom(r);
+            });
 
         convListContainer.appendChild(newListViewItem);
 
@@ -248,7 +276,7 @@ function setRoomsAsConversationListEntries(rooms) {
 }
 
 
-function proceedFromConversationListToRoom(newRoom){
+function proceedFromConversationListToRoom(newRoom) {
     idRoom = newRoom.idRoom;
     currentRoomData = newRoom;
 
@@ -263,30 +291,6 @@ function proceedFromConversationListToRoom(newRoom){
 }
 
 //Adjusteaza marimea listei de avatare
-
-function adjustProperWidth() {
-    let avatare = document.querySelectorAll(".chatBoxStatic__avatarInitials");
-
-    if (avatare.length > 0) {
-        let positionInfoAvatar = avatare[0].getBoundingClientRect();
-        let widthAvatar = positionInfoAvatar.width;
-        let numarAvatare = avatare.length;
-        const procent = 0.4;
-
-        let totalWidth = widthAvatar + 5;
-        console.log(widthAvatar);
-        let totalWidthString;
-
-        if (avatare.length > 1) {
-            totalWidth += (numarAvatare - 1) * (1 - procent) * widthAvatar;
-        }
-
-        totalWidthString = totalWidth + "px";
-
-        avatare[0].parentElement.style.width = totalWidthString;
-        console.log(totalWidthString);
-    }
-}
 
 
 function addTypedMessage() {
@@ -333,23 +337,27 @@ async function showChat() {
         return;
     }
 
-    adjustProperWidth();
+    //adjustProperWidth();
 
     if (idRoom == -1) {
         idRoom = await createRoomForUser(sessionId);
+        currentRoomData = await fetchRoomData(idRoom);
     }
 
     updateHeaderInformation(currentRoomData);
 
     console.log(idRoom);
 
-    clearInterval(latestIntervalId);
+    if(latestIntervalId != undefined){
+        clearInterval(latestIntervalId);
+    }
 
-    latestIntervalId = startUpdatingChatMessages();
+    latestIntervalId = startUpdatingChat();
+    console.log('Interval set!');
 }
 
-function updateHeaderInformation(roomData){
-    if(roomData === {}){
+function updateHeaderInformation(roomData) {
+    if (roomData === {}) {
         return;
     }
 
@@ -360,18 +368,26 @@ function updateHeaderInformation(roomData){
     const destinatar = document.querySelector(".chatBoxStatic__destinatar");
     const subscript = document.querySelector(".chatBoxStatic__helperRank");
 
-    if(roomData.adminName != '' && roomData.adminName != undefined){
+    if (roomData.adminName != '' && roomData.adminName != undefined) {
         destinatar.innerHTML = `Chatting with
         <span class="chatBoxStatic__username">` + roomData.adminName;
 
         subscript.innerHTML = `Support team senior`;
     } else {
-        destinatar.innerHTML = roomData.roomName || 'Ask us any question' ;
+        destinatar.innerHTML = roomData.roomName || 'Ask us any question';
         subscript.innerHTML = `Support chat`;
     }
 
     avatarList.innerHTML = "";
 
+    let htmlAvatar = 
+    `<div class="chatBoxStatic__avatarInitials">
+        <img src="https://image.shutterstock.com/image-vector/nd-dn-initial-letter-logo-260nw-1673509756.jpg"
+        alt="ND">
+    </div> `;
+    console.log("Room count:" +  roomData.roomParticipantsCount);
+    avatarList.innerHTML = htmlAvatar
+     .repeat(roomData.roomParticipantsCount);
 }
 
 

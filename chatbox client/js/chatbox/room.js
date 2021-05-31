@@ -1,5 +1,6 @@
 export class Room {
-    constructor(adminName, idAssignedAdmin, idRoom, lastMessage, roomName, roomParticipantsCount) {
+    constructor(adminName, idAssignedAdmin, idRoom, lastMessage, roomName, 
+        roomParticipantsCount) {
         this.adminName = adminName;
         this.idAssignedAdmin = idAssignedAdmin;
         this.idRoom = idRoom;

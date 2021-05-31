@@ -185,7 +185,30 @@ async function getRoomData(idRoom) {
 }
 
 
+async function relayRoomData(req, res, idRoom){
+    roomData = await getRoomData(idRoom);
+
+    if('error' in roomData && roomData.error === 1){
+        res.writeHead(400, {
+            'Content-Type': 'application/json',
+            "Access-Control-Allow-Origin": "*"
+        });
+
+        res.end(JSON.stringify(roomData));
+    } else {
+        res.writeHead(200, {
+            'Content-Type': 'application/json',
+            "Access-Control-Allow-Origin": "*"
+        });
+
+
+        res.end(JSON.stringify(roomData));
+    }
+}
+
+
 module.exports = {
     createPrivateRoomAndAddToGlobal,
-    listRooms
+    listRooms,
+    relayRoomData
 }

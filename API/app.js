@@ -22,18 +22,23 @@ const {
     insertGlobalMessagesRoom
 } = require('./mysqldb/connection');
 
+
+const {
+    createPrivateRoomAndAddToGlobal,
+    listRooms,
+    relayRoomData
+} = require('./service/RoomsService.js');
+
 const Message = require('./utils/messages.js');
 
 const {
     createRoom,
-
     addNewMessages,
     getUserBasicData,
     createSession,
     fetchMessages,
     getSession,
     updateSessionUserName,
-
     generateSessionCookie,
     getAllRooms
 } = require('./service/service.js');
@@ -128,7 +133,7 @@ const server = http.createServer(async(req, res) => {
         console.log(idRoom);
         deleteRoom(req, res, idRoom);
 
-    } else if (req.url.match(/\/api\/messages\/([a-z A-Z 0-9]+)\/([a-z A-Z 0-9 -]+)/) &&
+    } else if (req.url.match(/\/api\/messages\/([a-z A-Z 0-9 -]+)\/([a-z A-Z 0-9 -]+)/) &&
         req.method === 'POST') {
         //url:/api/messages/:idRoom/:idClient1 si metoda:POST - 
         //adaugam in Room-ul idRoom mesajele noi trimise de catre idClient
@@ -146,7 +151,8 @@ const server = http.createServer(async(req, res) => {
         req.method === 'GET') {
         getAllRooms(req, res);
 
-    } else if (req.url.match(/\/api\/username\/session\/([a-z A-Z 0-9 -]+)/) && req.method === 'GET') {
+    } else if (req.url.match(/\/api\/username\/session\/([a-z A-Z 0-9 -]+)/) 
+    && req.method === 'GET') {
         const idUser = req.url.split('/')[4];
 
         getUsernameFromSessionTableById(req, res, idUser)
@@ -177,9 +183,11 @@ const server = http.createServer(async(req, res) => {
         const idUser = req.url.split('/')[3];
 
         listRooms(req, res, idUser);
-    }
-        
-    else if (req.method === 'OPTIONS') {
+    }else if (req.url.match(/\/api\/aquireRoomInfo\/([a-z A-Z 0-9 -]+)/) && req.method === 'GET'){
+        const idRoom = req.url.split('/')[3];
+
+        relayRoomData(req, res, idRoom);
+    }else if (req.method === 'OPTIONS') {
         res.writeHead(204,
             corsHeaders);
         res.end();

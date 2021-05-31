@@ -137,6 +137,8 @@ async function fetchMessages(req, res, idRoom, idSession) {
                 throw "Invalid user id!";
             }
 
+            idUser = rows[0].idUser;
+
             return await selectFrom("SELECT * FROM joinmessages WHERE idRoom = ?", [idRoom]);
         }).then(async(rows) => {
 
@@ -145,7 +147,6 @@ async function fetchMessages(req, res, idRoom, idSession) {
                 throw "User not present in room";
             }
 
-            idUser = rows[0].idUser;
 
             return await selectFrom("SELECT* FROM ((SELECT* FROM MESSAGES m WHERE idRoom = ? ) m " +
                 "JOIN ((SELECT idUser as id, username FROM session) UNION (SELECT idAdmin as id, " +

@@ -1,6 +1,6 @@
 import { serverHost, serverPort } from './apiData.js'
-import {Message} from './message.js'
-import {Room} from './room.js'
+import { Message } from './message.js'
+import { Room } from './room.js'
 
 export async function createRoomForUser(sId) {
   let request = { sessionId: sId }
@@ -15,7 +15,10 @@ export async function createRoomForUser(sId) {
   await postData(urlEndpoint, request).then((data) => {
     console.log(data);
     idRoom = data.idRoom;
-  }).catch(err => createRoomForUser(sId));
+  }).catch(err => {
+    console.log("Connection dropped, retrying to create a room!");
+    createRoomForUser(sId)
+  });
 
   console.log(idRoom + ' hello');
 
@@ -31,7 +34,7 @@ export async function aquireMessageList(idRoom, sId) {
   console.log(urlEndpoint);
   await getData(urlEndpoint, request).then(data => {
     console.log(data);
-    data.forEach( (e) => {
+    data.forEach((e) => {
       messages.push(new Message(e.idMesaj, e.clientMessage, e.sentByMe, e.sent_message_date, e.username));
     });
   });
@@ -42,7 +45,7 @@ export async function aquireMessageList(idRoom, sId) {
 
 export async function addSentMessage(idRoom, sId, message) {
 
-  const request = {clientMessage: message}
+  const request = { clientMessage: message }
   console.log(idRoom);
 
   let urlEndpoint = serverHost + ':' + serverPort + '/api/messages/' + idRoom + '/' + sId + '/';
@@ -59,8 +62,10 @@ export async function addSentMessage(idRoom, sId, message) {
 
 export async function updateConsentAnswer(sId, username) {
 
-  const request = {session_id: sId,
-  username}
+  const request = {
+    session_id: sId,
+    username
+  }
 
   console.log(sId);
   console.log(username);
@@ -102,7 +107,7 @@ export async function getUserPublicData(sId) {
   return await getData(urlEndpoint);
 }
 
-export async function fetchRoomsList(sId){
+export async function fetchRoomsList(sId) {
   let request = {};
   let rooms = [];
   let urlEndpoint = serverHost + ':' + serverPort + '/api/listRooms/' + sId;
@@ -110,13 +115,41 @@ export async function fetchRoomsList(sId){
   console.log(urlEndpoint);
   await getData(urlEndpoint, request).then(data => {
     console.log(data);
-    data.forEach( (e) => {
-      rooms.push(new Room(e.adminName, e.idAssignedAdmin, e.idRoom, e.lastMessage, e.roomName, e.roomParticipantsCount));
+    data.forEach((e) => {
+      rooms.push(new Room(e.adminName, e.idAssignedAdmin, e.idRoom, e.lastMessage, e.roomName, e.participantsCount));
     });
   });
 
   console.log(rooms);
   return rooms;
+}
+
+export async function fetchRoomData(idRoom) {
+  let request = {};
+  let urlEndpoint = serverHost + ':' + serverPort + '/api/aquireRoomInfo/' + idRoom;
+  let roomData;
+
+  console.log(urlEndpoint);
+  await getData(urlEndpoint, request).then(data => {
+
+    if (!('error' in data) || !(data.error === 1)) {
+      roomData = data;
+    } else {
+      throw "No room found";
+    }
+
+  }).catch((err) => {
+    roomData = err;
+
+    console.log(err);
+  });
+
+  roomData = new Room(roomData.adminName, roomData.idAssignedAdmin, roomData.idRoom, 
+    roomData.lastMessage, roomData.roomName, roomData.participantsCount);
+
+  console.log(roomData);
+
+  return roomData;
 }
 
 export async function postData(url = '', data = {}) {
