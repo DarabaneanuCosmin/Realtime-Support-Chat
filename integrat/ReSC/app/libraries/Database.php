@@ -45,7 +45,7 @@ class Database{
 }
 
 public function insertIntoSession($data){
-    $query = "INSERT INTO session VALUES(?,?,?,?)";
+    $query = "INSERT INTO session (sessionId,idUser,create_date,username) VALUES(?,?,?,?)";
     $sth = $this->connection->prepare($query);
     $sth->bind_param('ssss',$data['sessionId'], $data['idUser'],$data['create_date'],$data['username']);
      $sth->execute();

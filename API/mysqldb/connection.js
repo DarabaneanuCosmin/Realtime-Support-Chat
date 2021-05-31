@@ -37,7 +37,7 @@ function createUserTable() {
 }
 
 function createRoomTable() {
-    var sql = "CREATE TABLE IF NOT EXISTS  room (idRoom BIGINT(200) NOT NULL, idAssignedAdmin BIGINT(200) ,  UNIQUE (idRoom))";
+    var sql = "CREATE TABLE IF NOT EXISTS  room (idRoom BIGINT(200) NOT NULL, idAssignedAdmin BIGINT(200) , roomName VARCHAR(255),  UNIQUE (idRoom))";
     pool.query(sql, (err, result) => {
 
         if (err) { throw err; return; }

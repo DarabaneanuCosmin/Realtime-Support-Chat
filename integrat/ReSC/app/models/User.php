@@ -39,7 +39,7 @@ class User  {
     }
 
     public function register($data){
-      $this->db->query("INSERT INTO USER VALUES(?,?,?,?)",$data);
+      $this->db->query("INSERT INTO USER (id, username, password, rol) VALUES(?,?,?,?)",$data);
      }
      public function login($data){
          return  $this->db->existsUser($data['username'],$data['password']);

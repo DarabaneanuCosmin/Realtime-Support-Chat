@@ -49,8 +49,8 @@ async function getIdRoomByIdUser(req, res, idUser) {
                     res.end(JSON.stringify(message));
                 } else {
                     const id = utils.between(100, 12000000000);
-                    db.insertIntoTable("INSERT INTO room VALUES (?,?)", [id, null]);
-                    db.insertIntoTable("INSERT INTO joinmessages VALUES(?,?)", [id, idUser]);
+                    db.insertIntoTable("INSERT INTO room (idRoom,idAssignedAdmin) VALUES (?,?)", [id, null]);
+                    db.insertIntoTable("INSERT INTO joinmessages (idRoom, idUser) VALUES(?,?)", [id, idUser]);
                     let message = { message: "The room does not exist! A new one is added!", idRoom: id };
                     res.writeHead(201, {
                         'Content-Type': 'application/json',
@@ -188,8 +188,8 @@ async function addUserInRoom(req, res, idRoom, idUser) {
             res.end(JSON.stringify(message));
         } else {
             const id = utils.between(100, 12000000000);
-            db.insertIntoTable("INSERT INTO room VALUES (?,?)", [id, null]);
-            db.insertIntoTable("INSERT INTO joinmessages VALUES(?,?)", [id, idUser]);
+            db.insertIntoTable("INSERT INTO room (idRoom, idAssignedAdmin) VALUES (?,?)", [id, null]);
+            db.insertIntoTable("INSERT INTO joinmessages (idRoom, idUser) VALUES(?,?)", [id, idUser]);
             let message = { message: "Room-ul nu exista. Adaugam unul!", idRoom: id };
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify(message));
@@ -222,7 +222,7 @@ async function addNewMessages(req, res, idRoom, clientMessage, sessionId) {
                                             if (result[iterator].idRoom == idRoom && result[iterator].idUser == idUser) {
                                                 const now = new Date();
                                                 console.log(now.toLocaleTimeString());
-                                                db.insertIntoTable("INSERT INTO messages VALUES (nextval(messageIdSeq), ?,?,?,?)", [idRoom, idUser, clientMessage, now.toLocaleTimeString()], "messages");
+                                                db.insertIntoTable("INSERT INTO messages (idMesaj, idRoom, idUser, clientMessage, sent_message_date) VALUES (nextval(messageIdSeq), ?,?,?,?)", [idRoom, idUser, clientMessage, now.toLocaleTimeString()], "messages");
                                                 const todos = { message: "Mesajul a fost adaugat cu succes!" };
                                                 res.writeHead(200, {
                                                     'Content-Type': 'application/json',
