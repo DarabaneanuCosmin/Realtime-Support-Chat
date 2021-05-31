@@ -73,7 +73,7 @@ async function addAdminToRoom(req, res, idRoom, sessionId) {
                                 if (error) {
                                     throw error;
                                 } else {
-                                    const ress = await db.pool.query("INSERT INTO JOINMESSAGES VALUES(?,?)", [idRoom, idUser], function(error, resultInsert) {
+                                    const ress = await db.pool.query("INSERT INTO (idRoom, idUser) JOINMESSAGES VALUES(?,?)", [idRoom, idUser], function(error, resultInsert) {
                                         if (error) {
                                             throw error;
                                         } else {

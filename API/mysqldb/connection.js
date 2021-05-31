@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+const util = require("util");
 
 var pool = mysql.createPool({
     connectionLimit: 100,
@@ -7,6 +8,8 @@ var pool = mysql.createPool({
     password: '',
     database: 'web'
 });
+
+const globalChatRoomId = -999;
 
 function insertIntoTable(sql, values, tableName) {
     pool.query(sql, values, (err, result) => {
@@ -108,6 +111,26 @@ function createMessageIdSequence() {
     });
 }
 
+function insertGlobalMessagesRoom(){
+    var sql = "SELECT * FROM room WHERE idroom = " + globalChatRoomId;
+
+    var selectFrom = util.promisify(pool.query).bind(pool);
+
+    selectFrom(sql, [])
+    .then(
+        (rows) => {
+            if(rows.length > 0){
+                throw "Global messages room exista deja!";
+            } 
+
+            return selectFrom("INSERT INTO room (idRoom, idAssignedAdmin, roomName) VALUES "+
+            "(?, ?, ?)", [globalChatRoomId, null, 'Global message room'])
+        }
+    ).catch((err) =>{
+        console.log(err);
+    })
+}
+
 module.exports = {
     createUserTable,
     createRoomTable,
@@ -118,5 +141,6 @@ module.exports = {
     insertIntoTable,
     createUserIdSequence,
     createMessageIdSequence,
+    insertGlobalMessagesRoom,
     pool
 };
