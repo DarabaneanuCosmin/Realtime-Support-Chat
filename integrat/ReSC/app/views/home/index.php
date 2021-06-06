@@ -94,7 +94,7 @@ if(isset($_SESSION['id'])){
       if(isset($_SESSION["id"])){
         if(isset($_SESSION["rol"]) ){
           if($_SESSION["rol"] == "Admin"){
-        echo "<a href="."/public/home/adminpanel/"."><button >Admin Panel</button></a>";
+        echo "<a href="."/public/home/adminpanel/"."><button>Admin Panel</button></a>";
       }
       }
     } 

@@ -53,7 +53,7 @@
             </div>
             <div>
                 <select id="themeSelect" name="panel__personalizare" class="panel__personalizare">
-                <option value = "1" selected="selected">LightMode</option>
+                <option value = "1" selected = "selected">LightMode</option>
                 <option value = "2" >DarkMode</option>
             
             </select>

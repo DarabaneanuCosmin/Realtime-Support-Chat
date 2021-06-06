@@ -4,6 +4,45 @@ function applyTheme(){
     loadTheme();
 }
 
+function getCookie(name) {
+    let cookie = {};
+    document.cookie.split(';').forEach(function(el) {
+        let [k, v] = el.split('=');
+        cookie[k.trim()] = v;
+    })
+    return cookie[name];
+}
+
+function loadThemeFromCookie(){
+    let theme = localStorage.getItem('theme');
+    var head = document.getElementsByTagName('head')[0];
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    if(theme!=null){
+        if(theme == 'light'){
+            var oldCss = document.getElementsByTagName('link')[1];
+            if(oldCss != null){
+                oldCss.parentNode.removeChild(oldCss);
+            }
+            link.href = '../../css/adminPanelLight.css';
+        }else if(theme == 'dark'){
+            var oldCss = document.getElementsByTagName('link')[1];
+            if(oldCss != null){
+                oldCss.parentNode.removeChild(oldCss);
+            }
+            link.href = '../../css/adminPanelDark.css';
+        }
+        head.appendChild(link);
+    }else{
+        var oldCss = document.getElementsByTagName('link')[1];
+        if(oldCss != null){
+            oldCss.parentNode.removeChild(oldCss);
+        }
+        link.href = '../../css/adminPanelLight.css';
+        localStorage.setItem('theme','light');
+    }
+}
 
 function loadTheme(){
     var selector = document.getElementById("themeSelect");
@@ -12,28 +51,25 @@ function loadTheme(){
     var link = document.createElement('link');
     link.rel = 'stylesheet';
     link.type = 'text/css';
-    if(themeIndex == 1){
-        var oldCss = document.getElementsByTagName('link')[1];
-        var option = selector.getElementsByTagName('option')[1].removeAttribute("selected");
-        if(oldCss != null){
-            oldCss.parentNode.removeChild(oldCss);
+    if(localStorage.getItem('theme')!=null){
+        if(themeIndex == 1){
+            var oldCss = document.getElementsByTagName('link')[1];
+            if(oldCss != null){
+                oldCss.parentNode.removeChild(oldCss);
+            }
+            link.href = '../../css/adminPanelLight.css';
+            localStorage.setItem('theme','light');
         }
-        var option = selector.getElementsByTagName('option')[0].setAttribute("selected" , "selected");
-        link.href = '../../css/adminPanelLight.css';
-    }
-    if(themeIndex == 2){
-        console.log(themeIndex);
-        var oldCss = document.getElementsByTagName('link')[1];
-        selector.getElementsByTagName('option')[0].removeAttribute("selected");
-        console.log(oldCss);
-        if(oldCss != null){
-            oldCss.parentNode.removeChild(oldCss);
+        if(themeIndex == 2){
+            var oldCss = document.getElementsByTagName('link')[1];
+            if(oldCss != null){
+                oldCss.parentNode.removeChild(oldCss);
+            }
+            link.href = '../../css/adminPanelDark.css';
+            localStorage.setItem('theme','dark');
         }
-        selector.getElementsByTagName('option')[1].setAttribute("selected" , "selected");
-        link.href = '../../css/adminPanelDark.css';
     }
-    
     head.appendChild(link);
 }
 
-window.onload = loadTheme;
+window.onload = loadThemeFromCookie;
