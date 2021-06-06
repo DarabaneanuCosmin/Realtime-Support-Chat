@@ -53,7 +53,7 @@ function loadTheme(){
     link.type = 'text/css';
     if(localStorage.getItem('theme')!=null){
         if(themeIndex == 1){
-            var oldCss = document.getElementsByTagName('link')[1];
+            var oldCss = document.getElementsByTagName('link')[0];
             if(oldCss != null){
                 oldCss.parentNode.removeChild(oldCss);
             }
@@ -61,7 +61,7 @@ function loadTheme(){
             localStorage.setItem('theme','light');
         }
         if(themeIndex == 2){
-            var oldCss = document.getElementsByTagName('link')[1];
+            var oldCss = document.getElementsByTagName('link')[0];
             if(oldCss != null){
                 oldCss.parentNode.removeChild(oldCss);
             }
