@@ -3,7 +3,12 @@ const utils = require("../utils/utils");
 const util = require("util");
 const uuid = require('uuid');
 const generateUniqueId = require('generate-unique-id');
+const sanitizeHtml = require('sanitize-html');
 
+const {
+    validateMessage,
+    stripSpecialCharacters
+} = require('../utils/messageValidator.js');
 
 async function createRoom(req, res, sessionId) {
     try {
@@ -186,6 +191,11 @@ async function addNewMessage(req, res, idRoom, clientMessage, sessionId) {
     var selectFrom = util.promisify(db.pool.query).bind(db.pool);
     var messages = [];
 
+    clientMessage  = sanitizeHtml(clientMessage,
+        {
+            disallowedTagsMode: 'recursiveEscape'
+        });
+
     selectFrom("SELECT idUser from session WHERE sessionId = ?", [sessionId])
         .then(async(rows) => {
             if (rows.length <= 0) {
@@ -359,6 +369,10 @@ async function createSession(req, res, session_id, userId) {
 async function updateSessionUserName(req, res, session_id, name) {
 
     sessionPresent = await sessionExists(session_id);
+
+    //anti xss
+
+    name = stripSpecialCharacters(name);
 
     if (sessionPresent) {
         db.insertIntoTable("UPDATE SESSION SET username = ? WHERE sessionId = ?", [name, session_id], "session");
