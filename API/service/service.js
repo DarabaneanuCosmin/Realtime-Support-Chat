@@ -179,25 +179,54 @@ async function fetchMessages(req, res, idRoom, idSession) {
 }
 
 
-async function addUserInRoom(req, res, idRoom, idUser) {
-    console.log("idRoom", idRoom);
 
-    if (idUser != undefined) {
-        if (idRoom != undefined) {
-            let message = idRoom;
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify(message));
-        } else {
-            const id = utils.between(100, 12000000000);
-            db.insertIntoTable("INSERT INTO room (idRoom, idAssignedAdmin) VALUES (?,?)", [id, null]);
-            db.insertIntoTable("INSERT INTO joinmessages (idRoom, idUser) VALUES(?,?)", [id, idUser]);
-            let message = { message: "Room-ul nu exista. Adaugam unul!", idRoom: id };
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify(message));
-        }
-    }
+
+async function addNewMessage(req, res, idRoom, clientMessage, sessionId) {
+    console.log(`Luam mesaje pentru ${idRoom} cu userId ${sessionId}`);
+    let idUser = -1;
+    var selectFrom = util.promisify(db.pool.query).bind(db.pool);
+    var messages = [];
+    selectFrom("SELECT idUser from session WHERE sessionId = ?", [sessionId])
+        .then(async(rows) => {
+            if (rows.length <= 0) {
+                throw "Invalid user id!";
+            }
+            idUser = rows[0].idUser;
+            console.log("idUser", idUser);
+            return await selectFrom("SELECT idRoom, idUser from JOINMESSAGES  WHERE idUser = ?", [idUser]);
+        }).then(async(rows) => {
+
+            if (rows.length <= 0) {
+                throw "User not present in room";
+            }
+            for (var iterator = 0; iterator < rows.length; iterator++) {
+                if (rows[iterator].idRoom == idRoom) {
+                    const now = new Date();
+                    console.log(now.toLocaleTimeString());
+                    db.insertIntoTable("INSERT INTO messages (idMesaj, idRoom, idUser, clientMessage, sent_message_date)" +
+                        " VALUES (nextval(messageIdSeq), ?,?,?,?)", [idRoom, idUser, clientMessage, now.toLocaleTimeString()], "messages");
+                    const todos = { message: "Mesajul a fost adaugat cu succes!" };
+                    res.writeHead(200, {
+                        'Content-Type': 'application/json',
+                        "Access-Control-Allow-Origin": "*"
+                    });
+                    res.end(JSON.stringify(todos));
+                    return;
+                }
+            }
+            throw "User not present in room";
+        })
+        .catch((err) => {
+            console.log(res);
+
+            res.writeHead(404, {
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "*"
+            });
+            res.end(JSON.stringify({ message: err, error: 1 }));
+        });
 }
-
+/*
 // @desc add a new message to the database
 // @route POST /api/messages/{:idRoom}/{:sessionId} with body : {"clientMessage" : ":clientMessage"}
 async function addNewMessages(req, res, idRoom, clientMessage, sessionId) {
@@ -261,7 +290,25 @@ async function addNewMessages(req, res, idRoom, clientMessage, sessionId) {
         console.log(error);
     }
 }
+*/
+async function addUserInRoom(req, res, idRoom, idUser) {
+    console.log("idRoom", idRoom);
 
+    if (idUser != undefined) {
+        if (idRoom != undefined) {
+            let message = idRoom;
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(message));
+        } else {
+            const id = utils.between(100, 12000000000);
+            db.insertIntoTable("INSERT INTO room (idRoom, idAssignedAdmin) VALUES (?,?)", [id, null]);
+            db.insertIntoTable("INSERT INTO joinmessages (idRoom, idUser) VALUES(?,?)", [id, idUser]);
+            let message = { message: "Room-ul nu exista. Adaugam unul!", idRoom: id };
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(message));
+        }
+    }
+}
 //async function createSession(req, res, session_id, create_date) {
 //
 //    var selectFrom = util.promisify(db.pool.query).bind(db.pool);
@@ -448,8 +495,6 @@ async function getUserBasicData(req, res, session_id) {
 }
 module.exports = {
     createRoom,
-
-    addNewMessages,
     getUserBasicData,
     createSession,
     fetchMessages,
@@ -457,6 +502,6 @@ module.exports = {
     updateSessionUserName,
 
     generateSessionCookie,
-    getAllRooms
-
+    getAllRooms,
+    addNewMessage
 }

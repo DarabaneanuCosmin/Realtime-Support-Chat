@@ -2,13 +2,11 @@ var roomID;
 var userID;
 var lastMessageID;
 
-if (window.screen.width >= 1024 && window.screen.height >= 300) {
-    // Resolution is 1024x768 or above'
-
-}
 
 async function getConverastions() {
     let users = await getRoomsAndUsers();
+    var ssid = getCookie('PHPSESSID');
+    let idUser = await getUserId(ssid);
 
     document.getElementById('conversations').innerHTML = `<p class="message">Conversations</p>
     <div class="search">
@@ -33,7 +31,9 @@ async function getConverastions() {
    </div>
        `;
     for (user in users) {
-        if (users[user].error == false) {
+        console.log(users[user].idUser);
+        console.log("hmm", idUser.idUser);
+        if (users[user].error == false && users[user].idUser != idUser.idUser) {
             let userName = await getUserNames(users[user].idUser);
             let localroomID = users[user].idRoom;
             let localuserID = users[user].idUser;
@@ -63,13 +63,18 @@ function exitConversation() {
     document.location.reload(true);
 }
 
-async function setGlobalRoom() {
+async function setGlobalRoom(localuserID) {
+    localroomID = -999;
+    var ssid = getCookie('PHPSESSID');
+    let idUser = await getUserId(ssid);
 
+    setChatParams(idUser, localroomID);
 }
 
 async function setChatParams(uid, rid) {
+
     if (window.screen.width <= 630) {
-        // Resolution is 1024x768 or above'
+
         document.getElementById("conversations").style['display'] = 'none';
 
         document.getElementById("read__messages").style['display'] = 'block';
@@ -95,7 +100,6 @@ async function setChatParams(uid, rid) {
 }
 
 async function openChat() {
-
     var ssid = getCookie('PHPSESSID');
     if (document.getElementById('messagesCenter') != null) {
 
@@ -132,7 +136,6 @@ async function getNewMessage() {
 }
 
 async function conversation() {
-
     var message = await getNewMessage();
     if (message.error == false) {
         if (message.idUser == userID) {
@@ -263,6 +266,17 @@ async function getMessages(sessionID, roomID) {
 
 async function getUserNames(userid) {
     let url = 'http://localhost:5000/api/username/session/' + userid;
+    const response = await fetch(url, {
+        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+    let data = await response.json();
+    return data;
+}
+async function getUserId(sessionId) {
+    let url = 'http://localhost:5000/api/user/id/' + sessionId;
     const response = await fetch(url, {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
         headers: {

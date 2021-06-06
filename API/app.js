@@ -8,7 +8,8 @@ const {
     getNumberOfMessages,
     deleteRoom,
     getAdminList,
-    addAdminToRoom
+    addAdminToRoom,
+    getUserId
 } = require('./service/service-info.js');
 const {
     createUserTable,
@@ -40,7 +41,8 @@ const {
     getSession,
     updateSessionUserName,
     generateSessionCookie,
-    getAllRooms
+    getAllRooms,
+    addNewMessage
 } = require('./service/service.js');
 
 const { getPostData } = require('./utils/utils.js');
@@ -145,14 +147,15 @@ const server = http.createServer(async(req, res) => {
 
         var parseMessage = JSON.parse(body);
 
-        addNewMessages(req, res, idRoom, parseMessage.clientMessage, sessionId);
+        //addNewMessages(req, res, idRoom, parseMessage.clientMessage, sessionId);
+        addNewMessage(req, res, idRoom, parseMessage.clientMessage, sessionId);
 
     } else if (req.url == '/api/rooms' &&
         req.method === 'GET') {
         getAllRooms(req, res);
 
-    } else if (req.url.match(/\/api\/username\/session\/([a-z A-Z 0-9 -]+)/) 
-    && req.method === 'GET') {
+    } else if (req.url.match(/\/api\/username\/session\/([a-z A-Z 0-9 -]+)/) &&
+        req.method === 'GET') {
         const idUser = req.url.split('/')[4];
 
         getUsernameFromSessionTableById(req, res, idUser)
@@ -174,20 +177,23 @@ const server = http.createServer(async(req, res) => {
 
         generateSessionCookie(req, res);
 
-    } else if(req.url === '/api/messages/createRoomEnhanced' && req.method ==='POST'){
+    } else if (req.url === '/api/messages/createRoomEnhanced' && req.method === 'POST') {
         const body = await getPostData(req);
         var parseMessage = JSON.parse(body);
 
         createPrivateRoomAndAddToGlobal(req, res, parseMessage.sessionId);
-    } else if (req.url.match(/\/api\/listRooms\/([a-z A-Z 0-9 -]+)/) && req.method === 'GET'){
+    } else if (req.url.match(/\/api\/user\/id\/([a-z A-Z 0-9 -]+)/) && req.method === 'GET') {
+        const idSession = req.url.split('/')[4];
+        getUserId(req, res, idSession);
+    } else if (req.url.match(/\/api\/listRooms\/([a-z A-Z 0-9 -]+)/) && req.method === 'GET') {
         const idUser = req.url.split('/')[3];
 
         listRooms(req, res, idUser);
-    }else if (req.url.match(/\/api\/aquireRoomInfo\/([a-z A-Z 0-9 -]+)/) && req.method === 'GET'){
+    } else if (req.url.match(/\/api\/aquireRoomInfo\/([a-z A-Z 0-9 -]+)/) && req.method === 'GET') {
         const idRoom = req.url.split('/')[3];
 
         relayRoomData(req, res, idRoom);
-    }else if (req.method === 'OPTIONS') {
+    } else if (req.method === 'OPTIONS') {
         res.writeHead(204,
             corsHeaders);
         res.end();

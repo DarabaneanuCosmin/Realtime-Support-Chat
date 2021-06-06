@@ -3,6 +3,25 @@ const utils = require("../utils/utils");
 const util = require("util");
 const uuid = require('uuid');
 
+async function getUserId(req, res, sessionId) {
+
+    const getSessionId = await db.pool.query("SELECT idUser from session WHERE sessionId = ?", [sessionId], async function(error, resultQuery) {
+        if (error) {
+            throw error;
+        } else {
+            if (resultQuery[0] != undefined) {
+                const idUser = resultQuery[0].idUser;
+                var message = { "error": false, "idUser": idUser };
+                res.writeHead(200, {
+                    'Content-Type': 'application/json',
+                    "Access-Control-Allow-Origin": "*"
+                });
+                res.end(JSON.stringify(message));
+            }
+        }
+    });
+}
+
 async function getOneMessage(req, res, idRoom, idMessage) {
     const resultQuery = await db.pool.query("SELECT idMesaj,clientMessage,idUser from messages WHERE idMesaj > ? AND idRoom = ?", [idMessage, idRoom], async function(error, result) {
         if (error) {
@@ -186,5 +205,6 @@ module.exports = {
     deleteRoom,
     getAdminList,
     addAdminToRoom,
-    getOneMessage
+    getOneMessage,
+    getUserId
 }
