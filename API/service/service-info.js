@@ -29,8 +29,7 @@ async function getOneMessage(req, res, idRoom, idMessage) {
         } else {
 
             if (result[0] != undefined) {
-
-                var message = { "error": false, "idMesaj": result[0].idMesaj, "clientMessage": result[0].clientMessage, "idUser": result[0].idUser , "idRoom" :idRoom};
+                var message = { "error": false, "idMesaj": result[0].idMesaj, "clientMessage": result[0].clientMessage, "idUser": result[0].idUser, "idRoom": idRoom };
                 res.writeHead(200, {
                     'Content-Type': 'application/json',
                     "Access-Control-Allow-Origin": "*"

@@ -151,7 +151,7 @@ async function fetchMessages(req, res, idRoom, idSession) {
             return await selectFrom("SELECT* FROM ((SELECT* FROM MESSAGES m WHERE idRoom = ? ) m " +
                 "JOIN ((SELECT idUser as id, username FROM session) UNION (SELECT idAdmin as id, " +
                 "username FROM admin) UNION (SELECT id, username FROM user))u ON m.idUser = u.id)", [rows[0].idRoom])
-        }).then((nextRows) => {
+        }).then(async(nextRows) => {
 
             nextRows.forEach((element) => {
                 newElement = {...element,
@@ -159,7 +159,6 @@ async function fetchMessages(req, res, idRoom, idSession) {
                 };
                 messages.push(newElement)
             });
-            console.log(messages);
 
             res.writeHead(200, {
                 'Content-Type': 'application/json',
@@ -202,34 +201,8 @@ async function addNewMessage(req, res, idRoom, clientMessage, sessionId) {
             for (var iterator = 0; iterator < rows.length; iterator++) {
                 if (rows[iterator].idRoom == idRoom) {
                     const now = new Date();
-
-                    //cod emoji
-                    var parse = clientMessage.split(/\s+/);
-                    var newText = "";
-                    for (var it = 0; it < parse.length; it++) {
-
-                        if (parse[it][0] == '$') {
-                            var wait = await selectFrom("SELECT nume,cod from emoji WHERE nume = ?", [parse[it]]).then(async(resultQuery) => {
-
-                                if (resultQuery.length > 0) {
-
-                                    newText += resultQuery[0].cod;
-                                    newText += " ";
-                                } else {
-
-                                    newText += parse[it];
-                                    newText += " ";
-
-                                }
-                            })
-                        } else {
-                            newText += parse[it];
-                            newText += " ";
-                        }
-                    }
-
                     db.insertIntoTable("INSERT INTO messages (idMesaj, idRoom, idUser, clientMessage, sent_message_date)" +
-                        " VALUES (nextval(messageIdSeq), ?,?,?,?)", [idRoom, idUser, newText, now.toLocaleTimeString()], "messages");
+                        " VALUES (nextval(messageIdSeq), ?,?,?,?)", [idRoom, idUser, clientMessage, now.toLocaleTimeString()], "messages");
                     const todos = { message: "Mesajul a fost adaugat cu succes!" };
                     res.writeHead(200, {
                         'Content-Type': 'application/json',
