@@ -1,3 +1,5 @@
+
+
 var roomID;
 var userID;
 var lastMessageID;
@@ -31,10 +33,8 @@ async function getConverastions() {
    </div>
        `;
     for (user in users) {
-        console.log(users[user].idUser);
-        console.log("hmm", idUser.idUser);
         if (users[user].error == false && users[user].idUser != idUser.idUser) {
-            let userName = await getUserNames(users[user].idUser);
+            let userName = await getUserName(users[user].idUser);
             let localroomID = users[user].idRoom;
             let localuserID = users[user].idUser;
             var div = document.createElement('a');
@@ -116,12 +116,9 @@ async function openChat() {
         document.getElementById('messagesCenter').innerHTML = ".";
 
         var ssid = getCookie('PHPSESSID');
-        console.log("before update")
         var oldMessages = await getMessages(ssid, roomID);
-        console.log("updateMESSAGES");
         updateMessages(oldMessages);
 
-        console.log("ADMINTOROOM");
         let adminAdded = await addAdminToRoom(roomID, ssid).then((result) => conversation());
 
     }
@@ -130,6 +127,7 @@ async function openChat() {
 async function conversation() {
     var message = await getNewMessage();
     if (message.error == false) {
+        let userName = await getUserName(message.idUser);
         if (message.idRoom != -999) {
             if (message.idUser == userID) {
                 //client message
@@ -139,7 +137,7 @@ async function conversation() {
                 <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="" class="panel__img">
                 <div class="panel_details">
                     <p class="p__d">
-                    ` + message.clientMessage + `
+                    ` + `<u>` + userName.username + `</u> : ` + message.clientMessage + `
                     </p>
                 </div>
             </div>`;
@@ -149,7 +147,7 @@ async function conversation() {
                 var div = document.createElement('div');
                 div.innerHTML = ` <div class="panel__output">
                 <div class="panel_details">
-                <p class="p__details">` + message.clientMessage + `</p>
+                <p class="p__details">` + `<u>` + userName.username + `</u> : ` + message.clientMessage + `</p>
                 </div>
                 </div>`;
                 document.getElementById('messagesCenter').appendChild(div);
@@ -163,7 +161,7 @@ async function conversation() {
                 <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="" class="panel__img">
                 <div class="panel_details">
                     <p class="p__d">
-                    ` + message.clientMessage + `
+                    `  + `<u>` + userName.username + `</u> : ` + message.clientMessage + `
                     </p>
                 </div>
             </div>`;
@@ -173,7 +171,7 @@ async function conversation() {
                 var div = document.createElement('div');
                 div.innerHTML = ` <div class="panel__output">
                 <div class="panel_details">
-                <p class="p__details">` + message.clientMessage + `</p>
+                <p class="p__details">` + `<u>` + userName.username + `</u> : ` + message.clientMessage + `</p>
                 </div>
                 </div>`;
                 document.getElementById('messagesCenter').appendChild(div);
@@ -186,39 +184,40 @@ async function conversation() {
 }
 
 async function updateMessages(messages) {
-    messages.forEach((message) => {
-        lastMessageID = message.idMesaj;
-        if (message.idRoom != -999) {
-            if (message.idUser == userID) {
+    for (var index = 0; index< messages.length; index++){
+        let userName = await getUserName(messages[index].idUser);
+        lastMessageID = messages[index].idMesaj;
+        if(messages[index].idRoom != -999){
+            if(messages[index].idUser == userID){
                 //client message
                 var div = document.createElement('div');
                 div.innerHTML = `<div class="panel__incomingMessages">
             <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="" class="panel__img">
             <div class="panel_details">
                 <p class="p__d">
-                ` + message.clientMessage + `
+                ` + `<u>` + userName.username + `</u> : ` + messages[index].clientMessage + `
                 </p>
             </div>
         </div>`;
                 document.getElementById('messagesCenter').appendChild(div);
-            } else {
+            }else{
                 var div = document.createElement('div');
                 div.innerHTML = ` <div class="panel__output">
             <div class="panel_details">
-            <p class="p__details">` + message.clientMessage + `</p>
+            <p class="p__details">`+ `<u>` + userName.username + `</u> : ` + messages[index].clientMessage + `</p>
             </div>
             </div>`;
                 document.getElementById('messagesCenter').appendChild(div);
             }
-        } else {
-            if (message.idUser != userID) {
+        }else{
+            if(messages[index].idUser != userID){
                 //client message
                 var div = document.createElement('div');
                 div.innerHTML = `<div class="panel__incomingMessages">
             <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="" class="panel__img">
             <div class="panel_details">
                 <p class="p__d">
-                ` + message.clientMessage + `
+                ` + `<u>` + userName.username + `</u> : ` + messages[index].clientMessage + `
                 </p>
             </div>
         </div>`;
@@ -227,13 +226,14 @@ async function updateMessages(messages) {
                 var div = document.createElement('div');
                 div.innerHTML = ` <div class="panel__output">
             <div class="panel_details">
-            <p class="p__details">` + message.clientMessage + `</p>
+            <p class="p__details">`+ `<u>` + userName.username + `</u> : ` + messages[index].clientMessage + `</p>
             </div>
             </div>`;
                 document.getElementById('messagesCenter').appendChild(div);
             }
         }
-    });
+    }
+    
 }
 
 
@@ -248,7 +248,7 @@ async function getTextFromAdmin() {
 }
 
 async function getNewMessage() {
-    console.log(roomID, lastMessageID);
+    
     let url = 'http://localhost:5000/api/message/' + roomID + '/' + lastMessageID + '/';
     const response = await fetch(url, {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
@@ -257,7 +257,7 @@ async function getNewMessage() {
         }
     });
     let data = await response.json();
-    console.log(data);
+    
     return data;
 }
 
@@ -321,7 +321,7 @@ async function getMessages(sessionID, roomID) {
     return data;
 }
 
-async function getUserNames(userid) {
+async function getUserName(userid) {
     let url = 'http://localhost:5000/api/username/session/' + userid;
     const response = await fetch(url, {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
