@@ -1,6 +1,7 @@
 
 
-import { validateMessage } from './messageValidator.js'
+import { validateMessage, sanitizeHTML } from './messageValidator.js'
+import { renderEmoticonsByCode } from './emoticons.js'
 import { getSessionId } from '../cookies/sessionidReader.js'
 import { setCookie } from '../cookies/cookieHelpers.js'
 import { Message } from './message.js'
@@ -17,6 +18,8 @@ import {
 
 addEvents();
 
+
+
 let messageList = [];
 let roomList = [];
 let chatVisible = false;
@@ -27,8 +30,13 @@ let sessionId = '';
 let idRoom = -1;
 let userName = undefined;
 let firstTimeToUpdate = true;
-
 let latestIntervalId = -1;
+
+let darkMode = 'true';
+let fontSize = 12;
+
+let newDarkMode = darkMode;
+let newFontSize = fontSize;
 
 
 const globalRoomConst = -999;
@@ -43,7 +51,9 @@ function addEvents() {
     const messagesButton = document.querySelector(".chatBoxStatic__btnmessages");
     const sendMessageButton = document.querySelector(".chatBoxStatic__sendMessageButton")
     const consentButton = document.querySelector(".chatBoxStatic__consentSubmitButton");
-    const popupMinimizeButton = document.querySelector(".chatBoxStaticPopup__minimizeButton")
+    const popupMinimizeButton = document.querySelector(".chatBoxStaticPopup__minimizeButton");
+    const chatBoxAppearenceConfirmButton = 
+    document.querySelector(".chatBoxStatic__changeAppearenceButton");
 
     sendMessageButton.addEventListener("click", (e) => {
         addTypedMessage();
@@ -65,6 +75,7 @@ function addEvents() {
     });
 
     showChatBoxButton.addEventListener("click", async (e) => {
+
         if (chatVisible == true) {
             hideChat();
         } else {
@@ -73,6 +84,7 @@ function addEvents() {
             hideConvList();
         }
         chatVisible = !chatVisible;
+        showChatBoxButton.blur();
     });
 
     showConvListButton.addEventListener("click", (e) => {
@@ -110,6 +122,25 @@ function addEvents() {
 
         let sessionIdValue = getSessionId('PHPSESSID');
 
+        let fontSizeCookie = getSessionId('ChatBoxfontSize');
+        let darkModeCookie = getSessionId('ChatBoxDarkMode');
+
+        if(fontSizeCookie === "" || darkModeCookie === ""){
+            setCookie('ChatBoxfontSize', fontSize, 60);
+            setCookie('ChatBoxDarkMode', darkMode, 60);
+        } else {
+            fontSize = fontSizeCookie;
+            darkMode = darkModeCookie;
+
+            console.log(darkMode);
+        }
+
+        let switchCheckBox = document.querySelector(".chatBoxStatic__darkModeCheckBox");
+
+        switchCheckBox.checked = darkMode == 'true' ? true : false;
+
+        doAppearence();
+
         //incepe prin a citi PHPSESSID, daca site-ul pe care integram chatboxul nu il are
         // continua sa citeste session_id, un cookie care este generat de API
         //CAND nu exista cookie generat de PHP = PHPSESSID pentru a trackui useru
@@ -121,7 +152,7 @@ function addEvents() {
         }
 
         if (sessionIdValue === "") {
-            generateSessionCookie()
+            await generateSessionCookie()
                 .then((sessionIdData) => {
                     //salveaza cookie-ul in browser ( nu s-a gasit
                     // PHPSESSION ID SI SE cere alt cookie)
@@ -138,6 +169,21 @@ function addEvents() {
             }).catch(async (err) => {
                 console.log(" Connection to api dropped : Couldn't aquire userData!");
             });
+    });
+
+    chatBoxAppearenceConfirmButton.addEventListener("click",
+    () => {
+        newDarkMode 
+        = document.querySelector(".chatBoxStatic__darkModeCheckBox").checked ? 'true' : 'false';
+        newFontSize
+        = document.querySelector(".chatBoxStatic__fontSizeTextInput").value;
+        setCookie('ChatBoxfontSize', newFontSize, 60);
+        setCookie('ChatBoxDarkMode', newDarkMode, 60);
+
+        darkMode = newDarkMode;
+        fontSize = newFontSize;
+
+        doAppearence();
     });
 }
 
@@ -192,11 +238,16 @@ function updateMessageBubbles(messages) {
     messages.forEach((element) => {
         let newSpeechBubble = document.createElement("div");
 
+        element.messageText = renderEmoticonsByCode(element.messageText);
+
         if (element.sentByMe == true) {
             newSpeechBubble.innerHTML = " <div class=\"chatBoxStatic__messageMask\">\r\n                  <div class=\"chatBoxStatic__messageSent speech-bubble\">\r\n                     <p class=\"chatBoxStatic__messageText\">" + element.messageText + "<\/p>\r\n                  <\/div>\r\n               <\/div>"
         } else {
             newSpeechBubble.innerHTML = "<div class=\"chatBoxStatic__messageMask\">\r\n                  <p class=\"chatBoxStatic__senderLabel\">" + element.senderName + "<\/p>\r\n                  <div class=\"chatBoxStatic__messageReceived speech-bubble\">\r\n                     <p class=\"chatBoxStatic__messageText\">" + element.messageText + "<\/p>\r\n                  <\/div>\r\n               <\/div>"
         }
+
+        newSpeechBubble.querySelector(".chatBoxStatic__messageText")
+        .style.fontSize = fontSize + "pt";
 
         messageContainer.appendChild(newSpeechBubble);
     }
@@ -270,6 +321,18 @@ function setRoomsAsConversationListEntries(rooms) {
                 proceedFromConversationListToRoom(r);
             });
 
+        newListViewItem.style.backgroundColor = "transparent";
+
+        newListViewItem.querySelectorAll(".chatBoxStatic__conversationName")
+        .forEach((e) => {
+            e.style.color = darkMode == 'true' ? '#efefef' : "#111111";
+        });
+
+        newListViewItem.querySelectorAll(".chatBoxStatic__recentLastMessage")
+        .forEach((e) => {
+            e.style.color = darkMode == 'true' ? '#efefef' : "#111111"
+        });
+
         convListContainer.appendChild(newListViewItem);
 
     });
@@ -297,19 +360,24 @@ function addTypedMessage() {
 
     const messageInput = document.querySelector(".chatBoxStatic__inputText");
     //fa rost de mesaj din input box
-    const message = messageInput.value.trim();
+    var message = messageInput.value.trim();
 
     if (!validateMessage(message) || userName == undefined) {
         return;
     }
 
+    message = sanitizeHTML(message);
+
+    addSentMessage(idRoom, sessionId, message);
+
     //interogheaza pentru containeru de mesaje
     const container = document.querySelector(".chatBoxStatic__messageContainer");
 
+
+    message = renderEmoticonsByCode(message);
+
     let newSpeechBubble = document.createElement("div");
     newSpeechBubble.innerHTML = " <div class=\"chatBoxStatic__messageMask\">\r\n                  <div class=\"chatBoxStatic__messageSent speech-bubble\">\r\n                     <p class=\"chatBoxStatic__messageText\">" + message + "<\/p>\r\n                  <\/div>\r\n               <\/div>"
-
-    addSentMessage(idRoom, sessionId, message);
 
     //adauga tot elementul cu speech bubble-ul
     container.appendChild(newSpeechBubble);
@@ -368,6 +436,8 @@ function updateHeaderInformation(roomData) {
     const destinatar = document.querySelector(".chatBoxStatic__destinatar");
     const subscript = document.querySelector(".chatBoxStatic__helperRank");
 
+    subscript.style.color = "efefef";
+
     if (roomData.adminName != '' && roomData.adminName != undefined) {
         destinatar.innerHTML = `Chatting with
         <span class="chatBoxStatic__username">` + roomData.adminName;
@@ -377,7 +447,7 @@ function updateHeaderInformation(roomData) {
         destinatar.innerHTML = roomData.roomName || 'Ask us any question';
         subscript.innerHTML = `Support chat`;
     }
-
+    subscript.style.color = "#efefef";
     avatarList.innerHTML = "";
 
     let htmlAvatar = 
@@ -435,4 +505,86 @@ function hideConvList() {
     const chatListElement = document.querySelector(".chatBoxStatic__recentConversationsList");
 
     chatListElement.style.display = "none";
+}
+
+function doAppearence(){
+    if(darkMode == 'true'){
+        console.log("Darkmode is on!");
+
+
+        setBackgroundsColor('#111111');
+        setIconsColor("#efefef");
+        setTextColorsAndFontSize("#efefef", fontSize);
+        setTextInputsColors("#060128");
+    } else {
+        console.log("Darkmode is off!");
+
+        setBackgroundsColor('#efefef');
+        setIconsColor("#111111");
+        setTextColorsAndFontSize("#111111", fontSize);
+        setTextInputsColors("#efefef");
+    }
+}
+
+
+
+function setTextInputsColors(color){
+    var userNameBox = document.querySelector(".chatBoxStatic__userNameConsentBox");
+    var messageInput = document.querySelector(".chatBoxStatic__inputText");
+    var fontSizeInput = document.querySelector(".chatBoxStatic__fontSizeTextInput");
+
+    userNameBox.style.backgroundColor = color;
+    messageInput.style.backgroundColor = color;
+    fontSizeInput.style.backgroundColor = color;
+
+    userNameBox.style.color = darkMode == 'true' ? '#efefef' : '#111111';
+    messageInput.style.color = darkMode == 'true' ? '#efefef' : '#111111';
+    fontSizeInput.style.color = darkMode == 'true' ? '#efefef' : '#111111';
+}
+
+function setIconsColor(color){
+    var allIcons = document.querySelectorAll("i");
+
+    var minimizeButton = document.querySelector(".chatBoxStatic__minimizeButton");
+    var backButton = document.querySelector(".chatBoxStatic__backButton");
+    var showButton = document.querySelector(".chatBoxStatic__showButton");
+
+
+    allIcons.forEach( (e) => {
+        e.style.color = color;
+    });
+
+    minimizeButton.querySelectorAll("i").forEach((e) => {e.style.color = "#efefef"});
+    backButton.querySelectorAll("i").forEach((e) => {e.style.color = "#efefef"});
+    showButton.querySelectorAll("i").forEach((e) => {e.style.color = "#efefef"});
+}
+
+
+function setTextColorsAndFontSize(color, fontSize){
+    var allParagraphs = document.querySelectorAll("p");
+    var messageText = document.querySelectorAll(".chatBoxStatic__messageText");
+    
+
+    allParagraphs.forEach( (e) => {
+        e.style.color = color;
+    });
+
+    messageText.forEach( (e) => {
+        e.style.fontSize = fontSize + "pt";
+    });
+
+}
+
+
+function setBackgroundsColor(color){
+    var recentConversationsList = document.querySelector(".chatBoxStatic__recentConversationsList");
+    var allBackGround = document.querySelector(".chatBoxStatic");
+    var popupBackground = document.querySelector(".chatBoxStatic__popup");
+
+    
+
+    popupBackground.style.backgroundColor = color;
+    recentConversationsList.style.backgroundColor = color;
+    allBackGround.style.backgroundColor = color;
+
 }
