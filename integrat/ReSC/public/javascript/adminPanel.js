@@ -34,7 +34,8 @@ async function getConverastions() {
                </span> 
            </div> 
          
-           <button onclick="setGlobalRoom(` + `)"> Chat </button>
+           <button class="btn__room" onclick="setGlobalRoom(` + `)""> Chat </button>
+            <button class="btn__room btn-ext"   onclick="exitConversation(` + `)"> Exit </button>
    </div>
        `;
     for (user in users) {
