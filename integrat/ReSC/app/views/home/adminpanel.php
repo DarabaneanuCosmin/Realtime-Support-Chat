@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../css/adminPanel.css" />
     <title>Document</title>
 </head>
 <!--
@@ -53,6 +52,14 @@
                 <img class="panel__setting__img" src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="">
             </div>
             <div>
+                <select id="themeSelect" name="panel__personalizare" class="panel__personalizare">
+                <option value = "1" selected="selected">LightMode</option>
+                <option value = "2" >DarkMode</option>
+            
+            </select>
+            <button id="themeBtn" class = "themeButton" onclick="applyTheme()">Apply</button>
+            </div>
+            <div>
                 <select name="panel__personalizare" class="panel__personalizare">
                 <option>Personalizeaza Conversatia</option>
                 <option>Schimba tema</option>
@@ -71,7 +78,7 @@
         </section>
     </div>
 
-
+    
 </body>
-
+<script src="/public/javascript/theme.js"></script>
 </html>

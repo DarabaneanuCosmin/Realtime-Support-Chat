@@ -259,6 +259,13 @@ SEARCH BUTTON
             top: 140px;
             margin: 5px 5px 5px 5px;
             padding: 6px 6px 6px 6px;
+            
+        }
+        .themeButton {
+            position: relative;
+            top:140px;
+            margin: 5px 5px 5px 5px;
+            padding: 6px 6px 6px 6px;
         }
         
         .panel__lowScreenDiv {
