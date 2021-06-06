@@ -7,13 +7,13 @@ const generateUniqueId = require('generate-unique-id');
 
 async function createRoom(req, res, sessionId) {
     try {
-        console.log(sessionId);
+
 
         const getSessionId = await db.pool.query("SELECT idUser from session WHERE sessionId = ?", [sessionId], async function(error, resultQuery) {
             if (error) {
                 throw error;
             } else {
-                console.log(resultQuery[0]);
+
                 if (resultQuery[0] != undefined) {
                     const idUser = resultQuery[0];
                     await getIdRoomByIdUser(req, res, idUser.idUser);
@@ -182,17 +182,17 @@ async function fetchMessages(req, res, idRoom, idSession) {
 
 
 async function addNewMessage(req, res, idRoom, clientMessage, sessionId) {
-    console.log(`Luam mesaje pentru ${idRoom} cu userId ${sessionId}`);
+
     let idUser = -1;
     var selectFrom = util.promisify(db.pool.query).bind(db.pool);
     var messages = [];
+
     selectFrom("SELECT idUser from session WHERE sessionId = ?", [sessionId])
         .then(async(rows) => {
             if (rows.length <= 0) {
                 throw "Invalid user id!";
             }
             idUser = rows[0].idUser;
-            console.log("idUser", idUser);
             return await selectFrom("SELECT idRoom, idUser from JOINMESSAGES  WHERE idUser = ?", [idUser]);
         }).then(async(rows) => {
 
@@ -202,9 +202,34 @@ async function addNewMessage(req, res, idRoom, clientMessage, sessionId) {
             for (var iterator = 0; iterator < rows.length; iterator++) {
                 if (rows[iterator].idRoom == idRoom) {
                     const now = new Date();
-                    console.log(now.toLocaleTimeString());
+
+                    //cod emoji
+                    var parse = clientMessage.split(/\s+/);
+                    var newText = "";
+                    for (var it = 0; it < parse.length; it++) {
+
+                        if (parse[it][0] == '$') {
+                            var wait = await selectFrom("SELECT nume,cod from emoji WHERE nume = ?", [parse[it]]).then(async(resultQuery) => {
+
+                                if (resultQuery.length > 0) {
+
+                                    newText += resultQuery[0].cod;
+                                    newText += " ";
+                                } else {
+
+                                    newText += parse[it];
+                                    newText += " ";
+
+                                }
+                            })
+                        } else {
+                            newText += parse[it];
+                            newText += " ";
+                        }
+                    }
+
                     db.insertIntoTable("INSERT INTO messages (idMesaj, idRoom, idUser, clientMessage, sent_message_date)" +
-                        " VALUES (nextval(messageIdSeq), ?,?,?,?)", [idRoom, idUser, clientMessage, now.toLocaleTimeString()], "messages");
+                        " VALUES (nextval(messageIdSeq), ?,?,?,?)", [idRoom, idUser, newText, now.toLocaleTimeString()], "messages");
                     const todos = { message: "Mesajul a fost adaugat cu succes!" };
                     res.writeHead(200, {
                         'Content-Type': 'application/json',

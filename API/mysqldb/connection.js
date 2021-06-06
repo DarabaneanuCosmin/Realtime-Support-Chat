@@ -3,6 +3,7 @@ const util = require("util");
 
 var pool = mysql.createPool({
     connectionLimit: 100,
+    multipleStatements: true,
     host: 'localhost',
     user: 'root',
     password: '',
@@ -28,7 +29,28 @@ function insertIntoTable(sql, values, tableName) {
 //de verificat daca respectivul user ii admin sau nu
 
 
+function createEmojiTable() {
+    var sql = "CREATE TABLE IF NOT EXISTS emoji (id BIGINT(200) NOT NULL, nume VARCHAR(256), cod VARCHAR(256), UNIQUE(id))";
+    pool.query(sql, (err, result) => {
 
+        if (err) { throw err; return; }
+        console.log("Table user created");
+    });
+}
+
+function populateEmojiTable() {
+    pool.query("REPLACE INTO emoji VALUES(1,'$happy','&#x1F600');" +
+        "REPLACE INTO emoji VALUES(2,'$love','&#x1F970');" +
+        " REPLACE INTO emoji VALUES(3,'$bread','&#x1F35E');" +
+        " REPLACE INTO emoji VALUES(4,'$earth','&#x1F30D');" +
+        " REPLACE INTO emoji VALUES(5,'$automobile','&#x1F697');" +
+        " REPLACE INTO emoji VALUES(6,'$flower','&#x1F33C');", (err, result) => {
+
+            if (err) { throw err; return; }
+            console.log("Insert or replace content from emoji table");
+        });
+
+}
 
 function createUserTable() {
     var sql = "CREATE TABLE IF NOT EXISTS  user (id VARCHAR(255) NOT NULL, username VARCHAR(255), password VARCHAR(255), rol VARCHAR(255), UNIQUE (id))";
@@ -111,24 +133,24 @@ function createMessageIdSequence() {
     });
 }
 
-function insertGlobalMessagesRoom(){
+function insertGlobalMessagesRoom() {
     var sql = "SELECT * FROM room WHERE idroom = " + globalChatRoomId;
 
     var selectFrom = util.promisify(pool.query).bind(pool);
 
     selectFrom(sql, [])
-    .then(
-        (rows) => {
-            if(rows.length > 0){
-                throw "Global messages room exista deja!";
-            } 
+        .then(
+            (rows) => {
+                if (rows.length > 0) {
+                    throw "Global messages room exista deja!";
+                }
 
-            return selectFrom("INSERT INTO room (idRoom, idAssignedAdmin, roomName) VALUES "+
-            "(?, ?, ?)", [globalChatRoomId, null, 'Global message room'])
-        }
-    ).catch((err) =>{
-        console.log(err);
-    })
+                return selectFrom("INSERT INTO room (idRoom, idAssignedAdmin, roomName) VALUES " +
+                    "(?, ?, ?)", [globalChatRoomId, null, 'Global message room'])
+            }
+        ).catch((err) => {
+            console.log(err);
+        })
 }
 
 module.exports = {
@@ -142,5 +164,7 @@ module.exports = {
     createUserIdSequence,
     createMessageIdSequence,
     insertGlobalMessagesRoom,
-    pool
+    pool,
+    createEmojiTable,
+    populateEmojiTable
 };
