@@ -122,20 +122,22 @@ async function openChat() {
 
         var ssid = getCookie('PHPSESSID');
         var oldMessages = await getMessages(ssid, roomID);
-        updateMessages(oldMessages);
+        await updateMessages(oldMessages);
 
-        let adminAdded = await addAdminToRoom(roomID, ssid).then((result) => conversation());
+        let adminAdded = await addAdminToRoom(roomID, ssid).then(async(result) => { await conversation() });
 
     }
 }
 
 async function conversation() {
+    var parse = "";
     var message = await getNewMessage();
     if (message.error == false) {
         var ok = 0;
         var newText = "";
-        var parse = message.clientMessage.split(/\s+/);
+        parse = message.clientMessage.split(/\s+/);
         for (var it = 0; it < parse.length; it++) {
+            ok = 0;
             if (parse[it][0] == '$') {
                 for (let [key, value] of emojiMap) {
                     if (parse[it] == key) {
@@ -155,7 +157,7 @@ async function conversation() {
             }
 
         }
-        console.log(newText);
+        parse = "";
         let userName = await getUserName(message.idUser);
         if (message.idRoom != -999) {
             if (message.idUser == userID) {
@@ -238,7 +240,6 @@ async function updateMessages(messages) {
             }
 
         }
-        console.log(newText);
         let userName = await getUserName(messages[index].idUser);
         lastMessageID = messages[index].idMesaj;
         if (messages[index].idRoom != -999) {
