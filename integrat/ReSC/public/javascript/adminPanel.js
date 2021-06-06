@@ -63,12 +63,12 @@ function exitConversation() {
     document.location.reload(true);
 }
 
-async function setGlobalRoom(localuserID) {
+async function setGlobalRoom() {
     localroomID = -999;
     var ssid = getCookie('PHPSESSID');
     let idUser = await getUserId(ssid);
 
-    setChatParams(idUser, localroomID);
+    setChatParams(idUser.idUser, localroomID);
 }
 
 async function setChatParams(uid, rid) {
@@ -116,14 +116,19 @@ async function openChat() {
         document.getElementById('messagesCenter').innerHTML = ".";
 
         var ssid = getCookie('PHPSESSID');
+        console.log("before update")
         var oldMessages = await getMessages(ssid, roomID);
+        console.log("updateMESSAGES");
         updateMessages(oldMessages);
 
+        console.log("ADMINTOROOM");
         let adminAdded = await addAdminToRoom(roomID, ssid).then((result) => conversation());
+
     }
 }
 
 async function getNewMessage() {
+    console.log(roomID, lastMessageID);
     let url = 'http://localhost:5000/api/message/' + roomID + '/' + lastMessageID + '/';
     const response = await fetch(url, {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
@@ -132,11 +137,14 @@ async function getNewMessage() {
         }
     });
     let data = await response.json();
+
     return data;
 }
 
 async function conversation() {
+    console.log("before get new message");
     var message = await getNewMessage();
+    console.log("after get new messages");
     if (message.error == false) {
         if (message.idUser == userID) {
             //client message
@@ -168,12 +176,15 @@ async function conversation() {
 }
 
 async function updateMessages(messages) {
+    var ssid = getCookie('PHPSESSID');
+    let idUser = await getUserId(ssid);
     messages.forEach((message) => {
         lastMessageID = message.idMesaj;
-        if (message.idUser == userID) {
-            //client message
-            var div = document.createElement('div');
-            div.innerHTML = `<div class="panel__incomingMessages">
+        if (message.idRoom != -999) {
+            if (message.idUser == userID) {
+                //client message
+                var div = document.createElement('div');
+                div.innerHTML = `<div class="panel__incomingMessages">
             <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="" class="panel__img">
             <div class="panel_details">
                 <p class="p__d">
@@ -181,15 +192,38 @@ async function updateMessages(messages) {
                 </p>
             </div>
         </div>`;
-            document.getElementById('messagesCenter').appendChild(div);
-        } else {
-            var div = document.createElement('div');
-            div.innerHTML = ` <div class="panel__output">
+                document.getElementById('messagesCenter').appendChild(div);
+            } else {
+                var div = document.createElement('div');
+                div.innerHTML = ` <div class="panel__output">
             <div class="panel_details">
             <p class="p__details">` + message.clientMessage + `</p>
             </div>
             </div>`;
-            document.getElementById('messagesCenter').appendChild(div);
+                document.getElementById('messagesCenter').appendChild(div);
+            }
+        } else {
+            if (message.idUser != userID) {
+                //client message
+                var div = document.createElement('div');
+                div.innerHTML = `<div class="panel__incomingMessages">
+            <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="" class="panel__img">
+            <div class="panel_details">
+                <p class="p__d">
+                ` + message.clientMessage + `
+                </p>
+            </div>
+        </div>`;
+                document.getElementById('messagesCenter').appendChild(div);
+            } else {
+                var div = document.createElement('div');
+                div.innerHTML = ` <div class="panel__output">
+            <div class="panel_details">
+            <p class="p__details">` + message.clientMessage + `</p>
+            </div>
+            </div>`;
+                document.getElementById('messagesCenter').appendChild(div);
+            }
         }
     });
 }
@@ -229,6 +263,7 @@ async function addAdminToRoom(roomID, sessionID) {
         },
     });
     let data = await response.json();
+
     return await data;
 }
 

@@ -164,14 +164,14 @@ const server = http.createServer(async(req, res) => {
         const sessionId = req.url.split('/')[4];
 
         addAdminToRoom(req, res, idRoom, sessionId);
-    } else if (req.url.match(/\/api\/message\/([a-z A-Z 0-9]+)\/([a-z A-Z 0-9 -]+)/) &&
+    } else if (req.url.match(/\/api\/message\/([a-z A-Z 0-9 -]+)\/([a-z A-Z 0-9 -]+)/) &&
         req.method === 'GET') {
         //idRoom
         //idMessage
 
         const idRoom = req.url.split('/')[3];
         const idMessage = req.url.split('/')[4];
-
+        console.log("idROOM", idRoom, "IDMESSAGE", idMessage);
         getOneMessage(req, res, idRoom, idMessage);
     } else if (req.url === '/api/generateSession' && req.method === 'POST') {
 
