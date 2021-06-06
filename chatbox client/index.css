@@ -63,7 +63,6 @@
 .chatBoxStatic__recentConversationsList{
     position: absolute;
     overflow-y: auto;
-    background-color: #E1E1E0;
     color: white;
     height: 100%;
     z-index: 1338;
@@ -111,8 +110,8 @@
     align-items: center;
     position: relative;
     padding: 4px;
-    background-color: #EFEFEF;
     border: 0.5px solid #1F5F6F;
+    background-color: transparent;
     border-top: 0px;
 }
 
@@ -235,6 +234,7 @@
     display: block;
     text-align: center;
     margin: 0 0 0.5em 0;
+    color: #efefef;
 }
 
 .chatBoxStatic__messageMask{
@@ -474,3 +474,77 @@
     border: 1px solid #EFEFEF;
     outline-color: #EFEFEF;
 }
+
+
+.chatBoxStatic__switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+.chatBoxStatic__switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+.chatBoxStatic__slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+.chatBoxStatic__slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+input:checked + .chatBoxStatic__slider {
+    background-color: #2196F3;
+  }
+  
+input:focus + .chatBoxStatic__slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+input:checked + .chatBoxStatic__slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+
+.chatBoxStatic__appearenceSettings{
+      width: 100%;
+      position: absolute;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      bottom: 0px;
+  }
+.chatBoxStatic__darkModeText, .chatBoxStatic__fontSizeText{
+    color: #111111;
+}
+
+.chatBoxStatic__fontSizeTextInput{
+    margin: 2px auto 5px auto;
+}
+.chatBoxStatic__darkModeText, .chatBoxStatic__switch,
+.chatBoxStatic__changeAppearenceButton{
+      margin: 5px auto;
+}
+
+

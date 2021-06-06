@@ -73,7 +73,26 @@
                   <p class="chatBoxStatic__recentLastMessage"> That's a big 10-4, good buddy!</p>
                </div>
             </div>
+
          </div>
+
+         <div class="chatBoxStatic__appearenceSettings">
+            <p class="chatBoxStatic__darkModeText">Dark mode</p>
+            <label class="chatBoxStatic__switch" >
+               <input type="checkbox" class="chatBoxStatic__darkModeCheckBox">
+               <span class="chatBoxStatic__slider"></span>
+            </label>
+
+
+             <p class="chatBoxStatic__fontSizeText">Fontsize</p>
+             <input type="text" class="chatBoxStatic__fontSizeTextInput">
+
+            <button class="chatBoxStatic__changeAppearenceButton chatBoxStatic__sendMessageButton" type="button">Change appearence!</button>
+
+         </div>
+
+         
+        
       </div>
 
       <div class="chatBoxStatic__popup">
@@ -91,8 +110,8 @@
          <div class="chatBoxStatic__gdprNoticeAll">
             <p class="chatBoxStatic__gdprnoticeHeader">Enter your username below. </p>
 
-            <form class="chatBoxStatic__provideUsernameForm">
-               <input type="text" class="chatBoxStatic__userNameConsentBox">
+            <form class="chatBoxStatic__provideUsernameForm" onkeydown="return event.key != 'Enter';">
+               <input type="text"  class="chatBoxStatic__userNameConsentBox">
                <button type="button" class="chatBoxStatic__consentSubmitButton">Submit</button>
             </form>
    
