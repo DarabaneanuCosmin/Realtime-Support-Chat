@@ -5,6 +5,12 @@
         Chat button 
         
         */
+        button:hover {
+            background-position: 100% 0;
+            -o-transition: all .4s ease-in-out;
+            -webkit-transition: all .4s ease-in-out;
+            transition: all .4s ease-in-out;
+        }
         
         #back-btn {
             width: 50%;
