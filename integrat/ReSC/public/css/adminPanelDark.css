@@ -9,10 +9,16 @@ Chat button
 #back-btn {
     width: 50%;
     position: fixed;
-    top: 10px;
+    top: 1em;
+    height: 2em;
     border-radius: 10%;
-    left: 14px;
+    left: 25%;
+    background-size: 300% 100%;
+    background-image: linear-gradient(to right, #72808f, #85add8, #69acd8, #7b68be);
+    box-shadow: 0 4px 15px 0 rgba(45, 54, 65, 0.75);
 }
+
+
 
 .btn__room {
     border-radius: 10%;
@@ -21,6 +27,9 @@ Chat button
     margin-right: 20px;
     margin-left: 20px;
     float: right;
+    background-size: 300% 100%;
+    background-image: linear-gradient(to right, #72808f, #85add8, #69acd8, #7b68be);
+    box-shadow: 0 4px 15px 0 rgba(45, 54, 65, 0.75);
 }
 
 .chat__message {
@@ -76,6 +85,7 @@ Exit button
     padding: 15px 10px 15px 15px;
     margin: 18px 10px 15px 12px;
     display: flex;
+    justify-content: space-between;
 }
 
 .panel__details a img .panel_conversation {
@@ -120,6 +130,8 @@ Exit button
     
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    align-content: space-between;
     box-shadow: 0 0 32px rgb( 0 0 0 / 8%), 0 16px 16px -16px rgb(0 0 0 / 10%);
 }
 
@@ -263,6 +275,9 @@ SEARCH BUTTON
     top: 140px;
     margin: 5px 5px 5px 5px;
     padding: 6px 6px 6px 6px;
+    background-size: 300% 100%;
+    background-image: linear-gradient(to right, #72808f, #85add8, #69acd8, #7b68be);
+    box-shadow: 0 4px 15px 0 rgba(45, 54, 65, 0.75);
     
 }
 .themeButton {
@@ -270,6 +285,9 @@ SEARCH BUTTON
     top:140px;
     margin: 5px 5px 5px 5px;
     padding: 6px 6px 6px 6px;
+    background-size: 300% 100%;
+    background-image: linear-gradient(to right, #72808f, #85add8, #69acd8, #7b68be);
+    box-shadow: 0 4px 15px 0 rgba(45, 54, 65, 0.75);
 }
 
 .panel__lowScreenDiv {
@@ -304,6 +322,9 @@ SEARCH BUTTON
     }
     .panel__readMessages {
         display: none;
+    }
+    .panel_conversation{
+        flex-wrap: wrap;
     }
     .panel__lowScreenDiv {
         display: block;

@@ -108,6 +108,14 @@ class Home extends Controller
         $this->view('home/adminpanel', []);
     }
 
+    public function documentation(){
+        $this->view('home/documentation', []);
+    }
+
+    public function swagger(){
+        $this->view('home/swagger', []);
+    }
+
     public function about(){
         $this->view('home/about', []);
     }

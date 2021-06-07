@@ -9,9 +9,13 @@
         #back-btn {
             width: 50%;
             position: fixed;
-            top: 10px;
+            top: 1em;
+            height: 2em;
             border-radius: 10%;
-            left: 14px;
+            left: 25%;
+            background-size: 300% 100%;
+            background-image: linear-gradient(to right, #4a585e, #4e5d75, #8c9699, #6a7481);
+            box-shadow: 0 4px 15px 0 rgba(141, 152, 168, 0.75);
         }
         
         .btn__room {
@@ -21,6 +25,9 @@
             margin-right: 20px;
             margin-left: 20px;
             float: right;
+            background-size: 300% 100%;
+            background-image: linear-gradient(to right, #4a585e, #4e5d75, #8c9699, #6a7481);
+            box-shadow: 0 4px 15px 0 rgba(141, 152, 168, 0.75);
         }
         
         .chat__message {
@@ -68,6 +75,7 @@
             padding: 15px 10px 15px 15px;
             margin: 18px 10px 15px 12px;
             display: flex;
+            justify-content: space-between;
         }
         
         .panel__details a img .panel_conversation {
@@ -122,6 +130,7 @@
             padding: 10px 30px 20px 30px;
             box-shadow: ivory;
             display: flex;
+            justify-content: space-between;
             flex-direction: column;
             box-shadow: 0 0 32px rgb( 0 0 0 / 8%), 0 16px 16px -16px rgb(0 0 0 / 10%);
         }
@@ -259,13 +268,18 @@ SEARCH BUTTON
             top: 140px;
             margin: 5px 5px 5px 5px;
             padding: 6px 6px 6px 6px;
-            
+            background-size: 300% 100%;
+            background-image: linear-gradient(to right, #4a585e, #4e5d75, #8c9699, #6a7481);
+            box-shadow: 0 4px 15px 0 rgba(141, 152, 168, 0.75);
         }
         .themeButton {
             position: relative;
             top:140px;
             margin: 5px 5px 5px 5px;
             padding: 6px 6px 6px 6px;
+            background-size: 300% 100%;
+            background-image: linear-gradient(to right, #4a585e, #4e5d75, #8c9699, #6a7481);
+            box-shadow: 0 4px 15px 0 rgba(141, 152, 168, 0.75);
         }
         
         .panel__lowScreenDiv {
@@ -307,6 +321,9 @@ SEARCH BUTTON
             .panel__lowScreenBtn {
                 width: 40%;
                 height: 40px;
+            }
+            .panel_conversation{
+                flex-wrap: wrap;
             }
             .panel__sendMessages {
                 height: 90vh;

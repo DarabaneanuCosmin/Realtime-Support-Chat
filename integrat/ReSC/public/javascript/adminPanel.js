@@ -23,9 +23,10 @@ async function getConverastions() {
                Global room
                </span> 
            </div> 
-         
+           <div class="auxBtn">
            <button class="btn__room" onclick="setGlobalRoom(` + `)""> Chat </button>
             <button class="btn__room btn-ext"   onclick="exitConversation(` + `)"> Exit </button>
+            </div>
    </div>
        `;
     for (user in users) {
@@ -42,10 +43,11 @@ async function getConverastions() {
                             ` + userName.username + `
                             </span> 
                         </div> 
-                       
+
+                        <div class="auxBtn">
                         <button class="btn__room" onclick="setChatParams(` + localuserID + `,` + localroomID + `)"> Chat </button>
                         <button class="btn__room btn-ext"   onclick="exitConversation(` + `)"> Exit </button>
-                        
+                        </div>
                 </div>`
             document.getElementById('conversations').appendChild(div);
         }
@@ -73,7 +75,7 @@ async function setChatParams(uid, rid) {
 
         document.getElementById("conversations").style['display'] = 'none';
 
-        document.getElementById("read__messages").style['display'] = 'block';
+        document.getElementById("read__messages").style['display'] = 'flex';
         document.getElementById("read__messages").style.width = '100%';
 
         var btn = document.createElement('button');
@@ -160,7 +162,7 @@ async function conversation() {
                 <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="" class="panel__img">
                 <div class="panel_details">
                     <p class="p__d">
-                    ` + `<u>` + userName.username + `</u> : ` + sanitizeHTML(newText) + `
+                    ` + `<u>` + userName.username + `</u> : ` + newText + `
                     </p>
                 </div>
             </div>`;
@@ -170,7 +172,7 @@ async function conversation() {
                 var div = document.createElement('div');
                 div.innerHTML = ` <div class="panel__output">
                 <div class="panel_details">
-                <p class="p__details">` + `<u>` + userName.username + `</u> : ` + sanitizeHTML(newText) + `</p>
+                <p class="p__details">` + `<u>` + userName.username + `</u> : ` + newText + `</p>
                 </div>
                 </div>`;
                 document.getElementById('messagesCenter').appendChild(div);
