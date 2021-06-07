@@ -249,6 +249,12 @@ function updateMessageBubbles(messages) {
         newSpeechBubble.querySelector(".chatBoxStatic__messageText")
         .style.fontSize = fontSize + "pt";
 
+        newSpeechBubble.querySelectorAll(".chatBoxStatic__senderLabel")
+        .forEach((e) => {
+            e.style.color = darkMode == 'true' ? '#efefef' : "#111111";
+        })
+        
+
         messageContainer.appendChild(newSpeechBubble);
     }
     )
