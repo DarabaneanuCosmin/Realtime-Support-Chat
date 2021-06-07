@@ -24,9 +24,6 @@
             <script src="/public/javascript/adminPanel.js"></script>
         </section>
 
-
-
-
         <div class="panel__readMessages" id="read__messages">
             <div id="messagesCenter">
             </div>
@@ -36,10 +33,9 @@
             </div>
         </div>
 
-
         <section class="panel__settings">
             <div>
-                <img class="panel__setting__img" src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="">
+                <img class="panel__setting__img" alt="photo" src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="">
             </div>
             <div>
                 <select id="themeSelect" name="panel__personalizare" class="panel__personalizare">
@@ -49,25 +45,8 @@
             </select>
             <button id="themeBtn" class = "themeButton" onclick="applyTheme()">Apply</button>
             </div>
-            <div>
-                <select name="panel__personalizare" class="panel__personalizare">
-                <option>Personalizeaza Conversatia</option>
-                <option>Schimba tema</option>
-                <option>Schimba emoji-ul</option>
-            </select>
-            </div>
-            <div>
-                <select name="panel__personalizare" class="panel__personalizare">
-                <option>Confidentialitate si asistenta</option>
-                <option>Sterge conversatia</option>
-                <option>Blocheaza</option>
-                
-            </select>
-            </div>
-
         </section>
     </div>
-
     
 </body>
 <script src="/public/javascript/theme.js"></script>

@@ -17,7 +17,7 @@ async function getConverastions() {
 
     document.getElementById('conversations').innerHTML = `<p class="message">Conversations</p>
        <div class = "panel_conversation">
-       <img class ="panel__image" src ="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80 ">
+       <img class ="panel__image" alt="photo" src ="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80 ">
            <div class ="paneldetails"> 
                <span class="chat__message"> 
                Global room
@@ -36,7 +36,7 @@ async function getConverastions() {
             var div = document.createElement('a');
 
             div.innerHTML = `<div class = "panel_conversation">
-                    <img class ="panel__image" src ="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80 ">
+                    <img class ="panel__image" alt="photo" src ="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80 ">
                         <div class ="paneldetails"> 
                             <span class="chat__message"> 
                             ` + userName.username + `
@@ -160,7 +160,7 @@ async function conversation() {
                 <img src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="" class="panel__img">
                 <div class="panel_details">
                     <p class="p__d">
-                    ` + `<u>` + userName.username + `</u> : ` + newText + `
+                    ` + `<u>` + userName.username + `</u> : ` + sanitizeHTML(newText) + `
                     </p>
                 </div>
             </div>`;
@@ -170,7 +170,7 @@ async function conversation() {
                 var div = document.createElement('div');
                 div.innerHTML = ` <div class="panel__output">
                 <div class="panel_details">
-                <p class="p__details">` + `<u>` + userName.username + `</u> : ` + newText + `</p>
+                <p class="p__details">` + `<u>` + userName.username + `</u> : ` + sanitizeHTML(newText) + `</p>
                 </div>
                 </div>`;
                 document.getElementById('messagesCenter').appendChild(div);
@@ -388,4 +388,12 @@ async function getUserId(sessionId) {
     });
     let data = await response.json();
     return data;
+}
+
+
+
+function sanitizeHTML(text) {
+    var element = document.createElement('div');
+    element.innerText = text;
+    return element.innerHTML;
 }
