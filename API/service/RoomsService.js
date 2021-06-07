@@ -1,8 +1,9 @@
+const utils = require("../utils/utils");
+
+
 const db = require("../mysqldb/connection");
 const util = require("util");
-const uuid = require('uuid');
 const { randomIntFromInterval } = require("../utils/mymaths");
-
 
 
 const globalChatRoomIdDefault = -999;
@@ -97,7 +98,7 @@ async function listRooms(req, res, sessionId) {
                 var rooms = [];
 
 
-                for(row = 0; row < roomRows.length; row++){
+                for (row = 0; row < roomRows.length; row++) {
                     let roomInfo = await getRoomData(roomRows[row].idRoom);
 
                     rooms.push(roomInfo);
@@ -107,8 +108,8 @@ async function listRooms(req, res, sessionId) {
                     'Content-Type': 'application/json',
                     "Access-Control-Allow-Origin": "*"
                 });
-    
-    
+
+
                 res.end(JSON.stringify(rooms));
 
             }).catch((err) => {
@@ -164,14 +165,14 @@ async function getRoomData(idRoom) {
             let participantsCount = 0;
 
             participantsCount = await querryExecutor("SELECT COUNT(*) as nrParticipanti FROM JOINMESSAGES"
-            + " WHERE idRoom = ?", [idRoom])
-            .then((rows) => {
-                if (rows.length <= 0) {
-                    return 0;
-                }
+                + " WHERE idRoom = ?", [idRoom])
+                .then((rows) => {
+                    if (rows.length <= 0) {
+                        return 0;
+                    }
 
-                return rows[0].nrParticipanti;
-            })
+                    return rows[0].nrParticipanti;
+                })
 
             return { ...rows[0], lastMessage, adminName, participantsCount };
         })
@@ -185,10 +186,10 @@ async function getRoomData(idRoom) {
 }
 
 
-async function relayRoomData(req, res, idRoom){
+async function relayRoomData(req, res, idRoom) {
     roomData = await getRoomData(idRoom);
 
-    if('error' in roomData && roomData.error === 1){
+    if ('error' in roomData && roomData.error === 1) {
         res.writeHead(400, {
             'Content-Type': 'application/json',
             "Access-Control-Allow-Origin": "*"
@@ -206,9 +207,216 @@ async function relayRoomData(req, res, idRoom){
     }
 }
 
+async function createRoom(req, res, sessionId) {
+    try {
+        const getSessionId = await db.pool.query("SELECT idUser from session WHERE sessionId = ?", [sessionId], async function (error, resultQuery) {
+            if (error) {
+                throw error;
+            } else {
+
+                if (resultQuery[0] != undefined) {
+                    const idUser = resultQuery[0];
+                    await getIdRoomByIdUser(req, res, idUser.idUser);
+                } else {
+                    let message = { message: `SessionId : ${sessionId} does not exist in db!` };
+                    res.writeHead(404, {
+                        'Content-Type': 'application/json',
+                        "Access-Control-Allow-Origin": "*"
+                    });
+                    res.end(JSON.stringify(message));
+                }
+            }
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+
+async function getIdRoomByIdUser(req, res, idUser) {
+    try {
+
+        const resultQuery = await db.pool.query("SELECT idRoom from JOINMESSAGES  WHERE idUser = ?", [idUser], function (error, result) {
+            if (error) {
+                throw error;
+            } else {
+
+                if (result[0] != undefined) {
+                    let message = { idRoom: result[0].idRoom, message: 'Returning already created room!' };
+                    res.writeHead(200, {
+                        'Content-Type': 'application/json',
+                        "Access-Control-Allow-Origin": "*"
+                    });
+                    res.end(JSON.stringify(message));
+                } else {
+                    const id = utils.between(100, 12000000000);
+                    db.insertIntoTable("INSERT INTO room (idRoom,idAssignedAdmin) VALUES (?,?)", [id, null]);
+                    db.insertIntoTable("INSERT INTO joinmessages (idRoom, idUser) VALUES(?,?)", [id, idUser]);
+                    let message = { message: "The room does not exist! A new one is added!", idRoom: id };
+                    res.writeHead(201, {
+                        'Content-Type': 'application/json',
+                        "Access-Control-Allow-Origin": "*"
+                    });
+                    res.end(JSON.stringify(message));
+                }
+
+            }
+        });
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+async function getAllRooms(req, res) {
+    try {
+        var messages = [];
+        var ok;
+        const resultQuery = await db.pool.query("SELECT idRoom, idUser from messages", async function (error, result) {
+            if (error) {
+                throw error;
+            } else {
+
+                if (result[0] != undefined) {
+
+                    result.forEach((element) => {
+                        messages.push(element);
+
+                    });
+                    var msg = [];
+                    var ok;
+                    for (id in messages) {
+                        ok = 0;
+                        for (iterator in msg) {
+                            if (msg[iterator].idRoom == messages[id].idRoom) {
+                                ok = 1;
+                                break;
+                            }
+
+                        }
+                        if (ok == 0) {
+                            msg.push({ "error": false, "idRoom": messages[id].idRoom, "idUser": messages[id].idUser });
+                        }
+                    }
+
+                    res.writeHead(200, {
+                        'Content-Type': 'application/json',
+                        "Access-Control-Allow-Origin": "*"
+                    });
+                    res.end(JSON.stringify(msg));
+                } else {
+                    let message = { "error": true, message: 'No new rooms!' };
+
+                    res.writeHead(201, {
+                        'Content-Type': 'application/json',
+                        "Access-Control-Allow-Origin": "*"
+                    });
+                    res.end(JSON.stringify(message));
+                }
+
+            }
+        });
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+}
+
+
+async function addUserInRoom(req, res, idRoom, idUser) {
+    console.log("idRoom", idRoom);
+
+    if (idUser != undefined) {
+        if (idRoom != undefined) {
+            let message = idRoom;
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(message));
+        } else {
+            const id = utils.between(100, 12000000000);
+            db.insertIntoTable("INSERT INTO room (idRoom, idAssignedAdmin) VALUES (?,?)", [id, null]);
+            db.insertIntoTable("INSERT INTO joinmessages (idRoom, idUser) VALUES(?,?)", [id, idUser]);
+            let message = { message: "Room-ul nu exista. Adaugam unul!", idRoom: id };
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(message));
+        }
+    }
+}
+
+
+async function addAdminToRoom(req, res, idRoom, sessionId) {
+    try {
+        const getSessionId = await db.pool.query("SELECT idUser from session WHERE sessionId = ?", [sessionId], async function (error, resultQuery) {
+            if (error) {
+                throw error;
+            } else {
+                if (resultQuery[0] != undefined) {
+                    const idUser = resultQuery[0].idUser;
+
+                    const verifyJoinMessages = await db.pool.query("SELECT idAssignedAdmin from room WHERE idRoom = ?", [idRoom], async function (error, queryResult) {
+
+                        if (queryResult[0].idAssignedAdmin != idUser) {
+                            const resultQuery1 = await db.pool.query("update room set idAssignedAdmin = ? WHERE idRoom = ?", [idUser, idRoom], async function (error, result) {
+                                if (error) {
+                                    throw error;
+                                } else {
+                                    const ress = await db.pool.query("INSERT INTO JOINMESSAGES (idRoom, idUser) VALUES(?,?)", [idRoom, idUser], function (error, resultInsert) {
+                                        if (error) {
+                                            throw error;
+                                        } else {
+
+                                            var message = { "message": 'Succesfully!' };
+                                            res.writeHead(200, {
+                                                'Content-Type': 'application/json',
+                                                "Access-Control-Allow-Origin": "*"
+                                            });
+                                            res.end(JSON.stringify(message));
+                                        }
+                                    });
+
+                                }
+                            });
+                        } else {
+                            let message = { message: `Adminul a fost adaugat deja in acest room!` };
+                            res.writeHead(200, {
+                                'Content-Type': 'application/json',
+                                "Access-Control-Allow-Origin": "*"
+                            });
+                            res.end(JSON.stringify(message));
+
+                        }
+                    });
+
+                } else {
+                    let message = { message: `SessionId : ${sessionId} does not exist in db!` };
+                    res.writeHead(404, {
+                        'Content-Type': 'application/json',
+                        "Access-Control-Allow-Origin": "*"
+                    });
+                    res.end(JSON.stringify(message));
+                }
+            }
+        });
+
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 module.exports = {
     createPrivateRoomAndAddToGlobal,
     listRooms,
-    relayRoomData
+    getRoomData,
+    relayRoomData,
+    createRoom,
+    getIdRoomByIdUser,
+    getAllRooms,
+    onlyUnique,
+    addUserInRoom,
+    addAdminToRoom
 }
