@@ -88,7 +88,7 @@ async function getAllRooms(req, res) {
                         messages.push(element);
 
                     });
-                    const msg = [];
+                    var msg = [];
                     var ok;
                     for (id in messages) {
                         ok = 0;
@@ -191,10 +191,9 @@ async function addNewMessage(req, res, idRoom, clientMessage, sessionId) {
     var selectFrom = util.promisify(db.pool.query).bind(db.pool);
     var messages = [];
 
-    clientMessage  = sanitizeHtml(clientMessage,
-        {
-            disallowedTagsMode: 'recursiveEscape'
-        });
+    clientMessage = sanitizeHtml(clientMessage, {
+        disallowedTagsMode: 'recursiveEscape'
+    });
 
     selectFrom("SELECT idUser from session WHERE sessionId = ?", [sessionId])
         .then(async(rows) => {

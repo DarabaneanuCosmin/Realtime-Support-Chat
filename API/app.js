@@ -21,8 +21,7 @@ const {
     createUserIdSequence,
     createMessageIdSequence,
     insertGlobalMessagesRoom,
-    createEmojiTable,
-    populateEmojiTable
+    addAdmin
 } = require('./mysqldb/connection');
 
 
@@ -57,8 +56,7 @@ createAdminTable();
 createUserIdSequence();
 createMessageIdSequence();
 insertGlobalMessagesRoom();
-createEmojiTable();
-populateEmojiTable();
+addAdmin();
 const server = http.createServer(async(req, res) => {
 
     const corsHeaders = {

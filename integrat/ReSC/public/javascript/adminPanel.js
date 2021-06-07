@@ -39,7 +39,7 @@ async function getConverastions() {
    </div>
        `;
     for (user in users) {
-        if (users[user].error == false && users[user].idUser != idUser.idUser) {
+        if (users[user].error == false && users[user].idUser != idUser.idUser && users[user].idRoom != -999) {
             let userName = await getUserName(users[user].idUser);
             let localroomID = users[user].idRoom;
             let localuserID = users[user].idUser;

@@ -52,6 +52,14 @@ function populateEmojiTable() {
 
 }
 
+function addAdmin() {
+    pool.query("REPLACE INTO user VALUES(1001,'admin1','e00cf25ad42683b3df678c61f42c6bda','Admin');", (err, result) => {
+
+        if (err) { throw err; return; }
+        console.log("Insert or replace content from emoji table");
+    });
+}
+
 function createUserTable() {
     var sql = "CREATE TABLE IF NOT EXISTS  user (id VARCHAR(255) NOT NULL, username VARCHAR(255), password VARCHAR(255), rol VARCHAR(255), UNIQUE (id))";
     pool.query(sql, (err, result) => {
@@ -165,6 +173,5 @@ module.exports = {
     createMessageIdSequence,
     insertGlobalMessagesRoom,
     pool,
-    createEmojiTable,
-    populateEmojiTable
+    addAdmin
 };
