@@ -12,12 +12,11 @@ class Home extends Controller
         while($user->existsId("SELECT id FROM USER WHERE id = ?",$number) == true){
             $number =  rand(1,99999);
         }
-        echo $number;
         $sessionData = [
             'sessionId'=> session_id(),
             'idUser'=> $number,
             'create_date' => date('H:i:s'),
-            'username'=> $_SESSION['NULL']
+            'username'=> NULL
         ];
         $user->insertIntoSession($sessionData);
     }

@@ -25,13 +25,13 @@ function loadThemeFromCookie(){
             if(oldCss != null){
                 oldCss.parentNode.removeChild(oldCss);
             }
-            link.href = '../../css/adminPanelLight.css';
+            link.href = '../css/adminPanelLight.css';
         }else if(theme == 'dark'){
             var oldCss = document.getElementsByTagName('link')[1];
             if(oldCss != null){
                 oldCss.parentNode.removeChild(oldCss);
             }
-            link.href = '../../css/adminPanelDark.css';
+            link.href = '../css/adminPanelDark.css';
         }
         head.appendChild(link);
     }else{
@@ -39,7 +39,7 @@ function loadThemeFromCookie(){
         if(oldCss != null){
             oldCss.parentNode.removeChild(oldCss);
         }
-        link.href = '../../css/adminPanelLight.css';
+        link.href = '../css/adminPanelLight.css';
         localStorage.setItem('theme','light');
         head.appendChild(link);
     }
@@ -58,7 +58,7 @@ function loadTheme(){
             if(oldCss != null){
                 oldCss.parentNode.removeChild(oldCss);
             }
-            link.href = '../../css/adminPanelLight.css';
+            link.href = '../css/adminPanelLight.css';
             localStorage.setItem('theme','light');
         }
         if(themeIndex == 2){
@@ -66,7 +66,7 @@ function loadTheme(){
             if(oldCss != null){
                 oldCss.parentNode.removeChild(oldCss);
             }
-            link.href = '../../css/adminPanelDark.css';
+            link.href = '../css/adminPanelDark.css';
             localStorage.setItem('theme','dark');
         }
     }
