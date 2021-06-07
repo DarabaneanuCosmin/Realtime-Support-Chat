@@ -233,71 +233,7 @@ async function addNewMessage(req, res, idRoom, clientMessage, sessionId) {
             res.end(JSON.stringify({ message: err, error: 1 }));
         });
 }
-/*
-// @desc add a new message to the database
-// @route POST /api/messages/{:idRoom}/{:sessionId} with body : {"clientMessage" : ":clientMessage"}
-async function addNewMessages(req, res, idRoom, clientMessage, sessionId) {
-    try {
-        const getSessionId = await db.pool.query("SELECT idUser from session WHERE sessionId = ?", [sessionId],
-            async function(error, resultQuery) {
-                if (error) {
-                    throw error;
-                } else {
-                    console.log(resultQuery[0]);
-                    if (resultQuery[0] != undefined) {
-                        const idUser = resultQuery[0].idUser;
 
-                        const resultQuery1 = await db.pool.query("SELECT idRoom, idUser from JOINMESSAGES  WHERE idUser = ?", [idUser],
-                            function(error, result) {
-                                if (error) {
-                                    throw error;
-                                } else {
-
-                                    if (result.length > 0) {
-                                        console.log(result[0].idRoom, result[0].idUser);
-                                        for (var iterator = 0; iterator < result.length; iterator++) {
-                                            if (result[iterator].idRoom == idRoom && result[iterator].idUser == idUser) {
-                                                const now = new Date();
-                                                console.log(now.toLocaleTimeString());
-                                                db.insertIntoTable("INSERT INTO messages (idMesaj, idRoom, idUser, clientMessage, sent_message_date) VALUES (nextval(messageIdSeq), ?,?,?,?)", [idRoom, idUser, clientMessage, now.toLocaleTimeString()], "messages");
-                                                const todos = { message: "Mesajul a fost adaugat cu succes!" };
-                                                res.writeHead(200, {
-                                                    'Content-Type': 'application/json',
-                                                    "Access-Control-Allow-Origin": "*"
-                                                });
-                                                res.end(JSON.stringify(todos));
-                                                break;
-                                            }
-
-                                        }
-
-                                    } else {
-                                        const todos = { message: "The received roomID/ iUser should match with the informations from  database" };
-                                        res.writeHead(404, {
-                                            'Content-Type': 'application/json',
-                                            "Access-Control-Allow-Origin": "*"
-                                        });
-                                        res.end(JSON.stringify(todos));
-                                    }
-                                }
-                            });
-
-                    } else {
-                        let message = { message: `SessionId : ${sessionId} does not exist in db!` };
-                        res.writeHead(404, {
-                            'Content-Type': 'application/json',
-                            "Access-Control-Allow-Origin": "*"
-                        });
-                        res.end(JSON.stringify(message));
-                    }
-                }
-            });
-
-    } catch (error) {
-        console.log(error);
-    }
-}
-*/
 async function addUserInRoom(req, res, idRoom, idUser) {
     console.log("idRoom", idRoom);
 
@@ -455,15 +391,6 @@ async function generateSessionCookie(req, res) {
     res.end(JSON.stringify(mesajReturn));
 }
 
-async function getSession(req, res, session_id) {
-    try {
-        const todos = session_id;
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify(todos));
-    } catch (error) {
-        console.log(error);
-    }
-}
 async function getUserBasicData(req, res, session_id) {
 
     userPresent = await sessionExists(session_id);
@@ -509,9 +436,7 @@ module.exports = {
     getUserBasicData,
     createSession,
     fetchMessages,
-    getSession,
     updateSessionUserName,
-
     generateSessionCookie,
     getAllRooms,
     addNewMessage

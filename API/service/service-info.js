@@ -134,15 +134,6 @@ async function addAdminToRoom(req, res, idRoom, sessionId) {
     }
 }
 
-async function getRoomByUserId(req, res, idUser) {
-    try {
-
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify(todos));
-    } catch (error) {
-        console.log(error);
-    }
-}
 
 async function getAllFromRoom(req, res, idRoom) {
     try {
@@ -154,16 +145,6 @@ async function getAllFromRoom(req, res, idRoom) {
     }
 }
 
-async function getContentForUser(req, res, idRoom, idClient) {
-    try {
-        const todos = idRoom;
-        console.log(idRoom, idClient);
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify(todos));
-    } catch (error) {
-        console.log(error);
-    }
-}
 async function getNumberOfMessages(req, res, idRoom, idUser, numberOfMessages) {
     try {
 
@@ -173,36 +154,14 @@ async function getNumberOfMessages(req, res, idRoom, idUser, numberOfMessages) {
         console.log(error);
     }
 }
-async function deleteRoom(req, res, idRoom) {
-    try {
-        console.log(idRoom);
-        const todos = idRoom;
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify(todos));
-    } catch (error) {
-        console.log(error);
-    }
-}
 
-async function getAdminList(req, res) {
-    try {
-        const todos = "YESSSSSSSSS";
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify(todos));
-    } catch (error) {
-        console.log(error);
-    }
-}
+
 
 
 module.exports = {
     getUsernameFromSessionTableById,
-    getRoomByUserId,
     getAllFromRoom,
-    getContentForUser,
     getNumberOfMessages,
-    deleteRoom,
-    getAdminList,
     addAdminToRoom,
     getOneMessage,
     getUserId

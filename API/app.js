@@ -2,12 +2,6 @@ const http = require('http');
 const {
     getUsernameFromSessionTableById,
     getOneMessage,
-    getRoomByUserId,
-    getAllFromRoom,
-    getContentForUser,
-    getNumberOfMessages,
-    deleteRoom,
-    getAdminList,
     addAdminToRoom,
     getUserId
 } = require('./service/service-info.js');
@@ -57,6 +51,7 @@ createUserIdSequence();
 createMessageIdSequence();
 insertGlobalMessagesRoom();
 addAdmin();
+
 const server = http.createServer(async(req, res) => {
 
     const corsHeaders = {
@@ -67,10 +62,7 @@ const server = http.createServer(async(req, res) => {
     };
 
 
-    if (req.url === '/api/admins' && req.method === 'GET') {
-        //-url:/api/admins si metoda:GET- luam lista adminilor si verificam statusul lor
-        getAdminList(req, res);
-    } else if (req.url.match(/\/api\/messages\/([a-z A-Z 0-9 -]+)\/([a-z A-Z 0-9 -]+)/) &&
+    if (req.url.match(/\/api\/messages\/([a-z A-Z 0-9 -]+)\/([a-z A-Z 0-9 -]+)/) &&
         req.method === 'GET') {
         let idRoom = req.url.split('/')[4];
         let idUser = req.url.split('/')[3];
@@ -92,11 +84,7 @@ const server = http.createServer(async(req, res) => {
         let session_id = req.url.split('/')[3];
 
         getUserBasicData(req, res, session_id);
-    } else if (req.url.match(/\/api\/session\/([a-z A-Z 0-9 -]+)/) && req.method === 'GET') {
-        //luam sesiunea ce are session_id = ...
-        const session_id = req.url.split('/')[3];
-        getSession(req, res, session_id);
-    } else if (req.url === '/api/messages/createRoom' && req.method === 'POST') {
+    }  else if (req.url === '/api/messages/createRoom' && req.method === 'POST') {
         //createlobby  cu idLobby = ...
         const body = await getPostData(req);
         var parseMessage = JSON.parse(body);
@@ -104,39 +92,7 @@ const server = http.createServer(async(req, res) => {
 
         createRoom(req, res, parseMessage.sessionId);
 
-    } else if (req.url.match(/\/api\/messages\/showRooms\/([a-z A-Z 0-9 -]+)/) &&
-        req.method === 'GET') {
-        // /api/messages/showRooms/:idUser si metoda GET - luam room-ul in care este userul idUser
-
-        const idUser = req.url.split('/')[4];
-        console.log(idUser);
-        getRoomByUserId(req, res, idUser);
-
-    } else if (req.url.match(/\/api\/messages\/([a-z A-Z 0-9]+)\/([a-z A-Z 0-9 -]+)/) &&
-        req.method === 'GET') {
-        // :/api/messages/:idRoom/:idClient1 si metoda:GET - 
-        //luam toate datele conversatiei din Room-ul indicat pentru userul cu id-ul idClient1
-
-        const idRoom = req.url.split('/')[3];
-        const idClient = req.url.split('/')[4];
-        console.log(idRoom, idClient);
-        getContentForUser(req, res, idRoom, idClient);
-
-    } else if (req.url.match(/\/api\/messages\/([a-z A-Z 0-9]+)/) && req.method === 'GET') {
-        // /api/messages/:idRoom and method:GET - luam toate datele din db pentru Room-ul indicat
-
-        const idRoom = req.url.split('/')[3];
-        console.log(idRoom);
-        getAllFromRoom(req, res, idRoom);
-
-    } else if (req.url.match(/\/api\/messages\/([a-z A-Z 0-9]+)/) && req.method === 'DELETE') {
-        // url:/api/messages/:idRoom and method:DELETE - stergem conversatia
-
-        const idRoom = req.url.split('/')[3];
-        console.log(idRoom);
-        deleteRoom(req, res, idRoom);
-
-    } else if (req.url.match(/\/api\/messages\/([a-z A-Z 0-9 -]+)\/([a-z A-Z 0-9 -]+)/) &&
+    }  else if (req.url.match(/\/api\/messages\/([a-z A-Z 0-9 -]+)\/([a-z A-Z 0-9 -]+)/) &&
         req.method === 'POST') {
         //url:/api/messages/:idRoom/:idClient1 si metoda:POST - 
         //adaugam in Room-ul idRoom mesajele noi trimise de catre idClient
