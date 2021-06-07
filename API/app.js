@@ -72,7 +72,7 @@ const server = http.createServer(async (req, res) => {
         roomController.postAddAdminToRoom(req, res);
     } else if (req.url.match(/\/api\/message\/([a-z A-Z 0-9 -]+)\/([a-z A-Z 0-9 -]+)/) &&
         req.method === 'GET') {
-        messageController.getOneMessage(req, res);
+        messageController.getOneMessageCont(req, res);
     } else if (req.url === '/api/generateSession' && req.method === 'POST') {
         userController.postGenerateSessionCookie(req, res);
     } else if (req.url === '/api/messages/createRoomEnhanced' && req.method === 'POST') {
