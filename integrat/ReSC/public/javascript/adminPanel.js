@@ -319,7 +319,7 @@ async function getNewMessage() {
 
 async function sendMessageToDB(text) {
     var sessionID = getCookie('PHPSESSID');
-    var message = { "clientMessage": text };
+    var message = { "clientMessage": text.trim() };
     let url = 'http://localhost:5000/api/messages/' + roomID + '/' + sessionID + '/';
     const response = await fetch(url, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
