@@ -149,8 +149,8 @@ async function getRoomData(idRoom) {
             let idAssignedAdmin = rows[0].idAssignedAdmin;
 
             if (idAssignedAdmin != null) {
-                adminName = await querryExecutor("SELECT username FROM admin"
-                    + " WHERE idAdmin = ?", [idAssignedAdmin])
+                adminName = await querryExecutor("SELECT username FROM user"
+                    + " WHERE id = ? AND rol = 'Admin'", [idAssignedAdmin])
                     .then((rows) => {
                         if (rows.length <= 0) {
                             return "";

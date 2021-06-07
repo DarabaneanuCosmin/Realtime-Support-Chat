@@ -68,7 +68,9 @@ async function addNewMessage(req, res, idRoom, clientMessage, sessionId) {
     var messages = [];
 
     clientMessage = sanitizeHtml(clientMessage, {
-        disallowedTagsMode: 'recursiveEscape'
+        disallowedTagsMode: 'recursiveEscape',
+        allowedTags: [],
+        allowedAttributes: {}
     });
 
     selectFrom("SELECT idUser from session WHERE sessionId = ?", [sessionId])
