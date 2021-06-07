@@ -16,16 +16,6 @@ async function getConverastions() {
     let idUser = await getUserId(ssid);
 
     document.getElementById('conversations').innerHTML = `<p class="message">Conversations</p>
-    <div class="search">
-
-        <span class="text">Select an user to start chat</span>
-        <div class="panel__srcIntro">
-            <input type="text" placeholder="Enter name to search...">
-            <button class="panel__searchButton" onclick = "getUserRoomByName()">
-            </button>
-            </div>
-            
-       </div>
        <div class = "panel_conversation">
        <img class ="panel__image" src ="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80 ">
            <div class ="paneldetails"> 

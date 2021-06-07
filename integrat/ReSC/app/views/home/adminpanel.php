@@ -21,16 +21,6 @@
 
         <section class="panel__sendMessages" id="conversations">
             <p class="message">Conversations</p>
-            <div class="search">
-
-                <span class="text">Select an user to start chat</span>
-                <div class="panel__srcIntro">
-                    <input type="text" placeholder="Enter name to search...">
-                    <button class="panel__searchButton" onclick = "getUserRoomByName()">
-                    </button>
-
-                </div>
-            </div>
             <script src="/public/javascript/adminPanel.js"></script>
         </section>
 
