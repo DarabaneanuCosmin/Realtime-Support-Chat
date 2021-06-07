@@ -7,3 +7,14 @@ export function validateMessage(message){
     }
     return true;
 }
+
+export function sanitizeHTML(text) {
+    var element = document.createElement('div');
+    element.innerText = text;
+    return element.innerHTML;
+}
+
+//Nu scoate si underScore
+export function stripSpecialCharacters(text){
+    return text.replace(/\W+/g, '');
+}

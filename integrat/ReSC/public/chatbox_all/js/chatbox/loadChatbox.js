@@ -11,9 +11,13 @@ function addChat(){
     chatIframe.width = 500 + "px";
     chatIframe.height = 500 + "px";
     chatIframe.style.border = 0;
-    document.body.appendChild(chatIframe); // to place at end of document
 
-    chatIframe.style.position = "absolute";
+    
+    chatIframe.style.position = "fixed";
+    chatIframe.style.overflow = "hidden";
+
+    document.body.appendChild(chatIframe); 
+
     
     chatIframe.style.bottom = 10 + "px";
     chatIframe.style.right = 20 + "px";
