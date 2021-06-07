@@ -41,6 +41,7 @@ function loadThemeFromCookie(){
         }
         link.href = '../../css/adminPanelLight.css';
         localStorage.setItem('theme','light');
+        head.appendChild(link);
     }
 }
 

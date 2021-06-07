@@ -6,6 +6,7 @@ class Home extends Controller
 {
     public function index(){
         $this->view('home/index', []);
+        //session_regenerate_id(true);
         $user = new User();
         $number =  rand(1,99999);
         while($user->existsId("SELECT id FROM USER WHERE id = ?",$number) == true){
