@@ -20,8 +20,12 @@
             <img class= "about" src = "/public/img/swagger.jpg" alt="photo">
         </div>
         <div class= "element">
-            <a href="/public/home/about/"><button class="aboutBtn color-4">Arhitecure</button></a>
+            <a href="/public/home/arhitecture/"><button class="aboutBtn color-4">Arhitecure</button></a>
             <img class= "about" src = "/public/img/arhitecture.jpg" alt="photo">
+        </div>
+        <div class= "element">
+            <a href="/public/home/tutorial/"><button class="aboutBtn color-5">Tutorial</button></a>
+            <img class= "about" src = "/public/img/tutorial.jpg" alt="photo">
         </div>
         <div class= "element">
             <a href="/public/home/about/"><button class="aboutBtn color-11">Video</button></a>
