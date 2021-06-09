@@ -28,7 +28,7 @@
             <img class= "about" src = "/public/img/tutorial.jpg" alt="photo">
         </div>
         <div class= "element">
-            <a href="/public/home/about/"><button class="aboutBtn color-11">Video</button></a>
+            <a href="/public/home/video/"><button class="aboutBtn color-11">Video</button></a>
             <img class= "about" src = "/public/img/video.jpg" alt="photo">
         </div>
     </div>

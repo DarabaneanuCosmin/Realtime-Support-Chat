@@ -18,7 +18,14 @@ h1 {
 
 .documentation__images {
     display: flex;
-    width: 33%;
+    width: 75%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.documentation__Vimages {
+    display: flex;
+    width: 25%;
     margin-top: 20px;
     margin-bottom: 20px;
 }
@@ -40,7 +47,6 @@ ol li {
 }
 
 ol li p {
-    font-size: 2em;
     margin-top: 10px;
     margin-bottom: 10px;
 }

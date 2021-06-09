@@ -122,6 +122,10 @@ class Home extends Controller
         $this->view('home/userTutorial', []);
     }
 
+    public function video(){
+        $this->view('home/video', []);
+    }
+
     public function about(){
         $this->view('home/about', []);
     }

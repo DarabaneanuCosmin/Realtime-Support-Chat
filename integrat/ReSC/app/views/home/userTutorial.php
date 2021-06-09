@@ -111,7 +111,7 @@
                <p>
                Utilizatorul este redirectionat catre  formularul urmator
                </p>
-               <img src="../../img/userTutorial/register1.PNG" alt="Header" class="documentation__images">
+               <img src="../../img/userTutorial/register1.PNG" alt="Header" class="documentation__Vimages">
               <p>
                    Indicații:
             </p>
@@ -128,7 +128,7 @@
               </ol>
 
             <p> Daca nu apar probleme la inregistrare  pe ecran o sa fie afisat mesajul "You have signed up!Now you can login"</p> 
-              <img src="../../img/userTutorial/register2.PNG" alt="Header" class="documentation__images">
+              <img src="../../img/userTutorial/register2.PNG" alt="Header" class="documentation__Vimages">
             
               <h3>
                   2. Conectare
@@ -137,11 +137,11 @@
               Ca sa ajungem  din pagina register  in pagina de conectare trebuie sa apasam pe  "Sign in".
               O alta modalitate este din pagina principala.
             </p>
-              <img src="../../img/userTutorial/login_btn.PNG" alt="Header" class="documentation__images">
+              <img src="../../img/userTutorial/login_btn.PNG" alt="Header" class="documentation__Vimages">
               <p>
                  Utilizatorul este redirectionat catre formularul de logare
                  </p>
-               <img src="../../img/userTutorial/login.PNG" alt="Header" class="documentation__images">
+               <img src="../../img/userTutorial/login.PNG" alt="Header" class="documentation__Vimages">
                <p>
                 Indicații:
          </p>
@@ -154,7 +154,7 @@
             
               </li> 
            </ol>
-              <img src="../../img/userTutorial/login_fail.PNG" alt="Header" class="documentation__images">
+              <img src="../../img/userTutorial/login_fail.PNG" alt="Header" class="documentation__Vimages">
              
               <p>
                   Odata ce ne conectam cu succes o sa fim redirectionati catre pagina principala.
@@ -166,11 +166,11 @@
                Pentru a trimite un mesaj administratorului trebuie sa apasam pe butonul de chat aflat in partea din dreapta jos 
                in pagina principala. 
            </p>
-           <img src="../../img/userTutorial/chat_box.PNG" alt="Header" class="documentation__images">
+           <img src="../../img/userTutorial/chat_box.PNG" alt="Header" class="documentation__Vimages">
            <p>
                Dupa apasarea butonui de chat o sa se deschida urmatoarea fereastra
            </p>
-           <img src="../../img/userTutorial/fig3_chat.PNG" alt="Header" class="documentation__images">
+           <img src="../../img/userTutorial/fig3_chat.PNG" alt="Header" class="documentation__Vimages">
              <p>
                  Clientul este nevoit sa completeze cu un username pentru a putea utiliza chatul.
                  Daca client este conectat cu un cont poate utiliza chatul fara a specifica un username  . 
@@ -179,8 +179,8 @@
                 Pentru a trimite un mesaj trebuie sa scrie ceva in "Scrie ceva.." si sa apese butonul "Send" sau direct tasta enter.
                 </p>
 
-             <img src="../../img/userTutorial/fig4_chat.PNG" alt="Header" class="documentation__images">
-             <img src="../../img/userTutorial/fig7_chat.PNG" alt="Header" class="documentation__images">
+             <img src="../../img/userTutorial/fig4_chat.PNG" alt="Header" class="documentation__Vimages">
+             <img src="../../img/userTutorial/fig7_chat.PNG" alt="Header" class="documentation__Vimages">
           
              <p>
              Utilizatorul poate schimba tema chatului dupa bunul plac.
@@ -189,8 +189,8 @@
              Tema este lightmode sau darkmode si pentru a realiza schimbarea trebuie sa apasam si pe
              butonul "Change appearence".
          </p>
-         <img src="../../img/userTutorial/fig5_chat.PNG" alt="Header" class="documentation__images">
-         <img src="../../img/userTutorial/fig6_chat.PNG" alt="Header" class="documentation__images">
+         <img src="../../img/userTutorial/fig5_chat.PNG" alt="Header" class="documentation__Vimages">
+         <img src="../../img/userTutorial/fig6_chat.PNG" alt="Header" class="documentation__Vimages">
 
          <h2>3.Pagina adminului</h2>
             <p>Pentru a accesa pagina adminului trebuie sa ne conectam cu un cont ce are rolul de Admin.
