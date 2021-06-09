@@ -27,7 +27,7 @@ if(isset($_SESSION['id'])){
   </head>
   <body>
     <header class="index_header">
-      <img src="/public/img/logo.png" class="index_header_logo" />
+      <img src="/public/img/logo.png" class="index_header_logo" alt="logo"/>
       <div class="index_sub_header">
         <div class="social_info_buttons">
           <a href="https://discord.gg/BnquBzKdFA"
@@ -309,7 +309,8 @@ if(isset($_SESSION['id'])){
               <img
                 class="popular__image"
                 src="https://images.unsplash.com/photo-1499678329028-101435549a4e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
-              />
+              alt="popular_img"
+                />
 
               <div class="popular__cardsubscript">
                 <a class="popular__description" href="#"> Loc popular #n </a>
@@ -326,7 +327,8 @@ if(isset($_SESSION['id'])){
               <img
                 class="popular__image"
                 src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1008&q=80"
-              />
+              alt="pop_img"
+                />
 
               <div class="popular__cardsubscript">
                 <a class="popular__description" href="#"> Loc popular #n </a>
@@ -343,7 +345,8 @@ if(isset($_SESSION['id'])){
               <img
                 class="popular__image"
                 src="https://images.unsplash.com/photo-1537018508881-01af73c72efd?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80"
-              />
+                alt="pop_img"
+                />
 
               <div class="popular__cardsubscript">
                 <a class="popular__description" href="#"> Loc popular #n </a>
@@ -360,7 +363,9 @@ if(isset($_SESSION['id'])){
               <img
                 class="popular__image"
                 src="https://images.unsplash.com/photo-1615486243513-1123c2440747?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1053&q=80"
-              />
+                alt="pop_img"
+              
+                />
 
               <div class="popular__cardsubscript">
                 <a class="popular__description" href="#"> Loc popular #n </a>
@@ -377,7 +382,9 @@ if(isset($_SESSION['id'])){
               <img
                 class="popular__image"
                 src="https://images.unsplash.com/photo-1479090793912-eb9929f4fdb2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=876&q=80"
-              />
+                alt="pop_img"
+              
+                />
 
               <div class="popular__cardsubscript">
                 <a class="popular__description" href="#"> Luna</a>
@@ -414,6 +421,7 @@ if(isset($_SESSION['id'])){
             <div class="others__image">
               <img
                 src="https://images.unsplash.com/photo-1558024160-4bcccd62f54c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
+                alt="pop_img"
               />
               <div class="others__overlay">
                 <h2>Detalii <span>aici</span></h2>
@@ -424,7 +432,7 @@ if(isset($_SESSION['id'])){
             <div class="others__image">
               <img
                 src="https://images.unsplash.com/photo-1596956854025-07d84dd37903?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MjZ8fHRyYXZlbGxpbmd8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60"
-                alt=""
+                alt="others"
               />
               <div class="others__overlay">
                 <h2>Detalii <span>aici</span></h2>
@@ -435,7 +443,7 @@ if(isset($_SESSION['id'])){
             <div class="others__image">
               <img
                 src="https://images.unsplash.com/photo-1614237670155-a3061f0a8b4e?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MzF8fHRyYXZlbGxpbmd8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60"
-                alt=""
+                alt="others"
               />
               <div class="others__overlay">
                 <h2>Detalii <span>aici</span></h2>
@@ -446,7 +454,7 @@ if(isset($_SESSION['id'])){
             <div class="others__image">
               <img
                 src="https://images.unsplash.com/photo-1610958907654-be06a64dc75b?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NTB8fHRyYXZlbGxpbmd8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60"
-                alt=""
+                alt="others"
               />
               <div class="others__overlay">
                 <h2>Detalii <span>aici</span></h2>
@@ -457,7 +465,7 @@ if(isset($_SESSION['id'])){
             <div class="others__image">
               <img
                 src="https://images.unsplash.com/photo-1610927362668-e6e91db482f5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1051&q=80"
-                alt=""
+                alt="others"
               />
               <div class="others__overlay">
                 <h2>Detalii <span>aici</span></h2>
@@ -468,7 +476,7 @@ if(isset($_SESSION['id'])){
             <div class="others__image">
               <img
                 src="https://images.unsplash.com/photo-1597709429092-aea3d7665d4e?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1050&q=80"
-                alt=""
+                alt="others"
               />
               <div class="others__overlay">
                 <h2>Detalii <span>aici</span></h2>

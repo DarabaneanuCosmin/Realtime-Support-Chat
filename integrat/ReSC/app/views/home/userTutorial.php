@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../../userTutorial.css">
+    <link rel="stylesheet" href="../../css/raport.css">
     <title>Raport ReSC</title>
 </head>
 
@@ -97,15 +97,20 @@
         </section>
         <article class="main_raport">
             <h2>1.Pagina principala</h2>
-           <h3> Din pagina principală avem posibilitatea de a naviga prin intreaga aplicatie.</h3>
-            <img src="../../img/userTutorial/fig1.PNG" alt="Header" class="documentation__images">
-             <h3> 
-                  1.1Pentru a ne inregistra trebuie sa dam click pe butonul register
+         
+           <img src="../../img/userTutorial/fig1.PNG" alt="Header" class="documentation__images">
+            <p> Navigarea pe site nu necesita un cont de utilizator.
+            <br>  
+            Daca ai o intrebare poti oricand sa trimiti un mesaj folosind chatul din coltul din dreapta jos. </p>
+            <h3> 
+               1.Inregistrare
+                 
             </h3>
+           <p> Pentru a ne inregistra trebuie sa dam click pe butonul register</p>
                 <img src="../../img/userTutorial/register3_btn.PNG" alt="Header" class="documentation__images">
-               <h3>
-                1.2 Utilizatorul este redirectionat catre  formular urmator
-               </h3>
+               <p>
+               Utilizatorul este redirectionat catre  formularul urmator
+               </p>
                <img src="../../img/userTutorial/register1.PNG" alt="Header" class="documentation__images">
               <p>
                    Indicații:
@@ -126,16 +131,16 @@
               <img src="../../img/userTutorial/register2.PNG" alt="Header" class="documentation__images">
             
               <h3>
-                  1.3 Conectare
+                  2. Conectare
               </h3>
             <p>
               Ca sa ajungem  din pagina register  in pagina de conectare trebuie sa apasam pe  "Sign in".
-              O alta modalitate este din pagina principala 
+              O alta modalitate este din pagina principala.
             </p>
               <img src="../../img/userTutorial/login_btn.PNG" alt="Header" class="documentation__images">
-              <h3>
-                1.4 Utilizatorul este redirectionat catre formularul de logare
-                </h3>
+              <p>
+                 Utilizatorul este redirectionat catre formularul de logare
+                 </p>
                <img src="../../img/userTutorial/login.PNG" alt="Header" class="documentation__images">
                <p>
                 Indicații:
@@ -171,11 +176,13 @@
                  Daca client este conectat cu un cont poate utiliza chatul fara a specifica un username  . 
                 Utilizatorul poate trimite acum mesaje catre un admin sau poate trimite mesaje intr-un chat in care se afla
                 toti utilizatorii.
-                Pentru a trimite un mesaj trebuie sa scrie ceva in "Scrie ceva.." si sa apese buton "Send" sau direct tasta enter.
+                Pentru a trimite un mesaj trebuie sa scrie ceva in "Scrie ceva.." si sa apese butonul "Send" sau direct tasta enter.
                 </p>
 
              <img src="../../img/userTutorial/fig4_chat.PNG" alt="Header" class="documentation__images">
-         <p>
+             <img src="../../img/userTutorial/fig7_chat.PNG" alt="Header" class="documentation__images">
+          
+             <p>
              Utilizatorul poate schimba tema chatului dupa bunul plac.
              Butonul din dreapta jos ne permite sa inchidem conversatia curenta si ne arata lista conversatiilor pe care le putem accesa
              .In partea de jos putem alege tema si marimea pe care sa o aiba mesajul.
@@ -215,7 +222,7 @@
             </p>
             <img src="../../img/userTutorial/fig4_admin.PNG" alt="Header" class="documentation__images">
 
-         </p>
+         
          <h2>4.Deconectare</h2>
          <p>
              Utilizatorul/Adminul se poate deconecta de la cont daca revine in pagina principala si apasa pe butonul "Log out".

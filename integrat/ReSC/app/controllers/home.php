@@ -115,13 +115,11 @@ class Home extends Controller
     public function swagger(){
         $this->view('home/swagger', []);
     }
-
-    public function tutorial(){
-        $this->view('home/userTutorial', []);
-    }
-
     public function arhitecture(){
         $this->view('home/arhitecture', []);
+    }
+    public function userTutorial(){
+        $this->view('home/userTutorial', []);
     }
 
     public function about(){

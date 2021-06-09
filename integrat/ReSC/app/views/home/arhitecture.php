@@ -101,7 +101,7 @@
             <img src="../../img/arhitecture/generalDiagram.png" alt="Header" class="documentation__images">
                  <p>   Aplicația conține următoarele componente :
                 </p>
-                    <op>
+                    <ol>
                         <li>
                             Server : Comunică cu utilizatorul în momentul în care acesta dorește să se înregistreze/conecteze.
                             Realizează operații de adăugare în baza de date a informațiilor obținute după crearea unei noi sesiuni.
@@ -115,7 +115,7 @@
                         <li>
                             Baza de date : realizează toate operațiile CRUD.
                         </li>
-                    </op>
+                    </ol>
                 
            <h3>1.2 Diagrama API</h3>
            <img src="../../img/arhitecture/diagramaAPI.PNG" alt="Header" class="documentation__images">
@@ -267,8 +267,7 @@
                   Utilizatorul are un cont :
                   <p>
                     In cazul in care utilizatorul are deja un cont, atunci cand se conecteaza se genereaza un nou sessionID
-           si este  actualizat in  tabela Session.Avantajul unui utilizator logat este ca nu isi pierde conversatiile chiar daca 
-                    sterge sesiunea curenta.Poate sa acceseze conversatia dupa o perioada lunga de timp fara sa simta pierderi. 
+           si este  actualizat in  tabela Session.Avantajul unui utilizator logat este ca nu isi pierde conversatiile, poate sa le  acceseze  dupa o perioada  de timp . 
                   </p>
                 </li>
               </ol>    

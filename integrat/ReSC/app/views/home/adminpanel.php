@@ -29,7 +29,7 @@
 
         <section class="panel__settings">
             <div>
-                <img class="panel__setting__img" alt="photo" src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="">
+                <img class="panel__setting__img" alt="photo" src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80" >
             </div>
             <div>
                 <select id="themeSelect" name="panel__personalizare" class="panel__personalizare">
@@ -41,7 +41,7 @@
             </div>
         </section>
     </div>
-    
+    <script src="/public/javascript/theme.js"></script>
 </body>
-<script src="/public/javascript/theme.js"></script>
+
 </html>
