@@ -434,11 +434,40 @@
               <h2>
                 3.Cod relevant
               </h2>
+              <h3>3.1 API</h3>
               <img src="../../img/arhitecture/cod_API.png" alt="Header" class="documentation__images"> 
+              <p>
+              Functia fetchMessages este o functie de tip GET, returneaza toate mesajele  utilizatorului ce are id-ul de sessiune egal cu idSession si se afla in camera idRoom.
+              <br>
+              Se determina id-ul userului in functie de idSession si in cazul in care acesta nu exista se arunca un mesaj de eroare.
+              Se verifica daca idRoom-ul primit exista in baza de date in tabela joinmessages.
+              In cazul in care toate datele primite sunt corecte se realizeaza un join intre messages si rezultatul unionului intre admin,user si session
+               pentru a obtine informatii despre mesaj : idMesaj,idRoom,idUser,clientMessage,sent_message_date,id,username,sentByMe.
+              </p>
+              <h3>3.2 Chatbox</h3>
               <img src="../../img/arhitecture/cod_chatBox.png" alt="Header" class="documentation__images"> 
+              <p>
+              In functia startUpdatingChat se seteaza un interval pe functia aquireMessagesAndUpdateChatData,
+              la fiecare shortPollTime se face un GET de mesaje folosind aquireMessageList din apiCalls.js,
+              se sorteaza dupa idMesaj si apoi se adauga in chat elementele DOM (speech bubble-urile)
+              din functia updateMessageBubble.
+
+              Apoi fetchRoomData face rost de date precum numeAdminAsignat sau daca nu e niciunul asignat
+              in updateHeaderInformation apare un mesaj de genul "Ask us any question" altfel apare
+              "Chatting with [adminName]" "[helperRank]". Se returneaza latestIntervalId pentru a face
+              clear usor atunci cand iesim de pe chat si mergem la lista de contacte sau facem minimize
+              ca sa putem opri updatarea mesajelor pentru atunci cand nu e chatbox-ul vizibil.
+              </p>
+              <h3>3.3 AdminPanel</h3>
               <img src="../../img/arhitecture/cod_adminPanel1.png" alt="Header" class="documentation__images"> 
               <img src="../../img/arhitecture/cod_adminPanel2.png" alt="Header" class="documentation__images"> 
-             
+             <p>
+             Functia conversation() are rolul de a afisa mesajele noi adaugate atat de utilizatori cat si de administratori. 
+             In prima faza aceasta face o interogare catre API pentru a vedea daca exista mesaje noi in conversatii. 
+             In caz afirmativ API-ul returneaza mesajul nou. In a doua parte a functie, mesajul care tocmai a fost transmis de API este parsat pentru a vedea eventualele caractere speciale,
+              si anume "$" care semnifica un emote. Mesajul este rescris si in functie de camera de chat de care apartine, private (1:1) sau global (1:n),
+              acesta este afisat in pagina. Pentru a realiza afisarea de mesaje in timp real functia se autoapeleaza la interval de 1 secunda.
+             </p>
         </article>
         </div>
     </header>
