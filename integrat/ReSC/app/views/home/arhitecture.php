@@ -431,6 +431,14 @@
                 </li>
                 
               </ol>
+              <h2>
+                3.Cod relevant
+              </h2>
+              <img src="../../img/arhitecture/cod_API.png" alt="Header" class="documentation__images"> 
+              <img src="../../img/arhitecture/cod_chatBox.png" alt="Header" class="documentation__images"> 
+              <img src="../../img/arhitecture/cod_adminPanel1.png" alt="Header" class="documentation__images"> 
+              <img src="../../img/arhitecture/cod_adminPanel2.png" alt="Header" class="documentation__images"> 
+             
         </article>
         </div>
     </header>

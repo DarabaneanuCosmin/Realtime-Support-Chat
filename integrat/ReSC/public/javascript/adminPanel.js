@@ -203,8 +203,6 @@ async function conversation() {
             }
         }
     }
-
-
     setTimeout(conversation, 1000);
 }
 
